@@ -1,29 +1,6 @@
-import express from "express";
-import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
-
-const app = express();
-app.use(express.json());
-
-// 🔗 Conexão com MongoDB usando variável de ambiente
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("✅ MongoDB conectado"))
-.catch(err => console.error("❌ Erro ao conectar no MongoDB:", err));
-
-// 🛠 Modelo simples de usuário (exemplo)
-const userSchema = new mongoose.Schema({
-  username: String,
-  password: String
-});
-const User = mongoose.model("User", userSchema);
-
-// 🔑 Rota de registro
+// Rota de registro
 app.post("/api/auth/register", async (req, res) => {
   const { username, password } = req.body;
-
   try {
     const newUser = new User({ username, password });
     await newUser.save();
@@ -38,10 +15,9 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
-// 🔑 Rota de login
+// Rota de login
 app.post("/api/auth/login", async (req, res) => {
   const { username, password } = req.body;
-
   try {
     const user = await User.findOne({ username, password });
     if (!user) return res.status(401).json({ message: "Credenciais inválidas" });
@@ -56,7 +32,7 @@ app.post("/api/auth/login", async (req, res) => {
   }
 });
 
-// 🔒 Middleware de autenticação
+// Middleware de autenticação
 function authMiddleware(req, res, next) {
   const authHeader = req.headers["authorization"];
   if (!authHeader) return res.status(401).json({ message: "Token não fornecido" });
@@ -71,11 +47,8 @@ function authMiddleware(req, res, next) {
   }
 }
 
-// 🔒 Rota protegida
+// Rota protegida
 app.get("/api/protected", authMiddleware, (req, res) => {
-  res.json({ message: "Acesso autorizado!", user: req.user });
+  res.json({ message: "Acesso autorizado", user: req.user });
 });
 
-// 🚀 Inicializar servidor
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
