@@ -1,3 +1,25 @@
+import express from "express";
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+
+const app = express();
+app.use(express.json());
+
+// Conexão com MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ MongoDB conectado"))
+.catch(err => console.error("❌ Erro ao conectar no MongoDB:", err));
+
+// Modelo de usuário
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String
+});
+const User = mongoose.model("User", userSchema);
+
 // Rota de registro
 app.post("/api/auth/register", async (req, res) => {
   const { username, password } = req.body;
@@ -52,3 +74,6 @@ app.get("/api/protected", authMiddleware, (req, res) => {
   res.json({ message: "Acesso autorizado", user: req.user });
 });
 
+// Inicializar servidor
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
