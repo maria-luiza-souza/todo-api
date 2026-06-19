@@ -1,104 +1,82 @@
-/**
- * ARQUIVO: server.js
- * 
- * EXPLICAÇÃO:
- * Este é o arquivo PRINCIPAL da aplicação!
- * Aqui é onde:
- * 1. Carrega as variáveis de ambiente (.env)
- * 2. Configura o Express
- * 3. Conecta ao banco de dados
- * 4. Define os middlewares globais
- * 5. Define as rotas
- * 6. Inicia o servidor
- * 
- * FLUXO:
- * Node executa server.js
- *   ↓
- * Carrega .env
- *   ↓
- * Cria app Express
- *   ↓
- * Conecta ao MongoDB
- *   ↓
- * Define middlewares e rotas
- *   ↓
- * Servidor fica ouvindo na porta 5000
- */
+import express from "express";
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
-// 1. IMPORTAR DEPENDÊNCIAS
-require('dotenv').config(); // Carrega variáveis do arquivo .env
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./src/config/database');
-const userRoutes = require('./src/routes/userRoutes');
-const taskRoutes = require('./src/routes/taskRoutes');
-
-// 2. CRIAR APLICAÇÃO EXPRESS
 const app = express();
-
-// 3. CONECTAR AO BANCO DE DADOS
-connectDB();
-
-// 4. MIDDLEWARES GLOBAIS
-// Middleware para processar JSON
-// Permite que a aplicação entenda corpos de requisição JSON
 app.use(express.json());
 
-// Middleware CORS
-// Permite que o frontend acesse essa API
-// cors() aceita requisições de qualquer origem
-app.use(cors());
+// 🔗 Conexão com MongoDB usando variável de ambiente
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ MongoDB conectado"))
+.catch(err => console.error("❌ Erro ao conectar no MongoDB:", err));
 
-// Middleware de logging (opcional, mostra requisições no console)
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path} - ${new Date().toLocaleTimeString()}`);
-  next();
+// 🛠 Modelo simples de usuário (exemplo)
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String
+});
+const User = mongoose.model("User", userSchema);
+
+// 🔑 Rota de registro
+app.post("/api/auth/register", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const newUser = new User({ username, password });
+    await newUser.save();
+
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({ message: "Usuário registrado com sucesso", token });
+  } catch (err) {
+    res.status(500).json({ message: "Erro ao registrar usuário", error: err });
+  }
 });
 
-// 5. ROTAS DA API
-// Prefixo /api/auth para rotas de autenticação
-app.use('/api/auth', userRoutes);
+// 🔑 Rota de login
+app.post("/api/auth/login", async (req, res) => {
+  const { username, password } = req.body;
 
-// Prefixo /api/tasks para rotas de tarefas
-app.use('/api/tasks', taskRoutes);
+  try {
+    const user = await User.findOne({ username, password });
+    if (!user) return res.status(401).json({ message: "Credenciais inválidas" });
 
-// 6. ROTA DE TESTE (para verificar se servidor está rodando)
-app.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'TODO API rodando com sucesso! 🚀',
-    endpoints: {
-      auth: {
-        register: 'POST /api/auth/register',
-        login: 'POST /api/auth/login',
-      },
-      tasks: {
-        getAll: 'GET /api/tasks',
-        getById: 'GET /api/tasks/:id',
-        create: 'POST /api/tasks',
-        update: 'PUT /api/tasks/:id',
-        delete: 'DELETE /api/tasks/:id',
-      },
-    },
-  });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({ message: "Login realizado com sucesso", token });
+  } catch (err) {
+    res.status(500).json({ message: "Erro ao fazer login", error: err });
+  }
 });
 
-// 7. TRATAMENTO DE ROTAS NÃO ENCONTRADAS
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Rota não encontrada',
-  });
+// 🔒 Middleware de autenticação
+function authMiddleware(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) return res.status(401).json({ message: "Token não fornecido" });
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(403).json({ message: "Token inválido" });
+  }
+}
+
+// 🔒 Rota protegida
+app.get("/api/protected", authMiddleware, (req, res) => {
+  res.json({ message: "Acesso autorizado!", user: req.user });
 });
 
-// 8. INICIAR O SERVIDOR
-const PORT = process.env.PORT || 5000;
+// 🚀 Inicializar servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
 
-app.listen(PORT, () => {
-  console.log(`\n✅ Servidor TODO API rodando na porta ${PORT}`);
-  console.log(`📍 Acesse: http://localhost:${PORT}`);
-  console.log(`🗄️ Banco de dados: ${process.env.MONGODB_URI}\n`);
-});
-
-// Exporta app (útil para testes)
-module.exports = app;
