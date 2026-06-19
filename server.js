@@ -2,28 +2,30 @@ import express from "express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
+// Inicializa o Express
 const app = express();
 app.use(express.json());
 
 // Conexão com MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("✅ MongoDB conectado"))
-.catch(err => console.error("❌ Erro ao conectar no MongoDB:", err));
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ MongoDB conectado"))
+  .catch((err) => console.error("❌ Erro ao conectar MongoDB:", err));
 
-// Modelo de usuário
+// Modelo simples de usuário
 const userSchema = new mongoose.Schema({
   username: String,
-  password: String
+  password: String,
 });
 const User = mongoose.model("User", userSchema);
 
 // Rota de registro
 app.post("/api/auth/register", async (req, res) => {
-  const { username, password } = req.body;
   try {
+    const { username, password } = req.body;
     const newUser = new User({ username, password });
     await newUser.save();
 
@@ -39,10 +41,13 @@ app.post("/api/auth/register", async (req, res) => {
 
 // Rota de login
 app.post("/api/auth/login", async (req, res) => {
-  const { username, password } = req.body;
   try {
+    const { username, password } = req.body;
     const user = await User.findOne({ username, password });
-    if (!user) return res.status(401).json({ message: "Credenciais inválidas" });
+
+    if (!user) {
+      return res.status(401).json({ message: "Credenciais inválidas" });
+    }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
@@ -65,7 +70,7 @@ function authMiddleware(req, res, next) {
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(403).json({ message: "Token inválido" });
+    res.status(403).json({ message: "Token inválido" });
   }
 }
 
@@ -74,6 +79,6 @@ app.get("/api/protected", authMiddleware, (req, res) => {
   res.json({ message: "Acesso autorizado", user: req.user });
 });
 
-// Inicializar servidor
+// Inicializa servidor
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
