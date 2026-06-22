@@ -18,13 +18,16 @@ app.use('/api/tasks', taskRoutes);
 
 // Rota de teste
 app.get('/', (req, res) => {
-  res.json({ message: 'TODO API está funcionando!' });
+  res.json({ message: 'TODO API esta funcionando!' });
 });
 
-// Iniciar servidor
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor TODO API rodando na porta ${PORT}`);
-  console.log(`📍 Acesse: http://localhost:${PORT}`);
-  console.log(`🗄️ Banco de dados: ${process.env.MONGODB_URI}`);
-});
+// Para Vercel - exportar o app
+module.exports = app;
+
+// Para rodar localmente
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Servidor TODO API rodando na porta ${PORT}`);
+  });
+}
