@@ -23,7 +23,8 @@ app.use(async (req, res, next) => {
     await ensureConnection();
     next();
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Erro de conexao' });
+    console.error('Erro de conexao:', err.message);
+    res.status(500).json({ success: false, message: 'Erro de conexao', error: err.message });
   }
 });
 
@@ -33,6 +34,14 @@ app.use('/api/tasks', taskRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'TODO API esta funcionando!' });
+});
+
+app.get('/api/debug', (req, res) => {
+  res.json({
+    mongoUriDefined: !!process.env.MONGODB_URI,
+    connected: connected,
+    jwtDefined: !!process.env.JWT_SECRET
+  });
 });
 
 module.exports = app;
