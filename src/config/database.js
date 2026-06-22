@@ -17,26 +17,24 @@
 
 const mongoose = require('mongoose');
 
-// Função que faz a conexão com o banco de dados
 const connectDB = async () => {
   try {
-    // mongoose.connect() tenta se conectar ao MongoDB
-    await mongoose.connect(process.env.MONGODB_URI, {
-      // useNewUrlParser: usa o novo parser de URLs (melhor prática)
-      useNewUrlParser: true,
-      // useUnifiedTopology: usa novo mecanismo de conexão (mais estável)
-      useUnifiedTopology: true,
-    });
+    const uri = process.env.MONGODB_URI;
+    
+    if (!uri) {
+      console.error('MONGODB_URI nao definida');
+      return false;
+    }
 
-    console.log('✅ MongoDB conectado com sucesso!');
+    await mongoose.connect(uri);
+
+    console.log('MongoDB conectado com sucesso!');
     return true;
 
   } catch (error) {
-    console.error('❌ Erro ao conectar MongoDB:', error.message);
-    // Sai do processo se não conseguir conectar
-    process.exit(1);
+    console.error('Erro ao conectar MongoDB:', error.message);
+    return false;
   }
 };
 
-// Exporta a função para ser usada em server.js
 module.exports = connectDB;
