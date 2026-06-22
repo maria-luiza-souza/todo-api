@@ -8,23 +8,19 @@ const app = express();
 
 app.use(express.json());
 
-// Conectar MongoDB
-let connected = false;
-
-async function ensureConnection() {
-  if (connected) return;
-  await mongoose.connect(process.env.MONGODB_URI);
-  connected = true;
-}
-
-// Middleware de conexao
+// Middleware - so conecta localmente
 app.use(async (req, res, next) => {
-  try {
-    await ensureConnection();
+  if (process.env.NODE_ENV !== 'production') {
+    try {
+      if (mongoose.connections[0].readyState !== 1) {
+        await mongoose.connect(process.env.MONGODB_URI);
+      }
+      next();
+    } catch (err) {
+      res.status(500).json({ success: false, message: 'Erro de conexao' });
+    }
+  } else {
     next();
-  } catch (err) {
-    console.error('Erro de conexao:', err.message);
-    res.status(500).json({ success: false, message: 'Erro de conexao', error: err.message });
   }
 });
 
@@ -36,18 +32,8 @@ app.get('/', (req, res) => {
   res.json({ message: 'TODO API esta funcionando!' });
 });
 
-app.get('/api/debug', (req, res) => {
-  res.json({
-    mongoUriDefined: !!process.env.MONGODB_URI,
-    connected: connected,
-    jwtDefined: !!process.env.JWT_SECRET
-  });
-});
-
 module.exports = app;
 
 if (process.env.NODE_ENV !== 'production') {
-  ensureConnection().then(() => {
-    app.listen(3001, () => console.log('Servidor rodando na porta 3001'));
-  });
+  app.listen(3001, () => console.log('Servidor rodando na porta 3001'));
 }

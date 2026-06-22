@@ -1,9 +1,25 @@
-const app = require('../server');
 const mongoose = require('mongoose');
 
-module.exports = async function handler(req, res) {
-  if (mongoose.connection.readyState !== 1) {
-    await mongoose.connect(process.env.MONGODB_URI);
+// Conectar ANTES de importar o app
+let connected = false;
+
+async function connectMongo() {
+  if (connected) return;
+  if (mongoose.connections[0].readyState === 1) {
+    connected = true;
+    return;
   }
-  return app(req, res);
-};
+  await mongoose.connect(process.env.MONGODB_URI);
+  connected = true;
+}
+
+// Conectar primeiro
+connectMongo().then(() => {
+  console.log('MongoDB pronto');
+}).catch(err => {
+  console.error('Erro conexao:', err.message);
+});
+
+const app = require('../server');
+
+module.exports = app;
