@@ -1,25 +1,28 @@
 const mongoose = require('mongoose');
+const express = require('express');
+const userRoutes = require('../src/routes/userRoutes');
+const taskRoutes = require('../src/routes/taskRoutes');
 
-// Conectar ANTES de importar o app
-let connected = false;
+const app = express();
+app.use(express.json());
 
-async function connectMongo() {
-  if (connected) return;
-  if (mongoose.connections[0].readyState === 1) {
-    connected = true;
-    return;
+app.use(async (req, res, next) => {
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      await mongoose.connect(process.env.MONGODB_URI);
+    }
+    next();
+  } catch (err) {
+    console.error('Mongo error:', err.message);
+    res.status(500).json({ success: false, message: 'DB error' });
   }
-  await mongoose.connect(process.env.MONGODB_URI);
-  connected = true;
-}
-
-// Conectar primeiro
-connectMongo().then(() => {
-  console.log('MongoDB pronto');
-}).catch(err => {
-  console.error('Erro conexao:', err.message);
 });
 
-const app = require('../server');
+app.use('/api/auth', userRoutes);
+app.use('/api/tasks', taskRoutes);
+
+app.get('/', (req, res) => {
+  res.json({ message: 'TODO API esta funcionando!' });
+});
 
 module.exports = app;
