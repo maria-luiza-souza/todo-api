@@ -6,11 +6,28 @@ const taskRoutes = require('./src/routes/taskRoutes');
 
 const app = express();
 
-// Conectar ao MongoDB
-connectDB();
-
-// Middleware para parsing de JSON
+// Middleware
 app.use(express.json());
+
+// Conectar MongoDB apenas uma vez
+let isConnected = false;
+
+const ensureDB = async () => {
+  if (!isConnected) {
+    await connectDB();
+    isConnected = true;
+  }
+};
+
+// Middleware para conectar antes de processar requests
+app.use(async (req, res, next) => {
+  try {
+    await ensureDB();
+    next();
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Erro de conexao com banco de dados' });
+  }
+});
 
 // Rotas
 app.use('/api/auth', userRoutes);
@@ -21,13 +38,15 @@ app.get('/', (req, res) => {
   res.json({ message: 'TODO API esta funcionando!' });
 });
 
-// Para Vercel - exportar o app
+// Exportar para Vercel
 module.exports = app;
 
-// Para rodar localmente
+// Rodar localmente
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Servidor TODO API rodando na porta ${PORT}`);
+  ensureDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
   });
 }

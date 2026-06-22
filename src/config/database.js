@@ -17,23 +17,28 @@
 
 const mongoose = require('mongoose');
 
+let cached = null;
+
 const connectDB = async () => {
+  if (cached) {
+    return cached;
+  }
+
   try {
     const uri = process.env.MONGODB_URI;
     
     if (!uri) {
-      console.error('MONGODB_URI nao definida');
-      return false;
+      throw new Error('MONGODB_URI nao definida');
     }
 
-    await mongoose.connect(uri);
-
-    console.log('MongoDB conectado com sucesso!');
-    return true;
+    const conn = await mongoose.connect(uri);
+    cached = conn;
+    console.log('MongoDB conectado');
+    return conn;
 
   } catch (error) {
-    console.error('Erro ao conectar MongoDB:', error.message);
-    return false;
+    console.error('Erro MongoDB:', error.message);
+    throw error;
   }
 };
 
