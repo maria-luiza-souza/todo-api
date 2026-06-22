@@ -9,12 +9,16 @@ app.use(express.json());
 app.use(async (req, res, next) => {
   try {
     if (mongoose.connection.readyState !== 1) {
-      await mongoose.connect(process.env.MONGODB_URI);
+      const uri = process.env.MONGODB_URI;
+      console.log('URI length:', uri ? uri.length : 0);
+      console.log('URI starts with:', uri ? uri.substring(0, 15) : 'N/A');
+      await mongoose.connect(uri);
+      console.log('Connected! State:', mongoose.connection.readyState);
     }
     next();
   } catch (err) {
     console.error('Mongo error:', err.message);
-    res.status(500).json({ success: false, message: 'DB error' });
+    res.status(500).json({ success: false, message: 'DB error', error: err.message });
   }
 });
 
