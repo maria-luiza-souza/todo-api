@@ -22,14 +22,15 @@ const {
   createTask,
   updateTask,
   deleteTask,
+  getStats,
 } = require('../controllers/taskController');
 const { protect } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Aplica o middleware 'protect' em TODAS as rotas de tarefas
-// Assim, todas precisam de um token válido para funcionar
 router.use(protect);
+
+router.get('/stats', getStats);
 
 /**
  * ROTA: GET /api/tasks
