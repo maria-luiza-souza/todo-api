@@ -242,10 +242,13 @@
 
         .filters-bar {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 16px;
-            flex-wrap: wrap;
             align-items: center;
+            background: var(--card);
+            padding: 8px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
         }
 
         .search-box {
@@ -256,11 +259,11 @@
 
         .search-box input {
             width: 100%;
-            padding: 9px 14px 9px 36px;
-            border: 1px solid var(--border);
+            padding: 8px 12px 8px 34px;
+            border: 1px solid transparent;
             border-radius: var(--radius-sm);
             font-size: 0.85rem;
-            background: var(--card);
+            background: var(--bg-secondary);
             color: var(--text);
             transition: all 0.2s ease;
             font-family: 'Inter', sans-serif;
@@ -269,46 +272,113 @@
         .search-box input:focus {
             outline: none;
             border-color: var(--primary-light);
+            background: var(--card);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
         }
 
-        .search-box::before {
-            content: '🔍';
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-icon {
             position: absolute;
-            left: 12px;
+            left: 10px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
             pointer-events: none;
-            opacity: 0.6;
+        }
+
+        .filter-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            flex-shrink: 0;
         }
 
         .filter-group {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            gap: 6px;
+            flex-wrap: nowrap;
+            align-items: center;
         }
 
         .filter-select {
-            padding: 9px 30px 9px 12px;
-            border: 1px solid var(--border);
+            padding: 8px 28px 8px 10px;
+            border: 1px solid transparent;
             border-radius: var(--radius-sm);
             font-size: 0.8rem;
-            background: var(--card);
+            background: var(--bg-secondary);
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: 'Inter', sans-serif;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 10px center;
+            background-position: right 8px center;
+            white-space: nowrap;
+            min-width: 0;
         }
 
         .filter-select:focus {
             outline: none;
             border-color: var(--primary-light);
+            background-color: var(--card);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+        }
+
+        .filter-select:hover {
+            border-color: var(--border);
+            background-color: var(--card);
+        }
+
+        .filter-select.active {
+            border-color: var(--primary-light);
+            background-color: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .active-filters {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .filter-tag button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 12px;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.15s ease;
+        }
+
+        .filter-tag button:hover {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .task-section {
@@ -821,12 +891,18 @@
             }
 
             .filters-bar {
-                flex-direction: column;
-                gap: 8px;
+                flex-wrap: wrap;
+                gap: 6px;
+                padding: 6px;
             }
 
             .search-box {
                 min-width: 100%;
+                order: -1;
+            }
+
+            .filter-divider {
+                display: none;
             }
 
             .filter-group {
@@ -838,7 +914,7 @@
                 flex: 1;
                 min-width: 0;
                 font-size: 0.78rem;
-                padding: 8px 28px 8px 10px;
+                padding: 7px 26px 7px 8px;
             }
 
             .task-item {
@@ -940,6 +1016,10 @@
                 width: 80px;
                 height: 80px;
                 font-size: 32px;
+            }
+
+            .filters-bar {
+                padding: 4px;
             }
         }
     </style>
@@ -1046,29 +1126,32 @@
             <!-- Filters -->
             <div class="filters-bar">
                 <div class="search-box">
-                    <input type="text" id="filter-search" placeholder="Buscar tarefa..." oninput="loadTasks()" aria-label="Buscar tarefa">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="filter-search" placeholder="Buscar tarefa..." oninput="loadTasks(); updateFilterTags()" aria-label="Buscar tarefa">
                 </div>
+                <div class="filter-divider"></div>
                 <div class="filter-group">
-                    <select id="filter-priority" class="filter-select" onchange="loadTasks()" aria-label="Filtrar por prioridade">
+                    <select id="filter-priority" class="filter-select" onchange="loadTasks(); updateFilterTags()" aria-label="Filtrar por prioridade">
                         <option value="">Prioridade</option>
                         <option value="baixa">Baixa</option>
                         <option value="média">Média</option>
                         <option value="alta">Alta</option>
                     </select>
-                    <select id="filter-category" class="filter-select" onchange="loadTasks()" aria-label="Filtrar por categoria">
+                    <select id="filter-category" class="filter-select" onchange="loadTasks(); updateFilterTags()" aria-label="Filtrar por categoria">
                         <option value="">Categoria</option>
                         <option value="trabalho">Trabalho</option>
                         <option value="estudos">Estudos</option>
                         <option value="pessoal">Pessoal</option>
                         <option value="outros">Outros</option>
                     </select>
-                    <select id="filter-status" class="filter-select" onchange="loadTasks()" aria-label="Filtrar por status">
+                    <select id="filter-status" class="filter-select" onchange="loadTasks(); updateFilterTags()" aria-label="Filtrar por status">
                         <option value="">Status</option>
                         <option value="false">Pendentes</option>
                         <option value="true">Concluídas</option>
                     </select>
                 </div>
             </div>
+            <div id="active-filters" class="active-filters"></div>
 
             <!-- Task List -->
             <div class="task-section">
@@ -1184,6 +1267,50 @@
             toast.textContent = text;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
+        }
+
+        function updateFilterTags() {
+            const container = document.getElementById('active-filters');
+            const search = document.getElementById('filter-search').value;
+            const priority = document.getElementById('filter-priority');
+            const category = document.getElementById('filter-category');
+            const status = document.getElementById('filter-status');
+
+            let tags = '';
+
+            priority.classList.toggle('active', priority.value !== '');
+            category.classList.toggle('active', category.value !== '');
+            status.classList.toggle('active', status.value !== '');
+
+            if (search) {
+                tags += `<span class="filter-tag">Busca: "${search}" <button onclick="clearFilter('search')">&#10005;</button></span>`;
+            }
+            if (priority.value) {
+                tags += `<span class="filter-tag">Prioridade: ${priority.value} <button onclick="clearFilter('priority')">&#10005;</button></span>`;
+            }
+            if (category.value) {
+                tags += `<span class="filter-tag">Categoria: ${category.value} <button onclick="clearFilter('category')">&#10005;</button></span>`;
+            }
+            if (status.value !== '') {
+                const statusText = status.value === 'true' ? 'Concluídas' : 'Pendentes';
+                tags += `<span class="filter-tag">Status: ${statusText} <button onclick="clearFilter('status')">&#10005;</button></span>`;
+            }
+
+            container.innerHTML = tags;
+        }
+
+        function clearFilter(type) {
+            if (type === 'search') {
+                document.getElementById('filter-search').value = '';
+            } else if (type === 'priority') {
+                document.getElementById('filter-priority').value = '';
+            } else if (type === 'category') {
+                document.getElementById('filter-category').value = '';
+            } else if (type === 'status') {
+                document.getElementById('filter-status').value = '';
+            }
+            loadTasks();
+            updateFilterTags();
         }
 
         function toggleCreateModal(show) {
