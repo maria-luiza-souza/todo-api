@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#6366f1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TaskFlow">
@@ -13,347 +13,452 @@
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
     <link rel="apple-touch-icon" href="icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <title>TaskFlow</title>
     <style>
         :root {
-            --primary: #667eea;
-            --primary-dark: #5a6fd6;
-            --danger: #ff4757;
-            --success: #2ed573;
-            --warning: #ffa502;
-            --bg: #f5f7fb;
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            --bg: #f8fafc;
+            --bg-secondary: #f1f5f9;
             --card: #ffffff;
-            --text: #333333;
-            --text-light: #666666;
-            --border: #e0e0e0;
-            --shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --text: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
         }
 
         [data-theme="dark"] {
-            --bg: #1a1a2e;
-            --card: #16213e;
-            --text: #e0e0e0;
-            --text-light: #a0a0a0;
-            --border: #2a2a4a;
-            --shadow: 0 10px 40px rgba(0,0,0,0.3);
+            --primary: #818cf8;
+            --primary-light: #a5b4fc;
+            --primary-dark: #6366f1;
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #334155;
+            --border-light: #1e293b;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --success-light: #064e3b;
+            --warning-light: #78350f;
+            --danger-light: #7f1d1d;
+            --info-light: #1e3a5f;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             min-height: 100vh;
-            padding: 20px;
-            transition: background 0.3s, color 0.3s;
+            color: var(--text);
+            line-height: 1.6;
         }
 
-        .container { max-width: 800px; margin: 0 auto; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            padding: 16px 0;
+            margin-bottom: 24px;
         }
 
-        h1 {
-            color: var(--primary);
-            font-size: 2rem;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .header-actions { display: flex; gap: 10px; align-items: center; }
-
-        .theme-toggle {
-            background: var(--card);
-            border: 2px solid var(--border);
-            border-radius: 50%;
+        .logo-icon {
             width: 40px;
             height: 40px;
-            cursor: pointer;
-            font-size: 18px;
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-icon:hover {
+            background: var(--bg-secondary);
+            color: var(--text);
+            border-color: var(--primary);
         }
 
         .card {
             background: var(--card);
-            border-radius: 16px;
-            padding: 25px;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
             box-shadow: var(--shadow);
-            margin-bottom: 20px;
-            transition: background 0.3s;
         }
-
-        h2 { color: var(--text); margin-bottom: 20px; font-size: 1.4rem; }
-
-        .form-group { margin-bottom: 15px; }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: var(--text-light);
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 15px;
-            background: var(--card);
-            color: var(--text);
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        textarea { resize: vertical; min-height: 80px; }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-sm { padding: 8px 14px; font-size: 13px; }
-        .btn-full { width: 100%; }
-        .btn-ghost { background: transparent; color: var(--text-light); border: 2px solid var(--border); }
-
-        .hidden { display: none !important; }
-
-        .tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .tab {
-            padding: 12px 24px;
-            cursor: pointer;
-            color: var(--text-light);
-            font-weight: 500;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-        }
-
-        .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-        .tab:hover { color: var(--primary); }
-
-        .message {
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .message-error { background: #ffe0e0; color: var(--danger); }
-        .message-success { background: #e0ffe0; color: var(--success); }
-
-        .header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .user-info { color: var(--text-light); font-size: 14px; }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
         }
 
         .stat-card {
-            background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
         }
 
-        .stat-card.success { background: linear-gradient(135deg, #2ed573 0%, #1abc9c 100%); }
-        .stat-card.warning { background: linear-gradient(135deg, #ffa502 0%, #ff6348 100%); }
-        .stat-card.danger { background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%); }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
 
-        .stat-number { font-size: 2rem; font-weight: 700; }
-        .stat-label { font-size: 13px; opacity: 0.9; margin-top: 5px; }
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
 
-        .filters {
+        .stat-icon.total { background: var(--info-light); color: var(--info); }
+        .stat-icon.completed { background: var(--success-light); color: var(--success); }
+        .stat-icon.pending { background: var(--warning-light); color: var(--warning); }
+        .stat-icon.overdue { background: var(--danger-light); color: var(--danger); }
+
+        .stat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .btn-new-task {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-new-task:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-new-task:active {
+            transform: translateY(0);
+        }
+
+        .filters-bar {
             display: flex;
             gap: 10px;
-            flex-wrap: wrap;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .filters select, .filters input {
+        .search-box {
             flex: 1;
-            min-width: 150px;
+            min-width: 200px;
+            position: relative;
         }
 
-        .task-list { list-style: none; }
+        .search-box input {
+            width: 100%;
+            padding: 10px 14px 10px 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            background: var(--card);
+            color: var(--text);
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            min-width: 130px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
         .task-item {
             display: flex;
-            align-items: flex-start;
-            padding: 18px;
-            border-bottom: 1px solid var(--border);
-            gap: 14px;
-            transition: background 0.2s;
+            align-items: center;
+            padding: 16px;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            gap: 12px;
+            transition: all 0.2s ease;
         }
 
-        .task-item:hover { background: var(--bg); }
-        .task-item:last-child { border-bottom: none; }
+        .task-item:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow);
+        }
 
         .task-checkbox {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             accent-color: var(--primary);
-            margin-top: 3px;
+            flex-shrink: 0;
         }
 
-        .task-content { flex: 1; min-width: 0; }
+        .task-content {
+            flex: 1;
+            min-width: 0;
+        }
 
         .task-title {
             font-weight: 600;
             color: var(--text);
-            margin-bottom: 6px;
-            word-break: break-word;
+            margin-bottom: 4px;
+            font-size: 0.95rem;
         }
 
-        .task-title.completed { text-decoration: line-through; color: var(--text-light); }
+        .task-title.completed {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
 
         .task-description {
-            color: var(--text-light);
-            font-size: 14px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
             margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .task-meta {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
             align-items: center;
         }
 
         .badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .badge-alta { background: var(--danger-light); color: var(--danger); }
+        .badge-média { background: var(--warning-light); color: var(--warning); }
+        .badge-baixa { background: var(--success-light); color: var(--success); }
+        .badge-trabalho { background: #ede9fe; color: #7c3aed; }
+        .badge-estudos { background: #fce7f3; color: #db2777; }
+        .badge-pessoal { background: #ccfbf1; color: #0d9488; }
+        .badge-outros { background: var(--bg-secondary); color: var(--text-secondary); }
+
+        .task-due {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .task-due.overdue {
+            color: var(--danger);
             font-weight: 600;
         }
 
-        .badge-alta { background: #ffe0e0; color: var(--danger); }
-        .badge-média { background: #fff3e0; color: var(--warning); }
-        .badge-baixa { background: #e0ffe0; color: var(--success); }
-        .badge-trabalho { background: #e0e0ff; color: #5555cc; }
-        .badge-estudos { background: #ffe0ff; color: #cc55cc; }
-        .badge-pessoal { background: #e0ffff; color: #55cccc; }
-        .badge-outros { background: #f0f0f0; color: #888; }
-
-        .task-due {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-
-        .task-due.overdue { color: var(--danger); font-weight: 600; }
-
         .task-actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
+        }
+
+        .btn-task {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-task:hover {
+            background: var(--bg-secondary);
+            color: var(--text);
+        }
+
+        .btn-task.delete:hover {
+            background: var(--danger-light);
+            color: var(--danger);
+            border-color: var(--danger);
         }
 
         .empty-state {
             text-align: center;
-            padding: 50px 20px;
-            color: var(--text-light);
+            padding: 60px 20px;
+            color: var(--text-muted);
         }
 
         .empty-state svg {
             width: 80px;
             height: 80px;
-            margin-bottom: 15px;
-            opacity: 0.4;
+            margin-bottom: 16px;
+            opacity: 0.3;
         }
 
-        .edit-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
+        .empty-state h3 {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
         }
 
-        .edit-form input, .edit-form select { font-size: 14px; padding: 10px; }
-        .edit-actions { display: flex; gap: 8px; }
-
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 500;
-            z-index: 1000;
-            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
-        }
-
-        .toast-success { background: var(--success); }
-        .toast-error { background: var(--danger); }
-
-        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-
-        .form-row { display: flex; gap: 10px; }
-        .form-row .form-group { flex: 1; }
-
-        .btn-new-task {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-new-task:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-        }
-
-        .btn-new-task:active {
-            transform: translateY(0);
+        .empty-state p {
+            font-size: 0.9rem;
         }
 
         .modal-overlay {
@@ -362,7 +467,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(4px);
             z-index: 999;
             display: flex;
@@ -371,6 +476,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
+            padding: 20px;
         }
 
         .modal-overlay.active {
@@ -380,14 +486,14 @@
 
         .modal-content {
             background: var(--card);
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
+            border-radius: var(--radius-xl);
+            padding: 28px;
+            width: 100%;
+            max-width: 480px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transform: translateY(30px) scale(0.95);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px) scale(0.95);
             transition: transform 0.3s ease;
         }
 
@@ -399,19 +505,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
 
         .modal-header h2 {
-            margin-bottom: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
         }
 
         .modal-close {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            border-radius: 50%;
             width: 36px;
             height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
             cursor: pointer;
             font-size: 18px;
             display: flex;
@@ -421,190 +530,495 @@
         }
 
         .modal-close:hover {
-            background: var(--danger);
-            color: white;
+            background: var(--danger-light);
+            color: var(--danger);
             border-color: var(--danger);
         }
 
-        @media (max-width: 600px) {
-            .form-row { flex-direction: column; }
-            .filters { flex-direction: column; }
-            .task-actions { flex-direction: column; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .modal-content { padding: 20px; }
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            background: var(--card);
+            color: var(--text);
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: var(--radius-sm);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 16px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            background: var(--card);
+            color: var(--text);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab:hover:not(.active) {
+            color: var(--text);
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .message-error {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .message-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            z-index: 1000;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast-success { background: var(--success); }
+        .toast-error { background: var(--danger); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .user-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .edit-form input, .edit-form select {
+            font-size: 0.85rem;
+            padding: 8px 12px;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-secondary);
+            color: var(--text);
+        }
+
+        .auth-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding-top: 40px;
+        }
+
+        .auth-card {
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo .logo-icon {
+            width: 56px;
+            height: 56px;
+            font-size: 20px;
+            margin: 0 auto 12px;
+        }
+
+        .auth-logo h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .auth-logo p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters-bar {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .action-bar {
+                flex-direction: column;
+            }
+
+            .btn-new-task {
+                width: 100%;
+            }
+
+            .task-item {
+                flex-wrap: wrap;
+            }
+
+            .task-actions {
+                width: 100%;
+                justify-content: flex-end;
+                margin-top: 8px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .stat-number {
+                font-size: 1.25rem;
+            }
+
+            header {
+                padding: 12px 0;
+            }
+
+            .logo h1 {
+                font-size: 1.25rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>TaskFlow</h1>
+            <div class="logo">
+                <div class="logo-icon">TF</div>
+                <h1>TaskFlow</h1>
+            </div>
             <div class="header-actions">
-                <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">🌙</button>
+                <button class="btn-icon" onclick="toggleTheme()" title="Alternar tema" aria-label="Alternar tema">🌙</button>
+                <button class="btn-icon" onclick="exportTasks()" title="Exportar tarefas" aria-label="Exportar tarefas">📥</button>
+                <button class="btn-icon" onclick="logout()" title="Sair" aria-label="Sair">🚪</button>
             </div>
         </header>
 
         <!-- Auth Section -->
         <div id="auth-section">
-            <div class="card">
-                <div class="tabs">
-                    <div class="tab active" onclick="showLogin()">Login</div>
-                    <div class="tab" onclick="showRegister()">Registrar</div>
-                </div>
-                <div id="message" class="message hidden"></div>
-                <div id="login-form">
-                    <div class="form-group">
-                        <label for="login-email">Email</label>
-                        <input type="email" id="login-email" placeholder="seu@email.com">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-logo">
+                        <div class="logo-icon">TF</div>
+                        <h2>TaskFlow</h2>
+                        <p>Gerencie suas tarefas com eficiência</p>
                     </div>
-                    <div class="form-group">
-                        <label for="login-password">Senha</label>
-                        <input type="password" id="login-password" placeholder="Sua senha">
+                    <div class="tabs">
+                        <div class="tab active" onclick="showLogin()">Entrar</div>
+                        <div class="tab" onclick="showRegister()">Criar conta</div>
                     </div>
-                    <button class="btn btn-primary btn-full" onclick="login()">Entrar</button>
-                </div>
-                <div id="register-form" class="hidden">
-                    <div class="form-group">
-                        <label for="register-name">Nome</label>
-                        <input type="text" id="register-name" placeholder="Seu nome">
+                    <div id="message" class="message hidden"></div>
+                    <div id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Senha</label>
+                            <input type="password" id="login-password" placeholder="Sua senha" autocomplete="current-password">
+                        </div>
+                        <button class="btn btn-primary btn-full" onclick="login()">Entrar</button>
                     </div>
-                    <div class="form-group">
-                        <label for="register-email">Email</label>
-                        <input type="email" id="register-email" placeholder="seu@email.com">
+                    <div id="register-form" class="hidden">
+                        <div class="form-group">
+                            <label for="register-name">Nome</label>
+                            <input type="text" id="register-name" placeholder="Seu nome" autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" placeholder="seu@email.com" autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Senha</label>
+                            <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+                        </div>
+                        <button class="btn btn-primary btn-full" onclick="register()">Criar conta</button>
                     </div>
-                    <div class="form-group">
-                        <label for="register-password">Senha</label>
-                        <input type="password" id="register-password" placeholder="Mínimo 6 caracteres">
-                    </div>
-                    <button class="btn btn-primary btn-full" onclick="register()">Criar conta</button>
                 </div>
             </div>
         </div>
 
         <!-- Tasks Section -->
         <div id="tasks-section" class="hidden">
-            <div class="header-bar">
-                <div>
-                    <h2>Minhas Tarefas</h2>
-                    <div class="user-info" id="user-info"></div>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-ghost btn-sm" onclick="exportTasks()">📥 Exportar</button>
-                    <button class="btn btn-ghost btn-sm" onclick="logout()">Sair</button>
-                </div>
-            </div>
-
             <!-- Stats -->
-            <div class="stats-grid" id="stats-grid">
+            <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number" id="stat-total">0</div>
-                    <div class="stat-label">Total</div>
+                    <div class="stat-icon total">📋</div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="stat-total">0</div>
+                        <div class="stat-label">Total</div>
+                    </div>
                 </div>
-                <div class="stat-card success">
-                    <div class="stat-number" id="stat-completed">0</div>
-                    <div class="stat-label">Concluídas</div>
+                <div class="stat-card">
+                    <div class="stat-icon completed">✅</div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="stat-completed">0</div>
+                        <div class="stat-label">Concluídas</div>
+                    </div>
                 </div>
-                <div class="stat-card warning">
-                    <div class="stat-number" id="stat-pending">0</div>
-                    <div class="stat-label">Pendentes</div>
+                <div class="stat-card">
+                    <div class="stat-icon pending">⏳</div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="stat-pending">0</div>
+                        <div class="stat-label">Pendentes</div>
+                    </div>
                 </div>
-                <div class="stat-card danger">
-                    <div class="stat-number" id="stat-overdue">0</div>
-                    <div class="stat-label">Atrasadas</div>
+                <div class="stat-card">
+                    <div class="stat-icon overdue">⚠️</div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="stat-overdue">0</div>
+                        <div class="stat-label">Atrasadas</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Create Task Button -->
-            <button class="btn-new-task" onclick="toggleCreateModal(true)">
-                <span style="font-size: 22px;">+</span> Nova Tarefa
-            </button>
-
-            <!-- Create Task Modal -->
-            <div class="modal-overlay" id="create-modal" onclick="closeModalOverlay(event)">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Nova Tarefa</h2>
-                        <button class="modal-close" onclick="toggleCreateModal(false)">&#10005;</button>
-                    </div>
-                    <div id="tasks-message" class="message hidden"></div>
-                    <div class="form-group">
-                        <label for="task-title">Título</label>
-                        <input type="text" id="task-title" placeholder="O que precisa fazer?">
-                    </div>
-                    <div class="form-group">
-                        <label for="task-description">Descrição (opcional)</label>
-                        <textarea id="task-description" placeholder="Detalhes da tarefa..."></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="task-priority">Prioridade</label>
-                            <select id="task-priority">
-                                <option value="baixa">Baixa</option>
-                                <option value="média" selected>Média</option>
-                                <option value="alta">Alta</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="task-category">Categoria</label>
-                            <select id="task-category">
-                                <option value="outros">Outros</option>
-                                <option value="trabalho">Trabalho</option>
-                                <option value="estudos">Estudos</option>
-                                <option value="pessoal">Pessoal</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-dueDate">Data de vencimento</label>
-                        <input type="date" id="task-dueDate">
-                    </div>
-                    <button class="btn btn-primary btn-full" onclick="createTask()">Adicionar Tarefa</button>
-                </div>
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <button class="btn-new-task" onclick="toggleCreateModal(true)">
+                    <span style="font-size: 20px; font-weight: 700;">+</span> Nova Tarefa
+                </button>
             </div>
 
             <!-- Filters -->
-            <div class="card">
-                <h2>Filtros</h2>
-                <div class="filters">
-                    <input type="text" id="filter-search" placeholder="🔍 Buscar tarefa..." oninput="loadTasks()">
-                    <select id="filter-priority" onchange="loadTasks()">
-                        <option value="">Todas prioridades</option>
-                        <option value="baixa">Baixa</option>
-                        <option value="média">Média</option>
-                        <option value="alta">Alta</option>
-                    </select>
-                    <select id="filter-category" onchange="loadTasks()">
-                        <option value="">Todas categorias</option>
-                        <option value="trabalho">Trabalho</option>
-                        <option value="estudos">Estudos</option>
-                        <option value="pessoal">Pessoal</option>
-                        <option value="outros">Outros</option>
-                    </select>
-                    <select id="filter-status" onchange="loadTasks()">
-                        <option value="">Todos status</option>
-                        <option value="false">Pendentes</option>
-                        <option value="true">Concluídas</option>
-                    </select>
-                    <select id="filter-sort" onchange="loadTasks()">
-                        <option value="">Mais recentes</option>
-                        <option value="priority">Prioridade</option>
-                        <option value="dueDate">Data vencimento</option>
-                        <option value="title">Título A-Z</option>
-                    </select>
+            <div class="filters-bar">
+                <div class="search-box">
+                    <input type="text" id="filter-search" placeholder="Buscar tarefa..." oninput="loadTasks()" aria-label="Buscar tarefa">
                 </div>
+                <select id="filter-priority" class="filter-select" onchange="loadTasks()" aria-label="Filtrar por prioridade">
+                    <option value="">Prioridade</option>
+                    <option value="baixa">Baixa</option>
+                    <option value="média">Média</option>
+                    <option value="alta">Alta</option>
+                </select>
+                <select id="filter-category" class="filter-select" onchange="loadTasks()" aria-label="Filtrar por categoria">
+                    <option value="">Categoria</option>
+                    <option value="trabalho">Trabalho</option>
+                    <option value="estudos">Estudos</option>
+                    <option value="pessoal">Pessoal</option>
+                    <option value="outros">Outros</option>
+                </select>
+                <select id="filter-status" class="filter-select" onchange="loadTasks()" aria-label="Filtrar por status">
+                    <option value="">Status</option>
+                    <option value="false">Pendentes</option>
+                    <option value="true">Concluídas</option>
+                </select>
             </div>
 
             <!-- Task List -->
-            <div class="card">
-                <ul id="task-list" class="task-list"></ul>
-                <div id="empty-state" class="empty-state hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                    <p>Nenhuma tarefa encontrada</p>
-                    <p>Adicione uma tarefa ou ajuste os filtros!</p>
+            <ul id="task-list" class="task-list"></ul>
+            <div id="empty-state" class="empty-state hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <h3>Nenhuma tarefa encontrada</h3>
+                <p>Clique em "+ Nova Tarefa" para começar!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Task Modal -->
+    <div class="modal-overlay" id="create-modal" onclick="closeModalOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nova Tarefa</h2>
+                <button class="modal-close" onclick="toggleCreateModal(false)" aria-label="Fechar">&#10005;</button>
+            </div>
+            <div class="form-group">
+                <label for="task-title">Título</label>
+                <input type="text" id="task-title" placeholder="O que precisa fazer?">
+            </div>
+            <div class="form-group">
+                <label for="task-description">Descrição (opcional)</label>
+                <textarea id="task-description" placeholder="Adicione detalhes..."></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="task-priority">Prioridade</label>
+                    <select id="task-priority">
+                        <option value="baixa">Baixa</option>
+                        <option value="média" selected>Média</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-category">Categoria</label>
+                    <select id="task-category">
+                        <option value="outros">Outros</option>
+                        <option value="trabalho">Trabalho</option>
+                        <option value="estudos">Estudos</option>
+                        <option value="pessoal">Pessoal</option>
+                    </select>
                 </div>
             </div>
+            <div class="form-group">
+                <label for="task-dueDate">Data de vencimento</label>
+                <input type="date" id="task-dueDate">
+            </div>
+            <button class="btn btn-primary btn-full" onclick="createTask()">Adicionar Tarefa</button>
         </div>
     </div>
 
@@ -615,7 +1029,7 @@
 
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
-            document.querySelector('.theme-toggle').textContent = '☀️';
+            document.querySelector('.theme-toggle') && (document.querySelector('.theme-toggle').textContent = '☀️');
         }
 
         if (token && user) {
@@ -628,7 +1042,8 @@
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
             localStorage.setItem('theme', isDark ? 'light' : 'dark');
-            document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀️';
+            const btn = document.querySelector('.btn-icon[onclick="toggleTheme()"]');
+            if (btn) btn.textContent = isDark ? '🌙' : '☀️';
         }
 
         function showLogin() {
@@ -664,6 +1079,25 @@
             toast.textContent = text;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
+        }
+
+        function toggleCreateModal(show) {
+            const modal = document.getElementById('create-modal');
+            if (show) {
+                modal.classList.add('active');
+                setTimeout(() => document.getElementById('task-title').focus(), 300);
+            } else {
+                modal.classList.remove('active');
+                document.getElementById('task-title').value = '';
+                document.getElementById('task-description').value = '';
+                document.getElementById('task-dueDate').value = '';
+            }
+        }
+
+        function closeModalOverlay(event) {
+            if (event.target === event.currentTarget) {
+                toggleCreateModal(false);
+            }
         }
 
         async function login() {
@@ -734,7 +1168,6 @@
         function showTasksSection() {
             document.getElementById('auth-section').classList.add('hidden');
             document.getElementById('tasks-section').classList.remove('hidden');
-            document.getElementById('user-info').textContent = `Olá, ${user.name}!`;
         }
 
         async function loadStats() {
@@ -757,14 +1190,12 @@
             const priority = document.getElementById('filter-priority').value;
             const category = document.getElementById('filter-category').value;
             const status = document.getElementById('filter-status').value;
-            const sort = document.getElementById('filter-sort').value;
 
             let url = `${API_URL}/api/tasks?`;
             if (search) url += `search=${search}&`;
             if (priority) url += `priority=${priority}&`;
             if (category) url += `category=${category}&`;
             if (status !== '') url += `completed=${status}&`;
-            if (sort) url += `sort=${sort}&`;
 
             try {
                 const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
@@ -791,7 +1222,7 @@
                 return `
                 <li class="task-item" id="task-${task._id}">
                     <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
-                        onchange="toggleTask('${task._id}', this.checked)">
+                        onchange="toggleTask('${task._id}', this.checked)" aria-label="Marcar como concluída">
                     <div class="task-content">
                         <div class="task-title ${task.completed ? 'completed' : ''}">${task.title}</div>
                         ${task.description ? `<div class="task-description">${task.description}</div>` : ''}
@@ -802,30 +1233,11 @@
                         </div>
                     </div>
                     <div class="task-actions">
-                        <button class="btn btn-primary btn-sm" onclick="editTask('${task._id}')">✏️</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteTask('${task._id}')">🗑️</button>
+                        <button class="btn-task" onclick="editTask('${task._id}')" title="Editar" aria-label="Editar tarefa">✏️</button>
+                        <button class="btn-task delete" onclick="deleteTask('${task._id}')" title="Excluir" aria-label="Excluir tarefa">🗑️</button>
                     </div>
                 </li>`;
             }).join('');
-        }
-
-        function toggleCreateModal(show) {
-            const modal = document.getElementById('create-modal');
-            if (show) {
-                modal.classList.add('active');
-                setTimeout(() => document.getElementById('task-title').focus(), 300);
-            } else {
-                modal.classList.remove('active');
-                document.getElementById('task-title').value = '';
-                document.getElementById('task-description').value = '';
-                document.getElementById('task-dueDate').value = '';
-            }
-        }
-
-        function closeModalOverlay(event) {
-            if (event.target === event.currentTarget) {
-                toggleCreateModal(false);
-            }
         }
 
         async function createTask() {
@@ -954,6 +1366,9 @@
                     if (!document.getElementById('login-form').classList.contains('hidden')) login();
                     else register();
                 }
+            }
+            if (e.key === 'Escape') {
+                toggleCreateModal(false);
             }
         });
 
