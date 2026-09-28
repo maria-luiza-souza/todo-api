@@ -1,1749 +1,474 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#6366f1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="TaskFlow">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="TaskFlow">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>TaskFlow</title>
-    <style>
-        :root {
-            --primary: #6366f1;
-            --primary-light: #818cf8;
-            --primary-dark: #4f46e5;
-            --primary-soft: #eef2ff;
-            --success: #10b981;
-            --success-soft: #ecfdf5;
-            --warning: #f59e0b;
-            --warning-soft: #fffbeb;
-            --danger: #ef4444;
-            --danger-soft: #fef2f2;
-            --info: #3b82f6;
-            --info-soft: #eff6ff;
-            --bg: #fafbfc;
-            --bg-secondary: #f4f5f7;
-            --card: #ffffff;
-            --text: #1a1a2e;
-            --text-secondary: #6b7280;
-            --text-muted: #9ca3af;
-            --border: #e5e7eb;
-            --border-light: #f3f4f6;
-            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -5px rgba(0, 0, 0, 0.04);
-            --radius-sm: 10px;
-            --radius: 14px;
-            --radius-lg: 18px;
-            --radius-xl: 24px;
-        }
-
-        [data-theme="dark"] {
-            --primary: #818cf8;
-            --primary-light: #a5b4fc;
-            --primary-dark: #6366f1;
-            --primary-soft: #1e1b4b;
-            --bg: #0f1117;
-            --bg-secondary: #1a1b23;
-            --card: #1a1b23;
-            --text: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --text-muted: #6b7280;
-            --border: #2d2d3a;
-            --border-light: #1f1f2e;
-            --success-soft: #064e3b;
-            --warning-soft: #78350f;
-            --danger-soft: #7f1d1d;
-            --info-soft: #1e3a5f;
-            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.15);
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 4px 10px -5px rgba(0, 0, 0, 0.2);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
-            color: var(--text);
-            line-height: 1.5;
-            -webkit-text-size-adjust: 100%;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        html {
-            height: -webkit-fill-available;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0 16px;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .logo h1 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.02em;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            background: var(--card);
-            color: var(--text-muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-icon:hover {
-            background: var(--bg-secondary);
-            color: var(--text);
-            border-color: var(--primary-light);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 14px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.25s ease;
-            overflow: hidden;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            border-color: transparent;
-        }
-
-        .stat-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .stat-icon.total { background: var(--info-soft); color: var(--info); }
-        .stat-icon.completed { background: var(--success-soft); color: var(--success); }
-        .stat-icon.pending { background: var(--warning-soft); color: var(--warning); }
-        .stat-icon.overdue { background: var(--danger-soft); color: var(--danger); }
-
-        .stat-info { flex: 1; min-width: 0; }
-
-        .stat-number {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.2;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-top: 2px;
-        }
-
-        .action-bar {
-            margin-bottom: 16px;
-        }
-
-        .btn-new-task {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px dashed var(--border);
-            border-radius: var(--radius);
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            background: var(--primary-soft);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.25s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn-new-task:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            border-style: solid;
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
-            transform: translateY(-1px);
-        }
-
-        .btn-new-task:active {
-            transform: translateY(0);
-        }
-
-        .filters-bar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            align-items: center;
-            background: var(--card);
-            padding: 8px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 180px;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 8px 12px 8px 34px;
-            border: 1px solid transparent;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            background: var(--bg-secondary);
-            color: var(--text);
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            background: var(--card);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
-        }
-
-        .search-box input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-            color: var(--text-muted);
-            pointer-events: none;
-        }
-
-        .filter-divider {
-            width: 1px;
-            height: 24px;
-            background: var(--border);
-            flex-shrink: 0;
-        }
-
-        .filter-group {
-            display: flex;
-            gap: 6px;
-            flex-wrap: nowrap;
-            align-items: center;
-        }
-
-        .filter-select {
-            padding: 8px 28px 8px 10px;
-            border: 1px solid transparent;
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            white-space: nowrap;
-            min-width: 0;
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            background-color: var(--card);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
-        }
-
-        .filter-select:hover {
-            border-color: var(--border);
-            background-color: var(--card);
-        }
-
-        .filter-select.active {
-            border-color: var(--primary-light);
-            background-color: var(--primary-soft);
-            color: var(--primary);
-        }
-
-        .active-filters {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .filter-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 10px;
-            background: var(--primary-soft);
-            color: var(--primary);
-            border-radius: 20px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            animation: fadeIn 0.2s ease;
-        }
-
-        .filter-tag button {
-            background: none;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
-            font-size: 12px;
-            padding: 0;
-            line-height: 1;
-            opacity: 0.7;
-            transition: opacity 0.15s ease;
-        }
-
-        .filter-tag button:hover {
-            opacity: 1;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .task-section {
-            background: var(--card);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-
-        .task-list {
-            list-style: none;
-        }
-
-        .task-item {
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border-light);
-            gap: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .task-item:last-child {
-            border-bottom: none;
-        }
-
-        .task-item:hover {
-            background: var(--bg-secondary);
-        }
-
-        .task-checkbox {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--primary);
-            flex-shrink: 0;
-            border-radius: 4px;
-        }
-
-        .task-content {
-            flex: 1;
-            min-width: 0;
-            overflow: hidden;
-        }
-
-        .task-title {
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 3px;
-            font-size: 0.88rem;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .task-title.completed {
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
-
-        .task-description {
-            color: var(--text-secondary);
-            font-size: 0.78rem;
-            margin-bottom: 6px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            white-space: normal;
-            display: block;
-            -webkit-line-clamp: unset;
-            -webkit-box-orient: unset;
-            overflow: visible;
-        }
-
-        .task-meta {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .badge {
-            padding: 2px 7px;
-            border-radius: 5px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .badge-alta { background: var(--danger-soft); color: var(--danger); }
-        .badge-média { background: var(--warning-soft); color: var(--warning); }
-        .badge-baixa { background: var(--success-soft); color: var(--success); }
-        .badge-trabalho { background: #f5f3ff; color: #7c3aed; }
-        .badge-estudos { background: #fdf2f8; color: #db2777; }
-        .badge-pessoal { background: #f0fdfa; color: #0d9488; }
-        .badge-outros { background: var(--bg-secondary); color: var(--text-secondary); }
-
-        .task-due {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .task-due.overdue {
-            color: var(--danger);
-            font-weight: 600;
-        }
-
-        .task-actions {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .task-item:hover .task-actions {
-            opacity: 1;
-        }
-
-        .btn-task {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            transition: all 0.15s ease;
-        }
-
-        .btn-task:hover {
-            background: var(--bg-secondary);
-            color: var(--text);
-        }
-
-        .btn-task.delete:hover {
-            background: var(--danger-soft);
-            color: var(--danger);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 24px;
-            color: var(--text-muted);
-        }
-
-        .empty-illustration {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 20px;
-            background: var(--primary-soft);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-        }
-
-        .empty-state h3 {
-            font-size: 1.05rem;
-            color: var(--text);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .empty-state p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .empty-action {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .empty-action:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            padding: 20px;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-content {
-            background: var(--card);
-            border-radius: var(--radius-xl);
-            padding: 28px;
-            width: 100%;
-            max-width: 460px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(20px) scale(0.97);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: translateY(0) scale(1);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .modal-header h2 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .modal-close {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            border: none;
-            background: var(--bg-secondary);
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .modal-close:hover {
-            background: var(--danger-soft);
-            color: var(--danger);
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.82rem;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 0.88rem;
-            background: var(--card);
-            color: var(--text);
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 12px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .btn {
-            padding: 11px 20px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 0.88rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-full {
-            width: 100%;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 24px;
-            background: var(--bg-secondary);
-            padding: 4px;
-            border-radius: var(--radius-sm);
-        }
-
-        .tab {
-            flex: 1;
-            padding: 10px 16px;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 0.88rem;
-            text-align: center;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .tab.active {
-            background: var(--card);
-            color: var(--text);
-            box-shadow: var(--shadow-xs);
-        }
-
-        .tab:hover:not(.active) {
-            color: var(--text-secondary);
-        }
-
-        .message {
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            margin-bottom: 16px;
-            font-size: 0.88rem;
-            font-weight: 500;
-        }
-
-        .message-error {
-            background: var(--danger-soft);
-            color: var(--danger);
-        }
-
-        .message-success {
-            background: var(--success-soft);
-            color: var(--success);
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            padding: 12px 18px;
-            border-radius: var(--radius-sm);
-            color: white;
-            font-weight: 500;
-            font-size: 0.88rem;
-            z-index: 1000;
-            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .toast-success { background: var(--success); }
-        .toast-error { background: var(--danger); }
-
-        @keyframes slideIn {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        .user-info {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-        }
-
-        .edit-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .edit-form input, .edit-form select {
-            font-size: 0.85rem;
-            padding: 8px 12px;
-        }
-
-        .edit-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-sm {
-            padding: 7px 14px;
-            font-size: 0.8rem;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-ghost:hover {
-            background: var(--bg-secondary);
-            color: var(--text);
-        }
-
-        .auth-container {
-            max-width: 380px;
-            margin: 0 auto;
-            padding-top: 60px;
-        }
-
-        .auth-card {
-            background: var(--card);
-            border-radius: var(--radius-xl);
-            padding: 32px 28px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-        }
-
-        .auth-logo {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .auth-logo .logo-icon {
-            width: 52px;
-            height: 52px;
-            font-size: 18px;
-            margin: 0 auto 14px;
-        }
-
-        .auth-logo h2 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .auth-logo p {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 12px;
-                max-width: 100%;
-                overflow-x: hidden;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-            }
-
-            .stat-card {
-                padding: 12px;
-                gap: 10px;
-                min-width: 0;
-            }
-
-            .stat-icon {
-                width: 38px;
-                height: 38px;
-                font-size: 16px;
-                flex-shrink: 0;
-            }
-
-            .stat-info {
-                min-width: 0;
-                overflow: hidden;
-            }
-
-            .stat-number {
-                font-size: 1.3rem;
-                white-space: nowrap;
-            }
-
-            .stat-label {
-                font-size: 0.7rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .filters-bar {
-                flex-wrap: wrap;
-                gap: 8px;
-                padding: 8px;
-            }
-
-            .search-box {
-                min-width: 100%;
-                order: -1;
-            }
-
-            .search-box input {
-                padding: 12px 14px 12px 40px;
-                font-size: 16px;
-            }
-
-            .filter-divider {
-                display: none;
-            }
-
-            .filter-group {
-                width: 100%;
-                gap: 6px;
-            }
-
-            .filter-select {
-                flex: 1;
-                min-width: 0;
-                font-size: 14px;
-                padding: 10px 28px 10px 10px;
-                min-height: 42px;
-            }
-
-            .task-section {
-                border-radius: var(--radius);
-            }
-
-            .task-item {
-                flex-wrap: wrap;
-                padding: 14px;
-                gap: 10px;
-                align-items: flex-start;
-            }
-
-            .task-checkbox {
-                width: 22px;
-                height: 22px;
-                margin-top: 2px;
-                flex-shrink: 0;
-            }
-
-            .task-content {
-                flex: 1;
-                min-width: 0;
-                max-width: calc(100% - 40px);
-            }
-
-            .task-title {
-                font-size: 15px;
-                line-height: 1.4;
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-            }
-
-            .task-description {
-                font-size: 13px;
-                line-height: 1.4;
-                display: block;
-                white-space: normal;
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-            }
-
-            .task-meta {
-                flex-wrap: wrap;
-                gap: 4px;
-            }
-
-            .badge {
-                padding: 3px 8px;
-                font-size: 11px;
-                white-space: nowrap;
-            }
-
-            .task-due {
-                font-size: 12px;
-                white-space: nowrap;
-            }
-
-            .task-actions {
-                width: 100%;
-                justify-content: flex-end;
-                margin-top: 8px;
-                opacity: 1;
-                gap: 8px;
-                padding-top: 8px;
-                border-top: 1px solid var(--border-light);
-            }
-
-            .btn-task {
-                width: 38px;
-                height: 38px;
-                font-size: 16px;
-            }
-
-            .form-row {
-                flex-direction: column;
-            }
-
-            .modal-content {
-                padding: 20px;
-                margin: 10px;
-                max-height: 90vh;
-                overflow-y: auto;
-            }
-
-            .auth-container {
-                padding-top: 30px;
-            }
-
-            .btn-new-task {
-                padding: 14px 18px;
-                font-size: 15px;
-                min-height: 48px;
-            }
-
-            .btn-icon {
-                width: 42px;
-                height: 42px;
-                font-size: 18px;
-            }
-
-            input, select, textarea {
-                font-size: 16px;
-                padding: 12px;
-                min-height: 44px;
-            }
-
-            .btn {
-                padding: 12px 20px;
-                font-size: 15px;
-                min-height: 44px;
-            }
-
-            .logo h1 {
-                font-size: 1.2rem;
-            }
-
-            header {
-                padding: 8px 0 12px;
-                margin-bottom: 14px;
-            }
-
-            .empty-state {
-                padding: 40px 16px;
-            }
-
-            .empty-illustration {
-                width: 80px;
-                height: 80px;
-                font-size: 32px;
-            }
-
-            .empty-state h3 {
-                font-size: 1rem;
-            }
-
-            .empty-state p {
-                font-size: 0.85rem;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .container {
-                padding: 10px;
-            }
-
-            .stats-grid {
-                gap: 6px;
-            }
-
-            .stat-card {
-                padding: 10px;
-                gap: 8px;
-            }
-
-            .stat-icon {
-                width: 34px;
-                height: 34px;
-                font-size: 14px;
-            }
-
-            .stat-number {
-                font-size: 1.15rem;
-            }
-
-            .stat-label {
-                font-size: 0.65rem;
-            }
-
-            .task-item {
-                padding: 12px;
-            }
-
-            .task-title {
-                font-size: 14px;
-            }
-
-            .task-description {
-                font-size: 12px;
-            }
-
-            .task-actions {
-                gap: 6px;
-            }
-
-            .btn-task {
-                width: 34px;
-                height: 34px;
-                font-size: 14px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="LeadFlow CRM - gestão de leads, clientes, pipeline comercial e interações.">
+  <meta name="application-name" content="LeadFlow CRM">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>LeadFlow CRM</title>
+  <style>
+    :root{
+      --bg:#f5f7f8;--panel:#fff;--panel-2:#f8fafb;--text:#172126;--muted:#66757d;--border:#dde5e8;
+      --primary:#0f766e;--primary-2:#14b8a6;--primary-soft:#e7f8f5;--navy:#102a36;--blue:#2563eb;
+      --orange:#d97706;--purple:#7c3aed;--green:#15803d;--red:#dc2626;--shadow:0 10px 35px rgba(15,42,54,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+    .auth-shell{min-height:100vh;display:grid;grid-template-columns:1.1fr .9fr;background:linear-gradient(135deg,#0b2b33,#0f766e)}
+    .auth-brand{padding:64px;display:flex;flex-direction:column;justify-content:center;color:#fff;position:relative;overflow:hidden}
+    .auth-brand:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.07);right:-120px;bottom:-170px}
+    .brand-mark{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;background:#fff;color:var(--primary);font-weight:800;font-size:22px;box-shadow:var(--shadow)}
+    .auth-brand h1{font-size:clamp(38px,6vw,68px);line-height:.98;margin:28px 0 18px;letter-spacing:-.05em}.auth-brand p{max-width:620px;font-size:18px;line-height:1.7;color:#d8eeeb}
+    .feature-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.feature-pill{border:1px solid rgba(255,255,255,.22);padding:10px 14px;border-radius:999px;font-size:13px;background:rgba(255,255,255,.07)}
+    .auth-side{display:grid;place-items:center;padding:30px;background:#f5f7f8}.auth-card{width:min(440px,100%);background:#fff;border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:var(--shadow)}
+    .auth-card h2{margin:0 0 8px;font-size:28px}.auth-card>p{margin:0 0 24px;color:var(--muted)}.switch-auth{margin-top:18px;text-align:center;color:var(--muted);font-size:14px}.link-btn{border:0;background:none;color:var(--primary);font-weight:700}
+    .field{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}.field label{font-size:13px;font-weight:700;color:#40505a}.field input,.field select,.field textarea{border:1px solid var(--border);border-radius:12px;padding:11px 12px;background:#fff;color:var(--text);outline:none}.field textarea{min-height:92px;resize:vertical}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary-2);box-shadow:0 0 0 3px rgba(20,184,166,.12)}
+    .btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
+    .btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:#0b625b;transform:translateY(-1px)}.btn-secondary{background:#edf2f4;color:#28414c}.btn-danger{background:#fee2e2;color:#991b1b}.btn-outline{background:#fff;border:1px solid var(--border);color:#34464f}.btn-sm{padding:8px 10px;font-size:12px}.btn-block{width:100%}
+    .app{min-height:100vh;display:grid;grid-template-columns:248px 1fr}.sidebar{background:var(--navy);color:#dce8ec;padding:20px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+    .sidebar-logo{display:flex;align-items:center;gap:12px;padding:10px 10px 24px}.sidebar-logo .brand-mark{width:42px;height:42px;border-radius:13px;font-size:17px}.sidebar-logo strong{display:block;color:#fff}.sidebar-logo span{font-size:11px;color:#91a9b2}
+    .nav{display:flex;flex-direction:column;gap:6px}.nav-btn{border:0;background:transparent;color:#a9bec6;padding:11px 12px;border-radius:12px;text-align:left;font-weight:600;display:flex;gap:11px;align-items:center}.nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,.09);color:#fff}.nav-icon{width:22px;text-align:center}
+    .sidebar-foot{margin-top:auto;padding:14px 10px;border-top:1px solid rgba(255,255,255,.09)}.sidebar-user{font-size:13px;color:#e3edf0;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sidebar-email{font-size:11px;color:#8ca4ad;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .main{min-width:0}.topbar{height:72px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}
+    .topbar h2{margin:0;font-size:20px}.topbar .subtitle{font-size:12px;color:var(--muted);margin-top:3px}.top-actions{display:flex;gap:8px;align-items:center}.mobile-menu{display:none}
+    .content{padding:28px;max-width:1500px;margin:0 auto}.section{display:none}.section.active{display:block}.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px}.page-head h1{font-size:28px;margin:0 0 5px;letter-spacing:-.03em}.page-head p{margin:0;color:var(--muted)}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}.metric{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:0 2px 8px rgba(16,42,54,.03)}
+    .metric-top{display:flex;justify-content:space-between;gap:12px}.metric-label{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--muted)}.metric-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);font-weight:800}.metric-value{font-size:30px;font-weight:800;margin-top:10px;letter-spacing:-.04em}.metric-foot{font-size:12px;color:var(--muted);margin-top:4px}
+    .grid-2{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px}.card h3{margin:0 0 4px;font-size:16px}.card-sub{font-size:12px;color:var(--muted);margin-bottom:18px}
+    .funnel-row{display:grid;grid-template-columns:100px 1fr 50px;align-items:center;gap:10px;margin:12px 0;font-size:13px}.funnel-bar{height:10px;background:#edf2f4;border-radius:999px;overflow:hidden}.funnel-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--primary-2))}
+    .timeline{display:flex;flex-direction:column;gap:12px}.timeline-item{display:grid;grid-template-columns:38px 1fr;gap:12px;padding:12px;border:1px solid var(--border);border-radius:14px;background:var(--panel-2)}.timeline-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary)}.timeline-title{font-weight:700;font-size:13px}.timeline-meta{font-size:11px;color:var(--muted);margin-top:4px}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:14px}.toolbar input,.toolbar select{border:1px solid var(--border);border-radius:11px;padding:9px 10px;background:#fff;min-width:150px}.toolbar input{flex:1;min-width:220px}
+    .table-wrap{overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:16px}.data-table{width:100%;border-collapse:collapse;min-width:850px}.data-table th,.data-table td{padding:13px 14px;border-bottom:1px solid #edf1f2;text-align:left;font-size:13px}.data-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#fbfcfc}.data-table tr:hover td{background:#fbfdfd}.person strong{display:block}.person span{font-size:11px;color:var(--muted)}
+    .badge{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}.stage-novo{background:#e0f2fe;color:#075985}.stage-contato{background:#ede9fe;color:#5b21b6}.stage-qualificado{background:#fef3c7;color:#92400e}.stage-proposta{background:#ffedd5;color:#9a3412}.stage-negociacao{background:#f3e8ff;color:#7e22ce}.stage-ganho{background:#dcfce7;color:#166534}.stage-perdido{background:#fee2e2;color:#991b1b}
+    .pipeline{display:grid;grid-template-columns:repeat(7,minmax(260px,1fr));gap:12px;overflow-x:auto;padding-bottom:12px}.pipeline-col{background:#edf2f4;border:1px solid #dce5e8;border-radius:16px;min-height:420px;padding:10px}.pipeline-col.dragover{outline:2px dashed var(--primary);background:var(--primary-soft)}.pipeline-head{display:flex;align-items:center;justify-content:space-between;padding:5px 4px 11px}.pipeline-head strong{font-size:12px;text-transform:uppercase;letter-spacing:.05em}.count{font-size:11px;background:#fff;border:1px solid var(--border);padding:3px 7px;border-radius:999px}
+    .lead-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:9px;box-shadow:0 2px 6px rgba(15,42,54,.04);cursor:grab}.lead-card:active{cursor:grabbing}.lead-card h4{margin:0 0 3px;font-size:13px}.lead-card .company{font-size:11px;color:var(--muted)}.lead-card .value{font-size:13px;font-weight:800;color:var(--primary);margin-top:10px}.lead-card .next{font-size:10px;color:var(--muted);margin-top:5px}
+    dialog{border:0;border-radius:20px;padding:0;width:min(620px,calc(100vw - 28px));max-height:90vh;box-shadow:0 30px 100px rgba(0,0,0,.25)}dialog::backdrop{background:rgba(4,18,24,.62);backdrop-filter:blur(3px)}.dialog-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.dialog-head h3{margin:0}.dialog-body{padding:20px 22px;overflow:auto;max-height:68vh}.dialog-actions{padding:15px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:9px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.span-2{grid-column:1/-1}.close-btn{border:0;background:#eef2f4;border-radius:10px;width:34px;height:34px}
+    .empty{padding:34px;text-align:center;color:var(--muted);font-size:13px}.toast{position:fixed;right:20px;bottom:20px;z-index:100;background:#102a36;color:#fff;padding:13px 16px;border-radius:13px;box-shadow:var(--shadow);font-size:13px;max-width:360px}.toast.error{background:#991b1b}.toast.success{background:#166534}.loading{opacity:.55;pointer-events:none}
+    .kpi-note{display:inline-flex;gap:6px;align-items:center;font-size:11px;color:var(--muted);background:#f3f6f7;padding:6px 8px;border-radius:999px}
+    @media(max-width:1050px){.metrics{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}.app{grid-template-columns:80px 1fr}.sidebar-logo strong,.sidebar-logo span,.nav-label,.sidebar-user,.sidebar-email{display:none}.sidebar-logo{justify-content:center}.nav-btn{justify-content:center}.nav-icon{width:auto}.sidebar-foot{text-align:center}}
+    @media(max-width:720px){.auth-shell{grid-template-columns:1fr}.auth-brand{display:none}.auth-side{padding:18px}.app{display:block}.sidebar{position:fixed;inset:0 auto 0 0;width:250px;z-index:50;transform:translateX(-102%);transition:.2s}.sidebar.open{transform:translateX(0)}.sidebar-logo strong,.sidebar-logo span,.nav-label,.sidebar-user,.sidebar-email{display:block}.nav-btn{justify-content:flex-start}.mobile-menu{display:inline-flex}.topbar{padding:0 14px}.content{padding:18px 12px}.metrics{grid-template-columns:1fr 1fr;gap:10px}.metric{padding:15px}.metric-value{font-size:23px}.page-head{flex-direction:column}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.grid-2{gap:12px}}
+    @media(max-width:430px){.metrics{grid-template-columns:1fr}.auth-card{padding:24px 20px}}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">TF</div>
-                <h1>TaskFlow</h1>
-            </div>
-            <div class="header-actions">
-                <button class="btn-icon" onclick="toggleTheme()" title="Alternar tema" aria-label="Alternar tema">🌙</button>
-                <button class="btn-icon" onclick="exportTasks()" title="Exportar tarefas" aria-label="Exportar tarefas">📥</button>
-                <button class="btn-icon" onclick="logout()" title="Sair" aria-label="Sair">🚪</button>
-            </div>
-        </header>
+  <div id="authView" class="auth-shell">
+    <section class="auth-brand">
+      <div class="brand-mark">LF</div>
+      <h1>LeadFlow<br>CRM</h1>
+      <p>Organize oportunidades comerciais, acompanhe seu pipeline e mantenha o histórico de relacionamento com cada lead e cliente.</p>
+      <div class="feature-row">
+        <span class="feature-pill">Pipeline comercial</span>
+        <span class="feature-pill">Leads e clientes</span>
+        <span class="feature-pill">Interações</span>
+        <span class="feature-pill">Dashboard</span>
+      </div>
+    </section>
+    <section class="auth-side">
+      <div class="auth-card">
+        <div class="brand-mark">LF</div>
+        <h2 id="authTitle" style="margin-top:20px">Entrar no LeadFlow</h2>
+        <p id="authSubtitle">Acesse seu painel comercial.</p>
+        <form id="authForm">
+          <div id="nameField" class="field hidden">
+            <label for="authName">Nome</label>
+            <input id="authName" autocomplete="name" placeholder="Seu nome">
+          </div>
+          <div class="field">
+            <label for="authEmail">E-mail</label>
+            <input id="authEmail" type="email" autocomplete="email" required placeholder="voce@empresa.com">
+          </div>
+          <div class="field">
+            <label for="authPassword">Senha</label>
+            <input id="authPassword" type="password" minlength="6" required autocomplete="current-password" placeholder="••••••••">
+          </div>
+          <button id="authSubmit" class="btn btn-primary btn-block" type="submit">Entrar</button>
+        </form>
+        <div class="switch-auth"><span id="authSwitchText">Ainda não tem uma conta?</span> <button id="authSwitch" class="link-btn" type="button">Criar conta</button></div>
+      </div>
+    </section>
+  </div>
 
-        <!-- Auth Section -->
-        <div id="auth-section">
-            <div class="auth-container">
-                <div class="auth-card">
-                    <div class="auth-logo">
-                        <div class="logo-icon">TF</div>
-                        <h2>TaskFlow</h2>
-                        <p>Gerencie suas tarefas com eficiência</p>
-                    </div>
-                    <div class="tabs">
-                        <div class="tab active" onclick="showLogin()">Entrar</div>
-                        <div class="tab" onclick="showRegister()">Criar conta</div>
-                    </div>
-                    <div id="message" class="message hidden"></div>
-                    <div id="login-form">
-                        <div class="form-group">
-                            <label for="login-email">Email</label>
-                            <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="login-password">Senha</label>
-                            <input type="password" id="login-password" placeholder="Sua senha" autocomplete="current-password">
-                        </div>
-                        <button class="btn btn-primary btn-full" onclick="login()">Entrar</button>
-                    </div>
-                    <div id="register-form" class="hidden">
-                        <div class="form-group">
-                            <label for="register-name">Nome</label>
-                            <input type="text" id="register-name" placeholder="Seu nome" autocomplete="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="register-email">Email</label>
-                            <input type="email" id="register-email" placeholder="seu@email.com" autocomplete="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="register-password">Senha</label>
-                            <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
-                        </div>
-                        <button class="btn btn-primary btn-full" onclick="register()">Criar conta</button>
-                    </div>
-                </div>
-            </div>
+  <div id="appView" class="app hidden">
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-logo"><div class="brand-mark">LF</div><div><strong>LeadFlow</strong><span>CRM Comercial</span></div></div>
+      <nav class="nav">
+        <button class="nav-btn active" data-section="dashboard"><span class="nav-icon">⌂</span><span class="nav-label">Dashboard</span></button>
+        <button class="nav-btn" data-section="pipeline"><span class="nav-icon">▦</span><span class="nav-label">Pipeline</span></button>
+        <button class="nav-btn" data-section="leads"><span class="nav-icon">◎</span><span class="nav-label">Leads</span></button>
+        <button class="nav-btn" data-section="customers"><span class="nav-icon">◉</span><span class="nav-label">Clientes</span></button>
+        <button class="nav-btn" data-section="activities"><span class="nav-icon">↻</span><span class="nav-label">Interações</span></button>
+      </nav>
+      <div class="sidebar-foot">
+        <div id="sidebarUser" class="sidebar-user">Usuário</div>
+        <div id="sidebarEmail" class="sidebar-email"></div>
+        <button id="logoutBtn" class="nav-btn" style="margin-top:8px;width:100%"><span class="nav-icon">↪</span><span class="nav-label">Sair</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button id="mobileMenuBtn" class="btn btn-outline btn-sm mobile-menu">☰</button>
+          <div><h2 id="topTitle">Dashboard</h2><div class="subtitle">Visão geral do relacionamento comercial</div></div>
         </div>
+        <div class="top-actions"><span class="kpi-note">● CRM online</span><button class="btn btn-primary btn-sm" onclick="openLeadDialog()">+ Novo lead</button></div>
+      </header>
 
-        <!-- Tasks Section -->
-        <div id="tasks-section" class="hidden">
-            <!-- Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon total">📋</div>
-                    <div class="stat-info">
-                        <div class="stat-number" id="stat-total">0</div>
-                        <div class="stat-label">Total</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon completed">✅</div>
-                    <div class="stat-info">
-                        <div class="stat-number" id="stat-completed">0</div>
-                        <div class="stat-label">Concluídas</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon pending">⏳</div>
-                    <div class="stat-info">
-                        <div class="stat-number" id="stat-pending">0</div>
-                        <div class="stat-label">Pendentes</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon overdue">⚠️</div>
-                    <div class="stat-info">
-                        <div class="stat-number" id="stat-overdue">0</div>
-                        <div class="stat-label">Atrasadas</div>
-                    </div>
-                </div>
-            </div>
+      <div class="content">
+        <section id="section-dashboard" class="section active">
+          <div class="page-head"><div><h1>Visão comercial</h1><p>Acompanhe oportunidades, clientes e atividades em um só lugar.</p></div></div>
+          <div class="metrics">
+            <div class="metric"><div class="metric-top"><span class="metric-label">Leads ativos</span><span class="metric-icon">L</span></div><div id="metricActiveLeads" class="metric-value">0</div><div id="metricTotalLeads" class="metric-foot">0 leads cadastrados</div></div>
+            <div class="metric"><div class="metric-top"><span class="metric-label">Clientes</span><span class="metric-icon">C</span></div><div id="metricCustomers" class="metric-value">0</div><div class="metric-foot">carteira ativa</div></div>
+            <div class="metric"><div class="metric-top"><span class="metric-label">Valor no pipeline</span><span class="metric-icon">R$</span></div><div id="metricPipeline" class="metric-value">R$ 0</div><div class="metric-foot">oportunidades abertas</div></div>
+            <div class="metric"><div class="metric-top"><span class="metric-label">Conversão</span><span class="metric-icon">%</span></div><div id="metricConversion" class="metric-value">0%</div><div id="metricFollowups" class="metric-foot">0 follow-ups pendentes</div></div>
+          </div>
+          <div class="grid-2">
+            <div class="card"><h3>Funil de vendas</h3><div class="card-sub">Distribuição dos leads por etapa</div><div id="funnelChart"></div></div>
+            <div class="card"><h3>Interações recentes</h3><div class="card-sub">Últimos registros de relacionamento</div><div id="recentActivities" class="timeline"></div></div>
+          </div>
+        </section>
 
-            <!-- Action Bar -->
-            <div class="action-bar">
-                <button class="btn-new-task" onclick="toggleCreateModal(true)">
-                    <span style="font-size: 20px; font-weight: 700;">+</span> Nova Tarefa
-                </button>
-            </div>
+        <section id="section-pipeline" class="section">
+          <div class="page-head"><div><h1>Pipeline comercial</h1><p>Arraste os cards entre as etapas para atualizar a oportunidade.</p></div><button class="btn btn-primary" onclick="openLeadDialog()">+ Novo lead</button></div>
+          <div id="pipelineBoard" class="pipeline"></div>
+        </section>
 
-            <!-- Filters -->
-            <div class="filters-bar">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="filter-search" placeholder="Buscar tarefa..." oninput="loadTasks(); updateFilterTags()" aria-label="Buscar tarefa">
-                </div>
-                <div class="filter-divider"></div>
-                <div class="filter-group">
-                    <select id="filter-priority" class="filter-select" onchange="loadTasks(); updateFilterTags()" aria-label="Filtrar por prioridade">
-                        <option value="">Prioridade</option>
-                        <option value="baixa">Baixa</option>
-                        <option value="média">Média</option>
-                        <option value="alta">Alta</option>
-                    </select>
-                    <select id="filter-category" class="filter-select" onchange="loadTasks(); updateFilterTags()" aria-label="Filtrar por categoria">
-                        <option value="">Categoria</option>
-                        <option value="trabalho">Trabalho</option>
-                        <option value="estudos">Estudos</option>
-                        <option value="pessoal">Pessoal</option>
-                        <option value="outros">Outros</option>
-                    </select>
-                    <select id="filter-status" class="filter-select" onchange="loadTasks(); updateFilterTags()" aria-label="Filtrar por status">
-                        <option value="">Status</option>
-                        <option value="false">Pendentes</option>
-                        <option value="true">Concluídas</option>
-                    </select>
-                </div>
-            </div>
-            <div id="active-filters" class="active-filters"></div>
+        <section id="section-leads" class="section">
+          <div class="page-head"><div><h1>Leads</h1><p>Gerencie oportunidades antes da conversão em clientes.</p></div><button class="btn btn-primary" onclick="openLeadDialog()">+ Novo lead</button></div>
+          <div class="toolbar">
+            <input id="leadSearch" placeholder="Buscar por nome, empresa, e-mail ou telefone">
+            <select id="leadStageFilter"><option value="">Todas as etapas</option><option value="novo">Novo</option><option value="contato">Contato</option><option value="qualificado">Qualificado</option><option value="proposta">Proposta</option><option value="negociacao">Negociação</option><option value="ganho">Ganho</option><option value="perdido">Perdido</option></select>
+            <select id="leadSourceFilter"><option value="">Todas as origens</option><option value="site">Site</option><option value="indicacao">Indicação</option><option value="instagram">Instagram</option><option value="linkedin">LinkedIn</option><option value="evento">Evento</option><option value="prospeccao">Prospecção</option><option value="outro">Outro</option></select>
+          </div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Lead</th><th>Etapa</th><th>Origem</th><th>Valor</th><th>Próximo contato</th><th>Ações</th></tr></thead><tbody id="leadsTable"></tbody></table></div>
+        </section>
 
-            <!-- Task List -->
-            <div class="task-section">
-                <ul id="task-list" class="task-list"></ul>
-                <div id="empty-state" class="empty-state hidden">
-                    <div class="empty-illustration">📝</div>
-                    <h3>Nenhuma tarefa por aqui!</h3>
-                    <p>Comece criando sua primeira tarefa e organize seu dia.</p>
-                    <button class="empty-action" onclick="toggleCreateModal(true)">
-                        <span style="font-size: 18px; font-weight: 700;">+</span> Criar primeira tarefa
-                    </button>
-                </div>
-            </div>
+        <section id="section-customers" class="section">
+          <div class="page-head"><div><h1>Clientes</h1><p>Centralize os dados de quem já faz parte da sua carteira.</p></div><button class="btn btn-primary" onclick="openCustomerDialog()">+ Novo cliente</button></div>
+          <div class="toolbar"><input id="customerSearch" placeholder="Buscar cliente por nome, empresa, e-mail ou telefone"></div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Cliente</th><th>Contato</th><th>Segmento</th><th>Origem</th><th>Ações</th></tr></thead><tbody id="customersTable"></tbody></table></div>
+        </section>
+
+        <section id="section-activities" class="section">
+          <div class="page-head"><div><h1>Interações</h1><p>Registre contatos, reuniões, mensagens e follow-ups.</p></div><button class="btn btn-primary" onclick="openActivityDialog()">+ Nova interação</button></div>
+          <div class="card"><div id="activitiesList" class="timeline"></div></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="leadDialog">
+    <form id="leadForm">
+      <div class="dialog-head"><h3 id="leadDialogTitle">Novo lead</h3><button class="close-btn" type="button" onclick="leadDialog.close()">×</button></div>
+      <div class="dialog-body">
+        <input id="leadId" type="hidden">
+        <div class="form-grid">
+          <div class="field"><label>Nome *</label><input id="leadName" required maxlength="120"></div>
+          <div class="field"><label>Empresa</label><input id="leadCompany" maxlength="120"></div>
+          <div class="field"><label>E-mail</label><input id="leadEmail" type="email"></div>
+          <div class="field"><label>Telefone</label><input id="leadPhone"></div>
+          <div class="field"><label>Origem</label><select id="leadSource"><option value="outro">Outro</option><option value="site">Site</option><option value="indicacao">Indicação</option><option value="instagram">Instagram</option><option value="linkedin">LinkedIn</option><option value="evento">Evento</option><option value="prospeccao">Prospecção</option></select></div>
+          <div class="field"><label>Etapa</label><select id="leadStage"><option value="novo">Novo</option><option value="contato">Contato</option><option value="qualificado">Qualificado</option><option value="proposta">Proposta</option><option value="negociacao">Negociação</option><option value="ganho">Ganho</option><option value="perdido">Perdido</option></select></div>
+          <div class="field"><label>Valor estimado</label><input id="leadValue" type="number" min="0" step="0.01"></div>
+          <div class="field"><label>Próximo contato</label><input id="leadFollowUp" type="datetime-local"></div>
+          <div class="field span-2"><label>Observações</label><textarea id="leadNotes" maxlength="2000"></textarea></div>
         </div>
-    </div>
+      </div>
+      <div class="dialog-actions"><button class="btn btn-outline" type="button" onclick="leadDialog.close()">Cancelar</button><button class="btn btn-primary" type="submit">Salvar lead</button></div>
+    </form>
+  </dialog>
 
-    <!-- Create Task Modal -->
-    <div class="modal-overlay" id="create-modal" onclick="closeModalOverlay(event)">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Nova Tarefa</h2>
-                <button class="modal-close" onclick="toggleCreateModal(false)" aria-label="Fechar">&#10005;</button>
-            </div>
-            <div class="form-group">
-                <label for="task-title">Título</label>
-                <input type="text" id="task-title" placeholder="O que precisa fazer?">
-            </div>
-            <div class="form-group">
-                <label for="task-description">Descrição (opcional)</label>
-                <textarea id="task-description" placeholder="Adicione detalhes..."></textarea>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="task-priority">Prioridade</label>
-                    <select id="task-priority">
-                        <option value="baixa">Baixa</option>
-                        <option value="média" selected>Média</option>
-                        <option value="alta">Alta</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="task-category">Categoria</label>
-                    <select id="task-category">
-                        <option value="outros">Outros</option>
-                        <option value="trabalho">Trabalho</option>
-                        <option value="estudos">Estudos</option>
-                        <option value="pessoal">Pessoal</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="task-dueDate">Data de vencimento</label>
-                <input type="date" id="task-dueDate">
-            </div>
-            <button class="btn btn-primary btn-full" onclick="createTask()">Adicionar Tarefa</button>
+  <dialog id="customerDialog">
+    <form id="customerForm">
+      <div class="dialog-head"><h3 id="customerDialogTitle">Novo cliente</h3><button class="close-btn" type="button" onclick="customerDialog.close()">×</button></div>
+      <div class="dialog-body">
+        <input id="customerId" type="hidden">
+        <div class="form-grid">
+          <div class="field"><label>Nome *</label><input id="customerName" required maxlength="120"></div>
+          <div class="field"><label>Empresa</label><input id="customerCompany"></div>
+          <div class="field"><label>E-mail</label><input id="customerEmail" type="email"></div>
+          <div class="field"><label>Telefone</label><input id="customerPhone"></div>
+          <div class="field"><label>Documento</label><input id="customerDocument"></div>
+          <div class="field"><label>Segmento</label><input id="customerSegment" placeholder="Ex.: Educação, varejo"></div>
+          <div class="field span-2"><label>Observações</label><textarea id="customerNotes"></textarea></div>
         </div>
-    </div>
+      </div>
+      <div class="dialog-actions"><button class="btn btn-outline" type="button" onclick="customerDialog.close()">Cancelar</button><button class="btn btn-primary" type="submit">Salvar cliente</button></div>
+    </form>
+  </dialog>
 
-    <script>
-        const API_URL = 'https://todo-api-weld-psi.vercel.app';
-        let token = localStorage.getItem('token');
-        let user = JSON.parse(localStorage.getItem('user') || 'null');
+  <dialog id="activityDialog">
+    <form id="activityForm">
+      <div class="dialog-head"><h3>Nova interação</h3><button class="close-btn" type="button" onclick="activityDialog.close()">×</button></div>
+      <div class="dialog-body">
+        <div class="form-grid">
+          <div class="field"><label>Tipo</label><select id="activityType"><option value="ligacao">Ligação</option><option value="whatsapp">WhatsApp</option><option value="email">E-mail</option><option value="reuniao">Reunião</option><option value="nota">Nota</option><option value="followup">Follow-up</option></select></div>
+          <div class="field"><label>Relacionar a</label><select id="activityRelationType"><option value="lead">Lead</option><option value="customer">Cliente</option></select></div>
+          <div class="field span-2"><label id="activityRelationLabel">Lead</label><select id="activityRelation"></select></div>
+          <div class="field span-2"><label>Título *</label><input id="activityTitle" required maxlength="160"></div>
+          <div class="field"><label>Data da interação</label><input id="activityOccurredAt" type="datetime-local"></div>
+          <div class="field"><label>Agendar para</label><input id="activityScheduledFor" type="datetime-local"></div>
+          <div class="field span-2"><label>Descrição</label><textarea id="activityDescription"></textarea></div>
+          <div class="field span-2"><label style="display:flex;gap:8px;align-items:center"><input id="activityCompleted" type="checkbox" checked style="width:auto"> Marcar como concluída</label></div>
+        </div>
+      </div>
+      <div class="dialog-actions"><button class="btn btn-outline" type="button" onclick="activityDialog.close()">Cancelar</button><button class="btn btn-primary" type="submit">Registrar interação</button></div>
+    </form>
+  </dialog>
 
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            document.querySelector('.theme-toggle') && (document.querySelector('.theme-toggle').textContent = '☀️');
-        }
+  <div id="toast" class="toast hidden"></div>
 
-        if (token && user) {
-            showTasksSection();
-            loadTasks();
-            loadStats();
-        }
+  <script>
+    var API_URL = 'https://todo-api-weld-psi.vercel.app';
+    var stages = [
+      {id:'novo',label:'Novo'},{id:'contato',label:'Contato'},{id:'qualificado',label:'Qualificado'},
+      {id:'proposta',label:'Proposta'},{id:'negociacao',label:'Negociação'},{id:'ganho',label:'Ganho'},{id:'perdido',label:'Perdido'}
+    ];
+    var state = { token: localStorage.getItem('leadflow_token') || '', user: null, leads: [], customers: [], activities: [], dashboard: null };
+    try { state.user = JSON.parse(localStorage.getItem('leadflow_user') || 'null'); } catch(e) {}
 
-        function toggleTheme() {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
-            const btn = document.querySelector('.btn-icon[onclick="toggleTheme()"]');
-            if (btn) btn.textContent = isDark ? '🌙' : '☀️';
-        }
+    function esc(value){
+      return String(value == null ? '' : value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});
+    }
+    function currency(value){ return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(Number(value)||0); }
+    function dateBR(value){ if(!value)return '—'; var d=new Date(value); return isNaN(d)?'—':d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}); }
+    function dateTimeLocal(value){ if(!value)return ''; var d=new Date(value); var z=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())+'T'+z(d.getHours())+':'+z(d.getMinutes()); }
+    function stageLabel(id){ var s=stages.find(function(x){return x.id===id}); return s?s.label:id; }
+    function sourceLabel(id){ return ({site:'Site',indicacao:'Indicação',instagram:'Instagram',linkedin:'LinkedIn',evento:'Evento',prospeccao:'Prospecção',outro:'Outro'})[id] || id || 'Outro'; }
+    function activityIcon(type){ return ({ligacao:'☎',whatsapp:'◈',email:'✉',reuniao:'◆',nota:'✎',followup:'⏱'})[type] || '•'; }
 
-        function showLogin() {
-            document.getElementById('login-form').classList.remove('hidden');
-            document.getElementById('register-form').classList.add('hidden');
-            document.querySelectorAll('.tab')[0].classList.add('active');
-            document.querySelectorAll('.tab')[1].classList.remove('active');
-            hideMessage();
-        }
+    function toast(message,type){
+      var el=document.getElementById('toast'); el.textContent=message; el.className='toast '+(type||'success');
+      clearTimeout(window.__toastTimer); window.__toastTimer=setTimeout(function(){el.classList.add('hidden')},3000);
+    }
 
-        function showRegister() {
-            document.getElementById('login-form').classList.add('hidden');
-            document.getElementById('register-form').classList.remove('hidden');
-            document.querySelectorAll('.tab')[0].classList.remove('active');
-            document.querySelectorAll('.tab')[1].classList.add('active');
-            hideMessage();
-        }
+    async function api(path,options){
+      options=options||{}; options.headers=Object.assign({'Content-Type':'application/json'},options.headers||{});
+      if(state.token) options.headers.Authorization='Bearer '+state.token;
+      var response=await fetch(API_URL+path,options);
+      var data={}; try{data=await response.json()}catch(e){}
+      if(response.status===401 && path.indexOf('/api/auth/')!==0){ logout(); throw new Error('Sessão expirada'); }
+      if(!response.ok) throw new Error(data.message||data.error||'Não foi possível concluir a operação');
+      return data;
+    }
 
-        function showMessage(text, type) {
-            const msg = document.getElementById('message');
-            msg.textContent = text;
-            msg.className = `message message-${type}`;
-            msg.classList.remove('hidden');
-        }
+    var registering=false;
+    document.getElementById('authSwitch').addEventListener('click',function(){
+      registering=!registering;
+      document.getElementById('nameField').classList.toggle('hidden',!registering);
+      document.getElementById('authTitle').textContent=registering?'Criar conta':'Entrar no LeadFlow';
+      document.getElementById('authSubtitle').textContent=registering?'Comece a organizar seu processo comercial.':'Acesse seu painel comercial.';
+      document.getElementById('authSubmit').textContent=registering?'Criar conta':'Entrar';
+      document.getElementById('authSwitchText').textContent=registering?'Já tem uma conta?':'Ainda não tem uma conta?';
+      document.getElementById('authSwitch').textContent=registering?'Entrar':'Criar conta';
+    });
 
-        function hideMessage() {
-            document.getElementById('message').classList.add('hidden');
-        }
+    document.getElementById('authForm').addEventListener('submit',async function(e){
+      e.preventDefault();
+      var payload={email:document.getElementById('authEmail').value.trim(),password:document.getElementById('authPassword').value};
+      if(registering) payload.name=document.getElementById('authName').value.trim();
+      try{
+        document.getElementById('authSubmit').disabled=true;
+        var result=await api(registering?'/api/auth/register':'/api/auth/login',{method:'POST',body:JSON.stringify(payload)});
+        state.token=result.token; state.user=result.user;
+        localStorage.setItem('leadflow_token',state.token); localStorage.setItem('leadflow_user',JSON.stringify(state.user));
+        showApp(); await loadAll(); toast('Bem-vinda ao LeadFlow CRM');
+      }catch(err){toast(err.message,'error')}finally{document.getElementById('authSubmit').disabled=false}
+    });
 
-        function showToast(text, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.textContent = text;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
+    function logout(){
+      state.token='';state.user=null;localStorage.removeItem('leadflow_token');localStorage.removeItem('leadflow_user');
+      document.getElementById('appView').classList.add('hidden');document.getElementById('authView').classList.remove('hidden');
+    }
+    document.getElementById('logoutBtn').addEventListener('click',logout);
 
-        function updateFilterTags() {
-            const container = document.getElementById('active-filters');
-            const search = document.getElementById('filter-search').value;
-            const priority = document.getElementById('filter-priority');
-            const category = document.getElementById('filter-category');
-            const status = document.getElementById('filter-status');
+    function showApp(){
+      document.getElementById('authView').classList.add('hidden');document.getElementById('appView').classList.remove('hidden');
+      document.getElementById('sidebarUser').textContent=(state.user&&state.user.name)||'Usuário';
+      document.getElementById('sidebarEmail').textContent=(state.user&&state.user.email)||'';
+    }
 
-            let tags = '';
+    async function loadAll(){
+      document.getElementById('appView').classList.add('loading');
+      try{
+        var results=await Promise.all([api('/api/dashboard'),api('/api/leads'),api('/api/customers?active=true'),api('/api/activities')]);
+        state.dashboard=results[0].data; state.leads=results[1].data||[]; state.customers=results[2].data||[]; state.activities=results[3].data||[];
+        renderAll();
+      }catch(err){toast(err.message,'error')}finally{document.getElementById('appView').classList.remove('loading')}
+    }
 
-            priority.classList.toggle('active', priority.value !== '');
-            category.classList.toggle('active', category.value !== '');
-            status.classList.toggle('active', status.value !== '');
+    function renderAll(){renderDashboard();renderPipeline();renderLeads();renderCustomers();renderActivities();refreshRelationOptions();}
 
-            if (search) {
-                tags += `<span class="filter-tag">Busca: "${search}" <button onclick="clearFilter('search')">&#10005;</button></span>`;
-            }
-            if (priority.value) {
-                tags += `<span class="filter-tag">Prioridade: ${priority.value} <button onclick="clearFilter('priority')">&#10005;</button></span>`;
-            }
-            if (category.value) {
-                tags += `<span class="filter-tag">Categoria: ${category.value} <button onclick="clearFilter('category')">&#10005;</button></span>`;
-            }
-            if (status.value !== '') {
-                const statusText = status.value === 'true' ? 'Concluídas' : 'Pendentes';
-                tags += `<span class="filter-tag">Status: ${statusText} <button onclick="clearFilter('status')">&#10005;</button></span>`;
-            }
+    function renderDashboard(){
+      var d=state.dashboard||{};
+      document.getElementById('metricActiveLeads').textContent=d.activeLeads||0;
+      document.getElementById('metricTotalLeads').textContent=(d.totalLeads||0)+' leads cadastrados';
+      document.getElementById('metricCustomers').textContent=d.customers||0;
+      document.getElementById('metricPipeline').textContent=currency(d.pipelineValue||0);
+      document.getElementById('metricConversion').textContent=(d.conversionRate||0)+'%';
+      document.getElementById('metricFollowups').textContent=(d.pendingFollowUps||0)+' follow-ups pendentes';
+      var by={};(d.byStage||[]).forEach(function(x){by[x._id]=x.count});
+      var max=Math.max(1.apply?1:1);
+      var counts=stages.map(function(s){return by[s.id]||0});max=Math.max.apply(null,[1].concat(counts));
+      document.getElementById('funnelChart').innerHTML=stages.map(function(s){
+        var count=by[s.id]||0;var width=Math.max(3,Math.round((count/max)*100));
+        return '<div class="funnel-row"><span>'+esc(s.label)+'</span><div class="funnel-bar"><div class="funnel-fill" style="width:'+width+'%"></div></div><strong>'+count+'</strong></div>';
+      }).join('');
+      var recent=(d.recentActivities||[]);
+      document.getElementById('recentActivities').innerHTML=recent.length?recent.map(activityHtml).join(''):'<div class="empty">Nenhuma interação registrada ainda.</div>';
+    }
 
-            container.innerHTML = tags;
-        }
+    function activityHtml(a){
+      var relation=a.lead?(a.lead.name||'Lead'):a.customer?(a.customer.name||'Cliente'):'Sem vínculo';
+      return '<div class="timeline-item"><div class="timeline-icon">'+activityIcon(a.type)+'</div><div><div class="timeline-title">'+esc(a.title)+'</div><div class="timeline-meta">'+esc(relation)+' · '+dateBR(a.occurredAt||a.createdAt)+(a.completed?' · concluída':' · pendente')+'</div>'+(a.description?'<div style="font-size:12px;color:var(--muted);margin-top:6px">'+esc(a.description)+'</div>':'')+'</div></div>';
+    }
 
-        function clearFilter(type) {
-            if (type === 'search') {
-                document.getElementById('filter-search').value = '';
-            } else if (type === 'priority') {
-                document.getElementById('filter-priority').value = '';
-            } else if (type === 'category') {
-                document.getElementById('filter-category').value = '';
-            } else if (type === 'status') {
-                document.getElementById('filter-status').value = '';
-            }
-            loadTasks();
-            updateFilterTags();
-        }
-
-        function toggleCreateModal(show) {
-            const modal = document.getElementById('create-modal');
-            if (show) {
-                modal.classList.add('active');
-                setTimeout(() => document.getElementById('task-title').focus(), 300);
-            } else {
-                modal.classList.remove('active');
-                document.getElementById('task-title').value = '';
-                document.getElementById('task-description').value = '';
-                document.getElementById('task-dueDate').value = '';
-            }
-        }
-
-        function closeModalOverlay(event) {
-            if (event.target === event.currentTarget) {
-                toggleCreateModal(false);
-            }
-        }
-
-        async function login() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-
-            if (!email || !password) { showMessage('Preencha todos os campos', 'error'); return; }
-
-            try {
-                const res = await fetch(`${API_URL}/api/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    token = data.token;
-                    user = data.user;
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('user', JSON.stringify(user));
-                    showTasksSection();
-                    loadTasks();
-                    loadStats();
-                } else {
-                    showMessage(data.error || 'Erro ao fazer login', 'error');
-                }
-            } catch (err) { showMessage('Erro de conexão', 'error'); }
-        }
-
-        async function register() {
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-
-            if (!name || !email || !password) { showMessage('Preencha todos os campos', 'error'); return; }
-            if (password.length < 6) { showMessage('Senha deve ter no mínimo 6 caracteres', 'error'); return; }
-
-            try {
-                const res = await fetch(`${API_URL}/api/auth/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    token = data.token;
-                    user = data.user;
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('user', JSON.stringify(user));
-                    showTasksSection();
-                    loadTasks();
-                    loadStats();
-                } else {
-                    showMessage(data.error || 'Erro ao registrar', 'error');
-                }
-            } catch (err) { showMessage('Erro de conexão', 'error'); }
-        }
-
-        function logout() {
-            token = null;
-            user = null;
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            document.getElementById('auth-section').classList.remove('hidden');
-            document.getElementById('tasks-section').classList.add('hidden');
-        }
-
-        function showTasksSection() {
-            document.getElementById('auth-section').classList.add('hidden');
-            document.getElementById('tasks-section').classList.remove('hidden');
-        }
-
-        async function loadStats() {
-            try {
-                const res = await fetch(`${API_URL}/api/tasks/stats`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await res.json();
-                if (data.success) {
-                    document.getElementById('stat-total').textContent = data.data.total;
-                    document.getElementById('stat-completed').textContent = data.data.completed;
-                    document.getElementById('stat-pending').textContent = data.data.pending;
-                    document.getElementById('stat-overdue').textContent = data.data.overdue;
-                }
-            } catch (err) { console.error('Erro ao carregar estatísticas'); }
-        }
-
-        async function loadTasks() {
-            const search = document.getElementById('filter-search').value;
-            const priority = document.getElementById('filter-priority').value;
-            const category = document.getElementById('filter-category').value;
-            const status = document.getElementById('filter-status').value;
-
-            let url = `${API_URL}/api/tasks?`;
-            if (search) url += `search=${search}&`;
-            if (priority) url += `priority=${priority}&`;
-            if (category) url += `category=${category}&`;
-            if (status !== '') url += `completed=${status}&`;
-
-            try {
-                const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                const data = await res.json();
-                if (data.success) renderTasks(data.data);
-            } catch (err) { showToast('Erro ao carregar tarefas', 'error'); }
-        }
-
-        function renderTasks(tasks) {
-            const list = document.getElementById('task-list');
-            const empty = document.getElementById('empty-state');
-
-            if (tasks.length === 0) {
-                list.innerHTML = '';
-                empty.classList.remove('hidden');
-                return;
-            }
-
-            empty.classList.add('hidden');
-            list.innerHTML = tasks.map(task => {
-                const dueDate = task.dueDate ? new Date(task.dueDate).toLocaleDateString('pt-BR') : '';
-                const isOverdue = task.dueDate && !task.completed && new Date(task.dueDate) < new Date();
-
-                return `
-                <li class="task-item" id="task-${task._id}">
-                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
-                        onchange="toggleTask('${task._id}', this.checked)" aria-label="Marcar como concluída">
-                    <div class="task-content">
-                        <div class="task-title ${task.completed ? 'completed' : ''}">${task.title}</div>
-                        ${task.description ? `<div class="task-description">${task.description}</div>` : ''}
-                        <div class="task-meta">
-                            <span class="badge badge-${task.priority}">${task.priority}</span>
-                            <span class="badge badge-${task.category}">${task.category}</span>
-                            ${dueDate ? `<span class="task-due ${isOverdue ? 'overdue' : ''}">📅 ${dueDate}${isOverdue ? ' (atrasada)' : ''}</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="btn-task" onclick="editTask('${task._id}')" title="Editar" aria-label="Editar tarefa">✏️</button>
-                        <button class="btn-task delete" onclick="deleteTask('${task._id}')" title="Excluir" aria-label="Excluir tarefa">🗑️</button>
-                    </div>
-                </li>`;
-            }).join('');
-        }
-
-        async function createTask() {
-            const title = document.getElementById('task-title').value;
-            const description = document.getElementById('task-description').value;
-            const priority = document.getElementById('task-priority').value;
-            const category = document.getElementById('task-category').value;
-            const dueDate = document.getElementById('task-dueDate').value;
-
-            if (!title) { showToast('Digite um título', 'error'); return; }
-
-            try {
-                const res = await fetch(`${API_URL}/api/tasks`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ title, description, priority, category, dueDate: dueDate || null })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    toggleCreateModal(false);
-                    loadTasks();
-                    loadStats();
-                    showToast('Tarefa criada!');
-                } else {
-                    showToast(data.error || 'Erro ao criar tarefa', 'error');
-                }
-            } catch (err) { showToast('Erro de conexão', 'error'); }
-        }
-
-        async function toggleTask(id, completed) {
-            try {
-                await fetch(`${API_URL}/api/tasks/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ completed })
-                });
-                loadStats();
-            } catch (err) { showToast('Erro ao atualizar', 'error'); }
-        }
-
-        async function deleteTask(id) {
-            if (!confirm('Excluir esta tarefa?')) return;
-            try {
-                const res = await fetch(`${API_URL}/api/tasks/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await res.json();
-                if (data.success) {
-                    loadTasks();
-                    loadStats();
-                    showToast('Tarefa excluída!');
-                }
-            } catch (err) { showToast('Erro ao excluir', 'error'); }
-        }
-
-        async function editTask(id) {
-            const taskEl = document.getElementById(`task-${id}`);
-            const titleEl = taskEl.querySelector('.task-title');
-            const currentTitle = titleEl.textContent;
-
-            taskEl.querySelector('.task-content').innerHTML = `
-                <div class="edit-form">
-                    <input type="text" id="edit-title-${id}" value="${currentTitle}">
-                    <div class="form-row">
-                        <select id="edit-priority-${id}">
-                            <option value="baixa">Baixa</option>
-                            <option value="média">Média</option>
-                            <option value="alta">Alta</option>
-                        </select>
-                        <select id="edit-category-${id}">
-                            <option value="outros">Outros</option>
-                            <option value="trabalho">Trabalho</option>
-                            <option value="estudos">Estudos</option>
-                            <option value="pessoal">Pessoal</option>
-                        </select>
-                    </div>
-                    <div class="edit-actions">
-                        <button class="btn btn-success btn-sm" onclick="saveEdit('${id}')">Salvar</button>
-                        <button class="btn btn-ghost btn-sm" onclick="loadTasks()">Cancelar</button>
-                    </div>
-                </div>`;
-        }
-
-        async function saveEdit(id) {
-            const title = document.getElementById(`edit-title-${id}`).value;
-            const priority = document.getElementById(`edit-priority-${id}`).value;
-            const category = document.getElementById(`edit-category-${id}`).value;
-
-            try {
-                const res = await fetch(`${API_URL}/api/tasks/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ title, priority, category })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    loadTasks();
-                    showToast('Tarefa atualizada!');
-                }
-            } catch (err) { showToast('Erro ao atualizar', 'error'); }
-        }
-
-        async function exportTasks() {
-            try {
-                const res = await fetch(`${API_URL}/api/tasks`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await res.json();
-                if (data.success) {
-                    const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: 'application/json' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'tarefas.json';
-                    a.click();
-                    URL.revokeObjectURL(url);
-                    showToast('Tarefas exportadas!');
-                }
-            } catch (err) { showToast('Erro ao exportar', 'error'); }
-        }
-
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                if (!document.getElementById('auth-section').classList.contains('hidden')) {
-                    if (!document.getElementById('login-form').classList.contains('hidden')) login();
-                    else register();
-                }
-            }
-            if (e.key === 'Escape') {
-                toggleCreateModal(false);
-            }
+    function renderPipeline(){
+      document.getElementById('pipelineBoard').innerHTML=stages.map(function(stage){
+        var list=state.leads.filter(function(l){return l.stage===stage.id});
+        return '<div class="pipeline-col" data-stage="'+stage.id+'"><div class="pipeline-head"><strong>'+stage.label+'</strong><span class="count">'+list.length+'</span></div>'+
+          list.map(function(l){return '<div class="lead-card" draggable="true" data-id="'+l._id+'"><h4>'+esc(l.name)+'</h4><div class="company">'+esc(l.company||l.email||'Sem empresa')+'</div><div class="value">'+currency(l.estimatedValue)+'</div><div class="next">'+(l.nextFollowUpAt?'Próximo contato: '+dateBR(l.nextFollowUpAt):'Sem follow-up agendado')+'</div></div>';}).join('')+
+          '</div>';
+      }).join('');
+      document.querySelectorAll('.lead-card').forEach(function(card){
+        card.addEventListener('dragstart',function(e){e.dataTransfer.setData('text/plain',card.dataset.id)});
+        card.addEventListener('dblclick',function(){openLeadDialog(card.dataset.id)});
+      });
+      document.querySelectorAll('.pipeline-col').forEach(function(col){
+        col.addEventListener('dragover',function(e){e.preventDefault();col.classList.add('dragover')});
+        col.addEventListener('dragleave',function(){col.classList.remove('dragover')});
+        col.addEventListener('drop',async function(e){
+          e.preventDefault();col.classList.remove('dragover');var id=e.dataTransfer.getData('text/plain');var lead=state.leads.find(function(x){return x._id===id});
+          if(!lead||lead.stage===col.dataset.stage)return;
+          try{await api('/api/leads/'+id,{method:'PUT',body:JSON.stringify({stage:col.dataset.stage})});toast('Etapa atualizada');await loadAll()}catch(err){toast(err.message,'error')}
         });
+      });
+    }
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registrado:', reg.scope))
-                    .catch(err => console.log('Erro ao registrar Service Worker:', err));
-            });
-        }
-    </script>
+    function filteredLeads(){
+      var q=document.getElementById('leadSearch').value.toLowerCase().trim(),stage=document.getElementById('leadStageFilter').value,source=document.getElementById('leadSourceFilter').value;
+      return state.leads.filter(function(l){
+        var text=[l.name,l.company,l.email,l.phone].join(' ').toLowerCase();
+        return (!q||text.indexOf(q)>=0)&&(!stage||l.stage===stage)&&(!source||l.source===source);
+      });
+    }
+    function renderLeads(){
+      var list=filteredLeads();
+      document.getElementById('leadsTable').innerHTML=list.length?list.map(function(l){
+        var actions='<button class="btn btn-outline btn-sm edit-lead" data-id="'+l._id+'">Editar</button> ';
+        if(l.stage!=='ganho'&&l.stage!=='perdido') actions+='<button class="btn btn-primary btn-sm convert-lead" data-id="'+l._id+'">Converter</button> ';
+        actions+='<button class="btn btn-danger btn-sm delete-lead" data-id="'+l._id+'">Excluir</button>';
+        return '<tr><td><div class="person"><strong>'+esc(l.name)+'</strong><span>'+esc(l.company||l.email||l.phone||'Sem detalhes')+'</span></div></td><td><span class="badge stage-'+l.stage+'">'+esc(stageLabel(l.stage))+'</span></td><td>'+esc(sourceLabel(l.source))+'</td><td><strong>'+currency(l.estimatedValue)+'</strong></td><td>'+dateBR(l.nextFollowUpAt)+'</td><td>'+actions+'</td></tr>';
+      }).join(''):'<tr><td colspan="6"><div class="empty">Nenhum lead encontrado.</div></td></tr>';
+      document.querySelectorAll('.edit-lead').forEach(function(b){b.onclick=function(){openLeadDialog(b.dataset.id)}});
+      document.querySelectorAll('.convert-lead').forEach(function(b){b.onclick=function(){convertLead(b.dataset.id)}});
+      document.querySelectorAll('.delete-lead').forEach(function(b){b.onclick=function(){deleteLead(b.dataset.id)}});
+    }
+    ['leadSearch','leadStageFilter','leadSourceFilter'].forEach(function(id){document.getElementById(id).addEventListener(id==='leadSearch'?'input':'change',renderLeads)});
+
+    function renderCustomers(){
+      var q=document.getElementById('customerSearch').value.toLowerCase().trim();
+      var list=state.customers.filter(function(c){return !q||[c.name,c.company,c.email,c.phone].join(' ').toLowerCase().indexOf(q)>=0});
+      document.getElementById('customersTable').innerHTML=list.length?list.map(function(c){
+        return '<tr><td><div class="person"><strong>'+esc(c.name)+'</strong><span>'+esc(c.company||'Cliente individual')+'</span></div></td><td>'+esc(c.email||c.phone||'—')+'</td><td>'+esc(c.segment||'—')+'</td><td>'+(c.sourceLead?'Lead convertido':'Cadastro direto')+'</td><td><button class="btn btn-outline btn-sm edit-customer" data-id="'+c._id+'">Editar</button> <button class="btn btn-danger btn-sm archive-customer" data-id="'+c._id+'">Arquivar</button></td></tr>';
+      }).join(''):'<tr><td colspan="5"><div class="empty">Nenhum cliente cadastrado.</div></td></tr>';
+      document.querySelectorAll('.edit-customer').forEach(function(b){b.onclick=function(){openCustomerDialog(b.dataset.id)}});
+      document.querySelectorAll('.archive-customer').forEach(function(b){b.onclick=function(){archiveCustomer(b.dataset.id)}});
+    }
+    document.getElementById('customerSearch').addEventListener('input',renderCustomers);
+
+    function renderActivities(){
+      document.getElementById('activitiesList').innerHTML=state.activities.length?state.activities.map(function(a){
+        return '<div style="position:relative">'+activityHtml(a)+'<button class="btn btn-danger btn-sm delete-activity" data-id="'+a._id+'" style="position:absolute;right:10px;top:10px">Excluir</button></div>';
+      }).join(''):'<div class="empty">Nenhuma interação registrada.</div>';
+      document.querySelectorAll('.delete-activity').forEach(function(b){b.onclick=function(){deleteActivity(b.dataset.id)}});
+    }
+
+    function openLeadDialog(id){
+      document.getElementById('leadForm').reset();document.getElementById('leadId').value='';document.getElementById('leadDialogTitle').textContent=id?'Editar lead':'Novo lead';
+      if(id){
+        var l=state.leads.find(function(x){return x._id===id});if(!l)return;
+        document.getElementById('leadId').value=l._id;document.getElementById('leadName').value=l.name||'';document.getElementById('leadCompany').value=l.company||'';document.getElementById('leadEmail').value=l.email||'';document.getElementById('leadPhone').value=l.phone||'';document.getElementById('leadSource').value=l.source||'outro';document.getElementById('leadStage').value=l.stage||'novo';document.getElementById('leadValue').value=l.estimatedValue||0;document.getElementById('leadFollowUp').value=dateTimeLocal(l.nextFollowUpAt);document.getElementById('leadNotes').value=l.notes||'';
+      }
+      document.getElementById('leadDialog').showModal();
+    }
+    document.getElementById('leadForm').addEventListener('submit',async function(e){
+      e.preventDefault();var id=document.getElementById('leadId').value;
+      var payload={name:document.getElementById('leadName').value.trim(),company:document.getElementById('leadCompany').value.trim(),email:document.getElementById('leadEmail').value.trim(),phone:document.getElementById('leadPhone').value.trim(),source:document.getElementById('leadSource').value,stage:document.getElementById('leadStage').value,estimatedValue:Number(document.getElementById('leadValue').value||0),nextFollowUpAt:document.getElementById('leadFollowUp').value||null,notes:document.getElementById('leadNotes').value.trim()};
+      try{await api(id?'/api/leads/'+id:'/api/leads',{method:id?'PUT':'POST',body:JSON.stringify(payload)});document.getElementById('leadDialog').close();toast(id?'Lead atualizado':'Lead criado');await loadAll()}catch(err){toast(err.message,'error')}
+    });
+
+    async function convertLead(id){
+      if(!confirm('Converter este lead em cliente?'))return;
+      try{await api('/api/leads/'+id+'/convert',{method:'POST',body:'{}'});toast('Lead convertido em cliente');await loadAll()}catch(err){toast(err.message,'error')}
+    }
+    async function deleteLead(id){
+      if(!confirm('Excluir este lead e suas interações vinculadas?'))return;
+      try{await api('/api/leads/'+id,{method:'DELETE'});toast('Lead excluído');await loadAll()}catch(err){toast(err.message,'error')}
+    }
+
+    function openCustomerDialog(id){
+      document.getElementById('customerForm').reset();document.getElementById('customerId').value='';document.getElementById('customerDialogTitle').textContent=id?'Editar cliente':'Novo cliente';
+      if(id){
+        var c=state.customers.find(function(x){return x._id===id});if(!c)return;
+        document.getElementById('customerId').value=c._id;document.getElementById('customerName').value=c.name||'';document.getElementById('customerCompany').value=c.company||'';document.getElementById('customerEmail').value=c.email||'';document.getElementById('customerPhone').value=c.phone||'';document.getElementById('customerDocument').value=c.document||'';document.getElementById('customerSegment').value=c.segment||'';document.getElementById('customerNotes').value=c.notes||'';
+      }
+      document.getElementById('customerDialog').showModal();
+    }
+    document.getElementById('customerForm').addEventListener('submit',async function(e){
+      e.preventDefault();var id=document.getElementById('customerId').value;
+      var payload={name:document.getElementById('customerName').value.trim(),company:document.getElementById('customerCompany').value.trim(),email:document.getElementById('customerEmail').value.trim(),phone:document.getElementById('customerPhone').value.trim(),document:document.getElementById('customerDocument').value.trim(),segment:document.getElementById('customerSegment').value.trim(),notes:document.getElementById('customerNotes').value.trim()};
+      try{await api(id?'/api/customers/'+id:'/api/customers',{method:id?'PUT':'POST',body:JSON.stringify(payload)});document.getElementById('customerDialog').close();toast(id?'Cliente atualizado':'Cliente criado');await loadAll()}catch(err){toast(err.message,'error')}
+    });
+    async function archiveCustomer(id){
+      if(!confirm('Arquivar este cliente?'))return;
+      try{await api('/api/customers/'+id,{method:'DELETE'});toast('Cliente arquivado');await loadAll()}catch(err){toast(err.message,'error')}
+    }
+
+    function refreshRelationOptions(){
+      var type=document.getElementById('activityRelationType').value;var items=type==='lead'?state.leads:state.customers;
+      document.getElementById('activityRelationLabel').textContent=type==='lead'?'Lead':'Cliente';
+      document.getElementById('activityRelation').innerHTML='<option value="">Selecione...</option>'+items.map(function(x){return '<option value="'+x._id+'">'+esc(x.name)+(x.company?' — '+esc(x.company):'')+'</option>'}).join('');
+    }
+    document.getElementById('activityRelationType').addEventListener('change',refreshRelationOptions);
+    function openActivityDialog(){
+      document.getElementById('activityForm').reset();document.getElementById('activityCompleted').checked=true;document.getElementById('activityOccurredAt').value=dateTimeLocal(new Date());refreshRelationOptions();document.getElementById('activityDialog').showModal();
+    }
+    document.getElementById('activityForm').addEventListener('submit',async function(e){
+      e.preventDefault();var type=document.getElementById('activityRelationType').value;var relation=document.getElementById('activityRelation').value;
+      var payload={type:document.getElementById('activityType').value,title:document.getElementById('activityTitle').value.trim(),description:document.getElementById('activityDescription').value.trim(),occurredAt:document.getElementById('activityOccurredAt').value||new Date().toISOString(),scheduledFor:document.getElementById('activityScheduledFor').value||null,completed:document.getElementById('activityCompleted').checked};
+      payload[type]=relation||null;
+      try{await api('/api/activities',{method:'POST',body:JSON.stringify(payload)});document.getElementById('activityDialog').close();toast('Interação registrada');await loadAll()}catch(err){toast(err.message,'error')}
+    });
+    async function deleteActivity(id){
+      if(!confirm('Excluir esta interação?'))return;
+      try{await api('/api/activities/'+id,{method:'DELETE'});toast('Interação excluída');await loadAll()}catch(err){toast(err.message,'error')}
+    }
+
+    var titles={dashboard:'Dashboard',pipeline:'Pipeline comercial',leads:'Leads',customers:'Clientes',activities:'Interações'};
+    document.querySelectorAll('.nav-btn[data-section]').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        document.querySelectorAll('.nav-btn[data-section]').forEach(function(x){x.classList.toggle('active',x===btn)});
+        document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});
+        document.getElementById('section-'+btn.dataset.section).classList.add('active');
+        document.getElementById('topTitle').textContent=titles[btn.dataset.section];
+        document.getElementById('sidebar').classList.remove('open');
+      });
+    });
+    document.getElementById('mobileMenuBtn').addEventListener('click',function(){document.getElementById('sidebar').classList.toggle('open')});
+
+    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
+    if(state.token&&state.user){showApp();loadAll()}
+  </script>
 </body>
 </html>

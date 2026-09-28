@@ -15,7 +15,7 @@ const allowedFields = [
 
 const pick = (body) =>
   allowedFields.reduce((data, field) => {
-    if (body[field] !== undefined) data[field] = body[field] || null;
+    if (body[field] !== undefined) data[field] = body[field] === '' ? null : body[field];
     return data;
   }, {});
 
@@ -93,11 +93,17 @@ const createActivity = async (req, res) => {
 
 const updateActivity = async (req, res) => {
   try {
+    const existing = await Activity.findOne({ _id: req.params.id, owner: req.user.id });
+    if (!existing) return res.status(404).json({ success: false, message: 'Interação não encontrada' });
+
     const data = pick(req.body);
-    if (data.lead || data.customer) {
-      const relation = await validateRelations(req.user.id, data);
-      if (!relation.ok) return res.status(400).json({ success: false, message: relation.message });
-    }
+    const mergedRelations = {
+      lead: data.lead !== undefined ? data.lead : existing.lead,
+      customer: data.customer !== undefined ? data.customer : existing.customer,
+    };
+
+    const relation = await validateRelations(req.user.id, mergedRelations);
+    if (!relation.ok) return res.status(400).json({ success: false, message: relation.message });
 
     const activity = await Activity.findOneAndUpdate(
       { _id: req.params.id, owner: req.user.id },
@@ -107,7 +113,6 @@ const updateActivity = async (req, res) => {
       .populate('lead', 'name company stage')
       .populate('customer', 'name company');
 
-    if (!activity) return res.status(404).json({ success: false, message: 'Interação não encontrada' });
     return res.json({ success: true, message: 'Interação atualizada', data: activity });
   } catch (error) {
     return res.status(400).json({ success: false, message: 'Não foi possível atualizar a interação' });
