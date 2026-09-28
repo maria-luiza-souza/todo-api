@@ -318,8 +318,8 @@
       document.getElementById('metricConversion').textContent=(d.conversionRate||0)+'%';
       document.getElementById('metricFollowups').textContent=(d.pendingFollowUps||0)+' follow-ups pendentes';
       var by={};(d.byStage||[]).forEach(function(x){by[x._id]=x.count});
-      var max=Math.max(1.apply?1:1);
-      var counts=stages.map(function(s){return by[s.id]||0});max=Math.max.apply(null,[1].concat(counts));
+      var counts=stages.map(function(s){return by[s.id]||0});
+      var max=Math.max.apply(null,[1].concat(counts));
       document.getElementById('funnelChart').innerHTML=stages.map(function(s){
         var count=by[s.id]||0;var width=Math.max(3,Math.round((count/max)*100));
         return '<div class="funnel-row"><span>'+esc(s.label)+'</span><div class="funnel-bar"><div class="funnel-fill" style="width:'+width+'%"></div></div><strong>'+count+'</strong></div>';
