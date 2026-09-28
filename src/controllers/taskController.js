@@ -25,7 +25,7 @@ const getTasks = async (req, res) => {
       data: tasks,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Erro ao buscar tarefas', error: error.message });
+    res.status(500).json({ success: false, message: 'Erro ao buscar tarefas' });
   }
 };
 
@@ -41,7 +41,7 @@ const getTaskById = async (req, res) => {
 
     res.status(200).json({ success: true, data: task });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Erro ao buscar tarefa', error: error.message });
+    res.status(500).json({ success: false, message: 'Erro ao buscar tarefa' });
   }
 };
 
@@ -64,7 +64,7 @@ const createTask = async (req, res) => {
 
     res.status(201).json({ success: true, message: 'Tarefa criada!', data: task });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Erro ao criar tarefa', error: error.message });
+    res.status(500).json({ success: false, message: 'Erro ao criar tarefa' });
   }
 };
 
@@ -90,7 +90,7 @@ const updateTask = async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Tarefa atualizada!', data: task });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Erro ao atualizar tarefa', error: error.message });
+    res.status(500).json({ success: false, message: 'Erro ao atualizar tarefa' });
   }
 };
 
@@ -108,7 +108,7 @@ const deleteTask = async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Tarefa deletada!' });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Erro ao deletar tarefa', error: error.message });
+    res.status(500).json({ success: false, message: 'Erro ao deletar tarefa' });
   }
 };
 
@@ -141,7 +141,7 @@ const getStats = async (req, res) => {
       data: { total, completed, pending, overdue, byPriority, byCategory }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Erro ao buscar estatísticas', error: error.message });
+    res.status(500).json({ success: false, message: 'Erro ao buscar estatísticas' });
   }
 };
 

@@ -64,7 +64,6 @@ const protect = (req, res, next) => {
     return res.status(401).json({
       success: false,
       message: 'Não autorizado. Token inválido ou expirado.',
-      error: error.message,
     });
   }
 };

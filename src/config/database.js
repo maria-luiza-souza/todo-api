@@ -6,11 +6,13 @@ const connectDB = async () => {
       return;
     }
 
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('MongoDB conectado');
+    if (!process.env.MONGODB_URI) {
+      throw new Error('MONGODB_URI não configurado');
+    }
 
+    await mongoose.connect(process.env.MONGODB_URI);
   } catch (error) {
-    console.error('Erro MongoDB:', error.message);
+    console.error('Erro ao conectar ao MongoDB:', error.message);
     throw error;
   }
 };

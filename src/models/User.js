@@ -68,8 +68,8 @@ userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   try {
-    // Gera um "salt" aleatório (8 rodadas de criptografia)
-    const salt = await bcrypt.genSalt(8);
+    // Gera um "salt" aleatório (12 rodadas de criptografia)
+    const salt = await bcrypt.genSalt(12);
     
     // Criptografa a senha
     this.password = await bcrypt.hash(this.password, salt);

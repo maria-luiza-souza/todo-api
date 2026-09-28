@@ -92,7 +92,6 @@ const register = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Erro ao registrar usuário',
-      error: error.message,
     });
   }
 };
@@ -165,7 +164,6 @@ const login = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Erro ao fazer login',
-      error: error.message,
     });
   }
 };
