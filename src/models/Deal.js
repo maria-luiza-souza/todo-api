@@ -28,6 +28,18 @@ const dealSchema = new mongoose.Schema(
       default: null,
       index: true,
     },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company',
+      default: null,
+      index: true,
+    },
+    contact: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Contact',
+      default: null,
+      index: true,
+    },
     stage: {
       type: String,
       enum: STAGES,
