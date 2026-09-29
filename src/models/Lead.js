@@ -52,6 +52,11 @@ const leadSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    tags: [{
+      type: String,
+      trim: true,
+      maxlength: 30,
+    }],
     notes: {
       type: String,
       trim: true,
