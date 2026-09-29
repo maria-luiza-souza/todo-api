@@ -54,6 +54,16 @@ const activitySchema = new mongoose.Schema(
       ref: 'Deal',
       default: null,
     },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company',
+      default: null,
+    },
+    contact: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Contact',
+      default: null,
+    },
   },
   { timestamps: true }
 );
@@ -62,6 +72,8 @@ activitySchema.index({ owner: 1, createdAt: -1 });
 activitySchema.index({ owner: 1, lead: 1 });
 activitySchema.index({ owner: 1, customer: 1 });
 activitySchema.index({ owner: 1, deal: 1 });
+activitySchema.index({ owner: 1, company: 1 });
+activitySchema.index({ owner: 1, contact: 1 });
 activitySchema.index({ owner: 1, scheduledFor: 1, completed: 1 });
 
 module.exports = mongoose.model('Activity', activitySchema);
