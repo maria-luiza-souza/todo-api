@@ -40,6 +40,8 @@
     .sidebar-foot{margin-top:auto;padding:14px 10px;border-top:1px solid rgba(255,255,255,.09)}.sidebar-user{font-size:13px;color:#e3edf0;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sidebar-email{font-size:11px;color:#8ca4ad;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .main{min-width:0}.topbar{height:72px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}
     .topbar h2{margin:0;font-size:20px}.topbar .subtitle{font-size:12px;color:var(--muted);margin-top:3px}.top-actions{display:flex;gap:8px;align-items:center}.mobile-menu{display:none}
+    .global-search{position:relative;width:min(420px,36vw);margin-left:auto}.global-search input{width:100%;border:1px solid var(--border);border-radius:12px;padding:10px 13px 10px 36px;background:#fff;outline:none;color:var(--text)}.global-search:before{content:'⌕';position:absolute;left:13px;top:9px;color:var(--muted);z-index:1}.global-search input:focus{border-color:var(--primary-2);box-shadow:0 0 0 3px rgba(20,184,166,.10)}.global-results{position:absolute;top:46px;left:0;right:0;z-index:70;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 18px 50px rgba(15,42,54,.16);max-height:420px;overflow:auto;padding:7px}.global-result{display:block;width:100%;border:0;background:#fff;border-radius:10px;padding:10px 11px;text-align:left}.global-result:hover{background:var(--panel-2)}.global-result strong{display:block;font-size:12px}.global-result span{display:block;font-size:10px;color:var(--muted);margin-top:3px}.global-group{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--primary);margin-right:5px}
+    .page-actions{display:flex;gap:8px;flex-wrap:wrap}.tag-strip{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}.tag-chip{display:inline-flex;padding:3px 6px;border-radius:999px;background:#e9f7f5;color:#0f766e;font-size:9px;font-weight:800}.file-btn{position:relative;overflow:hidden}.file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
     .content{padding:28px;max-width:1500px;margin:0 auto}.section{display:none}.section.active{display:block}.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px}.page-head h1{font-size:28px;margin:0 0 5px;letter-spacing:-.03em}.page-head p{margin:0;color:var(--muted)}
     .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}.metric{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:0 2px 8px rgba(16,42,54,.03)}
     .metric-top{display:flex;justify-content:space-between;gap:12px}.metric-label{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--muted)}.metric-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);font-weight:800}.metric-value{font-size:30px;font-weight:800;margin-top:10px;letter-spacing:-.04em}.metric-foot{font-size:12px;color:var(--muted);margin-top:4px}
@@ -62,7 +64,7 @@
     .empty{padding:34px;text-align:center;color:var(--muted);font-size:13px}.toast{position:fixed;right:20px;bottom:20px;z-index:100;background:#102a36;color:#fff;padding:13px 16px;border-radius:13px;box-shadow:var(--shadow);font-size:13px;max-width:360px}.toast.error{background:#991b1b}.toast.success{background:#166534}.loading{opacity:.55;pointer-events:none}
     .kpi-note{display:inline-flex;gap:6px;align-items:center;font-size:11px;color:var(--muted);background:#f3f6f7;padding:6px 8px;border-radius:999px}
     @media(max-width:1050px){.metrics{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}.app{grid-template-columns:80px 1fr}.sidebar-logo strong,.sidebar-logo span,.nav-label,.sidebar-user,.sidebar-email{display:none}.sidebar-logo{justify-content:center}.nav-btn{justify-content:center}.nav-icon{width:auto}.sidebar-foot{text-align:center}}
-    @media(max-width:720px){.auth-shell{grid-template-columns:1fr}.auth-brand{display:none}.auth-side{padding:18px}.app{display:block}.sidebar{position:fixed;inset:0 auto 0 0;width:250px;z-index:50;transform:translateX(-102%);transition:.2s}.sidebar.open{transform:translateX(0)}.sidebar-logo strong,.sidebar-logo span,.nav-label,.sidebar-user,.sidebar-email{display:block}.nav-btn{justify-content:flex-start}.mobile-menu{display:inline-flex}.topbar{padding:0 14px}.content{padding:18px 12px}.metrics{grid-template-columns:1fr 1fr;gap:10px}.metric{padding:15px}.metric-value{font-size:23px}.page-head{flex-direction:column}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.grid-2{gap:12px}}
+    @media(max-width:720px){.auth-shell{grid-template-columns:1fr}.auth-brand{display:none}.auth-side{padding:18px}.app{display:block}.sidebar{position:fixed;inset:0 auto 0 0;width:250px;z-index:50;transform:translateX(-102%);transition:.2s}.sidebar.open{transform:translateX(0)}.sidebar-logo strong,.sidebar-logo span,.nav-label,.sidebar-user,.sidebar-email{display:block}.nav-btn{justify-content:flex-start}.mobile-menu{display:inline-flex}.topbar{padding:0 14px;gap:8px}.global-search{display:none}.content{padding:18px 12px}.metrics{grid-template-columns:1fr 1fr;gap:10px}.metric{padding:15px}.metric-value{font-size:23px}.page-head{flex-direction:column}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.grid-2{gap:12px}}
     @media(max-width:430px){.metrics{grid-template-columns:1fr}.auth-card{padding:24px 20px}}
   </style>
 </head>
@@ -132,6 +134,10 @@
           <button id="mobileMenuBtn" class="btn btn-outline btn-sm mobile-menu">☰</button>
           <div><h2 id="topTitle">Dashboard</h2><div class="subtitle">Visão geral do relacionamento comercial</div></div>
         </div>
+        <div class="global-search">
+          <input id="globalSearch" autocomplete="off" placeholder="Buscar lead, cliente, empresa, contato ou negociação">
+          <div id="globalSearchResults" class="global-results hidden"></div>
+        </div>
         <div class="top-actions"><span class="kpi-note">● CRM online</span><button class="btn btn-primary btn-sm" onclick="openDealDialog()">+ Negociação</button></div>
       </header>
 
@@ -167,7 +173,7 @@
         </section>
 
         <section id="section-leads" class="section">
-          <div class="page-head"><div><h1>Leads</h1><p>Gerencie oportunidades antes da conversão em clientes.</p></div><button class="btn btn-primary" onclick="openLeadDialog()">+ Novo lead</button></div>
+          <div class="page-head"><div><h1>Leads</h1><p>Gerencie oportunidades antes da conversão em clientes.</p></div><div class="page-actions"><button class="btn btn-primary" onclick="openLeadDialog()">+ Novo lead</button><button class="btn btn-outline" type="button" onclick="exportLeadsCSV()">Exportar CSV</button><label class="btn btn-outline file-btn">Importar CSV<input id="leadCsvInput" type="file" accept=".csv,text/csv"></label></div></div>
           <div class="toolbar">
             <input id="leadSearch" placeholder="Buscar por nome, empresa, e-mail ou telefone">
             <select id="leadStageFilter"><option value="">Todas as etapas</option><option value="novo">Novo</option><option value="contato">Contato</option><option value="qualificado">Qualificado</option><option value="proposta">Proposta</option><option value="negociacao">Negociação</option><option value="ganho">Ganho</option><option value="perdido">Perdido</option></select>
@@ -281,6 +287,7 @@
           <div class="field"><label>Previsão de fechamento</label><input id="dealCloseDate" type="date"></div>
           <div class="field span-2"><label>Responsável</label><input id="dealResponsible" maxlength="100" placeholder="Ex.: Maria Luiza"></div>
           <div id="dealLossReasonField" class="field span-2 hidden"><label>Motivo da perda *</label><input id="dealLossReason" maxlength="240" placeholder="Ex.: preço, concorrente, sem orçamento"></div>
+          <div class="field span-2"><label>Tags</label><input id="dealTags" maxlength="240" placeholder="Ex.: VIP, Renovação, Urgente"></div>
           <div class="field span-2"><label>Observações</label><textarea id="dealNotes" maxlength="2000"></textarea></div>
         </div>
       </div>
@@ -302,6 +309,7 @@
           <div class="field"><label>Etapa</label><select id="leadStage"><option value="novo">Novo</option><option value="contato">Contato</option><option value="qualificado">Qualificado</option><option value="proposta">Proposta</option><option value="negociacao">Negociação</option><option value="ganho">Ganho</option><option value="perdido">Perdido</option></select></div>
           <div class="field"><label>Valor estimado</label><input id="leadValue" type="number" min="0" step="0.01"></div>
           <div class="field"><label>Próximo contato</label><input id="leadFollowUp" type="datetime-local"></div>
+          <div class="field span-2"><label>Tags</label><input id="leadTags" maxlength="240" placeholder="Ex.: VIP, Indicação, Alto potencial"></div>
           <div class="field span-2"><label>Observações</label><textarea id="leadNotes" maxlength="2000"></textarea></div>
         </div>
       </div>
@@ -379,6 +387,8 @@
     function daysInStage(value){ if(!value)return 0; return Math.max(0,Math.floor((Date.now()-new Date(value).getTime())/86400000)); }
     function sourceLabel(id){ return ({site:'Site',indicacao:'Indicação',instagram:'Instagram',linkedin:'LinkedIn',evento:'Evento',prospeccao:'Prospecção',outro:'Outro'})[id] || id || 'Outro'; }
     function activityIcon(type){ return ({ligacao:'☎',whatsapp:'◈',email:'✉',reuniao:'◆',nota:'✎',followup:'⏱'})[type] || '•'; }
+    function parseTags(value){return [...new Set(String(value||'').split(/[,|]/).map(function(x){return x.trim()}).filter(Boolean))].slice(0,10)}
+    function tagHtml(tags){return Array.isArray(tags)&&tags.length?'<div class="tag-strip">'+tags.map(function(t){return '<span class="tag-chip">'+esc(t)+'</span>'}).join('')+'</div>':''}
 
     function toast(message,type){
       var el=document.getElementById('toast'); el.textContent=message; el.className='toast '+(type||'success');
@@ -498,7 +508,7 @@
             var relation=d.contact?(d.contact.name+(d.company?.name?' · '+d.company.name:'')):d.company?(d.company.name||'Empresa'):d.customer?(d.customer.name||d.customer.company):d.lead?(d.lead.name||d.lead.company):'Sem vínculo';
             var days=daysInStage(d.stageChangedAt);
             var overdue=d.expectedCloseDate&&new Date(d.expectedCloseDate)<new Date()&&d.stage!=='ganho'&&d.stage!=='perdido';
-            return '<div class="lead-card" draggable="true" data-id="'+d._id+'"><h4>'+esc(d.title)+'</h4><div class="company">'+esc(relation||'Sem relacionamento')+'</div><div class="value">'+currency(d.value)+'</div><div class="deal-meta"><span class="deal-pill">'+(d.probability||0)+'%</span><span class="deal-pill">'+days+'d na etapa</span>'+(overdue?'<span class="deal-pill alert">Fechamento atrasado</span>':'')+'</div><div class="next">'+(d.expectedCloseDate?'Fechamento: '+dateBR(d.expectedCloseDate):'Sem previsão de fechamento')+'</div></div>';
+            return '<div class="lead-card" draggable="true" data-id="'+d._id+'"><h4>'+esc(d.title)+'</h4><div class="company">'+esc(relation||'Sem relacionamento')+'</div>'+tagHtml(d.tags)+'<div class="value">'+currency(d.value)+'</div><div class="deal-meta"><span class="deal-pill">'+(d.probability||0)+'%</span><span class="deal-pill">'+days+'d na etapa</span>'+(overdue?'<span class="deal-pill alert">Fechamento atrasado</span>':'')+'</div><div class="next">'+(d.expectedCloseDate?'Fechamento: '+dateBR(d.expectedCloseDate):'Sem previsão de fechamento')+'</div></div>';
           }).join('')+
           '</div>';
       }).join('');
@@ -533,7 +543,7 @@
       var stage=document.getElementById('dealStageFilter').value;
       return state.deals.filter(function(d){
         var rel=d.contact?(d.contact.name+' '+(d.company?.name||'')):d.company?(d.company.name+' '+(d.company.segment||'')):d.customer?(d.customer.name+' '+(d.customer.company||'')):d.lead?(d.lead.name+' '+(d.lead.company||'')):'';
-        return (!q||(d.title+' '+rel).toLowerCase().indexOf(q)>=0)&&(!stage||d.stage===stage);
+        return (!q||(d.title+' '+rel+' '+(d.tags||[]).join(' ')).toLowerCase().indexOf(q)>=0)&&(!stage||d.stage===stage);
       });
     }
 
@@ -541,7 +551,7 @@
       var list=filteredDeals();
       document.getElementById('dealsTable').innerHTML=list.length?list.map(function(d){
         var relation=d.contact?(d.contact.name+(d.company?.name?' · '+d.company.name:'')):d.company?(d.company.name||'Empresa'):d.customer?(d.customer.name+(d.customer.company?' · '+d.customer.company:'')):d.lead?(d.lead.name+(d.lead.company?' · '+d.lead.company:'')):'—';
-        return '<tr><td><div class="person"><strong>'+esc(d.title)+'</strong><span>'+esc(d.responsible||'Eu')+'</span></div></td><td>'+esc(relation)+'</td><td><span class="badge stage-'+d.stage+'">'+esc(dealStageLabel(d.stage))+'</span></td><td><strong>'+currency(d.value)+'</strong></td><td>'+Number(d.probability||0)+'%</td><td>'+dateBR(d.expectedCloseDate)+'</td><td><button class="btn btn-outline btn-sm edit-deal" data-id="'+d._id+'">Editar</button> <button class="btn btn-danger btn-sm delete-deal" data-id="'+d._id+'">Excluir</button></td></tr>';
+        return '<tr><td><div class="person"><strong>'+esc(d.title)+'</strong><span>'+esc(d.responsible||'Eu')+'</span>'+tagHtml(d.tags)+'</div></td><td>'+esc(relation)+'</td><td><span class="badge stage-'+d.stage+'">'+esc(dealStageLabel(d.stage))+'</span></td><td><strong>'+currency(d.value)+'</strong></td><td>'+Number(d.probability||0)+'%</td><td>'+dateBR(d.expectedCloseDate)+'</td><td><button class="btn btn-outline btn-sm edit-deal" data-id="'+d._id+'">Editar</button> <button class="btn btn-danger btn-sm delete-deal" data-id="'+d._id+'">Excluir</button></td></tr>';
       }).join(''):'<tr><td colspan="7"><div class="empty">Nenhuma negociação cadastrada. Crie a primeira para alimentar o pipeline.</div></td></tr>';
       document.querySelectorAll('.edit-deal').forEach(function(b){b.onclick=function(){openDealDialog(b.dataset.id)}});
       document.querySelectorAll('.delete-deal').forEach(function(b){b.onclick=function(){deleteDeal(b.dataset.id)}});
@@ -552,7 +562,7 @@
     function filteredLeads(){
       var q=document.getElementById('leadSearch').value.toLowerCase().trim(),stage=document.getElementById('leadStageFilter').value,source=document.getElementById('leadSourceFilter').value;
       return state.leads.filter(function(l){
-        var text=[l.name,l.company,l.email,l.phone].join(' ').toLowerCase();
+        var text=[l.name,l.company,l.email,l.phone,(l.tags||[]).join(' ')].join(' ').toLowerCase();
         return (!q||text.indexOf(q)>=0)&&(!stage||l.stage===stage)&&(!source||l.source===source);
       });
     }
@@ -564,7 +574,7 @@
         actions+='<button class="btn btn-outline btn-sm edit-lead" data-id="'+l._id+'">Editar</button> ';
         if(l.stage!=='ganho'&&l.stage!=='perdido') actions+='<button class="btn btn-primary btn-sm convert-lead" data-id="'+l._id+'">Converter</button> ';
         actions+='<button class="btn btn-danger btn-sm delete-lead" data-id="'+l._id+'">Excluir</button>';
-        return '<tr><td><div class="person"><strong>'+esc(l.name)+'</strong><span>'+esc(l.company||l.email||l.phone||'Sem detalhes')+'</span></div></td><td><span class="badge stage-'+l.stage+'">'+esc(stageLabel(l.stage))+'</span></td><td>'+esc(sourceLabel(l.source))+'</td><td>'+dateBR(l.nextFollowUpAt)+'</td><td>'+actions+'</td></tr>';
+        return '<tr><td><div class="person"><strong>'+esc(l.name)+'</strong><span>'+esc(l.company||l.email||l.phone||'Sem detalhes')+'</span>'+tagHtml(l.tags)+'</div></td><td><span class="badge stage-'+l.stage+'">'+esc(stageLabel(l.stage))+'</span></td><td>'+esc(sourceLabel(l.source))+'</td><td>'+dateBR(l.nextFollowUpAt)+'</td><td>'+actions+'</td></tr>';
       }).join(''):'<tr><td colspan="5"><div class="empty">Nenhum lead encontrado.</div></td></tr>';
       document.querySelectorAll('.overview-lead').forEach(function(b){b.onclick=function(){openOverview('lead',b.dataset.id)}});
       document.querySelectorAll('.deal-from-lead').forEach(function(b){b.onclick=function(){openDealDialog(null,'lead',b.dataset.id)}});
@@ -755,6 +765,7 @@
         document.getElementById('dealCloseDate').value=d.expectedCloseDate?new Date(d.expectedCloseDate).toISOString().slice(0,10):'';
         document.getElementById('dealResponsible').value=d.responsible||'Eu';
         document.getElementById('dealLossReason').value=d.lossReason||'';
+        document.getElementById('dealTags').value=(d.tags||[]).join(', ');
         document.getElementById('dealNotes').value=d.notes||'';
         var lost=d.stage==='perdido';
         document.getElementById('dealLossReasonField').classList.toggle('hidden',!lost);
@@ -780,6 +791,7 @@
         expectedCloseDate:document.getElementById('dealCloseDate').value||null,
         responsible:document.getElementById('dealResponsible').value.trim()||'Eu',
         lossReason:document.getElementById('dealLossReason').value.trim(),
+        tags:parseTags(document.getElementById('dealTags').value),
         notes:document.getElementById('dealNotes').value.trim(),
         lead:null,
         customer:null,
@@ -841,13 +853,13 @@
       document.getElementById('leadForm').reset();document.getElementById('leadId').value='';document.getElementById('leadDialogTitle').textContent=id?'Editar lead':'Novo lead';
       if(id){
         var l=state.leads.find(function(x){return x._id===id});if(!l)return;
-        document.getElementById('leadId').value=l._id;document.getElementById('leadName').value=l.name||'';document.getElementById('leadCompany').value=l.company||'';document.getElementById('leadEmail').value=l.email||'';document.getElementById('leadPhone').value=l.phone||'';document.getElementById('leadSource').value=l.source||'outro';document.getElementById('leadStage').value=l.stage||'novo';document.getElementById('leadValue').value=l.estimatedValue||0;document.getElementById('leadFollowUp').value=dateTimeLocal(l.nextFollowUpAt);document.getElementById('leadNotes').value=l.notes||'';
+        document.getElementById('leadId').value=l._id;document.getElementById('leadName').value=l.name||'';document.getElementById('leadCompany').value=l.company||'';document.getElementById('leadEmail').value=l.email||'';document.getElementById('leadPhone').value=l.phone||'';document.getElementById('leadSource').value=l.source||'outro';document.getElementById('leadStage').value=l.stage||'novo';document.getElementById('leadValue').value=l.estimatedValue||0;document.getElementById('leadFollowUp').value=dateTimeLocal(l.nextFollowUpAt);document.getElementById('leadTags').value=(l.tags||[]).join(', ');document.getElementById('leadNotes').value=l.notes||'';
       }
       document.getElementById('leadDialog').showModal();
     }
     document.getElementById('leadForm').addEventListener('submit',async function(e){
       e.preventDefault();var id=document.getElementById('leadId').value;
-      var payload={name:document.getElementById('leadName').value.trim(),company:document.getElementById('leadCompany').value.trim(),email:document.getElementById('leadEmail').value.trim(),phone:document.getElementById('leadPhone').value.trim(),source:document.getElementById('leadSource').value,stage:document.getElementById('leadStage').value,estimatedValue:Number(document.getElementById('leadValue').value||0),nextFollowUpAt:document.getElementById('leadFollowUp').value||null,notes:document.getElementById('leadNotes').value.trim()};
+      var payload={name:document.getElementById('leadName').value.trim(),company:document.getElementById('leadCompany').value.trim(),email:document.getElementById('leadEmail').value.trim(),phone:document.getElementById('leadPhone').value.trim(),source:document.getElementById('leadSource').value,stage:document.getElementById('leadStage').value,estimatedValue:Number(document.getElementById('leadValue').value||0),nextFollowUpAt:document.getElementById('leadFollowUp').value||null,tags:parseTags(document.getElementById('leadTags').value),notes:document.getElementById('leadNotes').value.trim()};
       try{await api(id?'/api/leads/'+id:'/api/leads',{method:id?'PUT':'POST',body:JSON.stringify(payload)});document.getElementById('leadDialog').close();toast(id?'Lead atualizado':'Lead criado');await loadAll()}catch(err){toast(err.message,'error')}
     });
 
@@ -908,6 +920,89 @@
       if(!confirm('Excluir esta interação?'))return;
       try{await api('/api/activities/'+id,{method:'DELETE'});toast('Interação excluída');await loadAll()}catch(err){toast(err.message,'error')}
     }
+
+    function globalSearchItems(query){
+      var q=String(query||'').toLowerCase().trim();
+      if(q.length<2)return [];
+      var out=[];
+      state.leads.forEach(function(x){var text=[x.name,x.company,x.email,x.phone,(x.tags||[]).join(' ')].join(' ').toLowerCase();if(text.includes(q))out.push({type:'lead',label:x.name,meta:'Lead · '+(x.company||x.email||x.phone||'sem detalhes'),id:x._id})});
+      state.customers.forEach(function(x){var text=[x.name,x.company,x.email,x.phone,x.segment].join(' ').toLowerCase();if(text.includes(q))out.push({type:'customer',label:x.name,meta:'Cliente · '+(x.company||x.segment||x.email||'sem detalhes'),id:x._id})});
+      state.companies.forEach(function(x){var text=[x.name,x.legalName,x.segment,x.document,x.email].join(' ').toLowerCase();if(text.includes(q))out.push({type:'company',label:x.name,meta:'Empresa · '+(x.segment||x.email||'sem detalhes'),id:x._id})});
+      state.contacts.forEach(function(x){var text=[x.name,x.role,x.email,x.phone,x.whatsapp,x.company?.name].join(' ').toLowerCase();if(text.includes(q))out.push({type:'contact',label:x.name,meta:'Contato · '+(x.company?.name||x.role||x.email||'sem detalhes'),id:x._id})});
+      state.deals.forEach(function(x){var relation=x.contact?.name||x.company?.name||x.customer?.name||x.lead?.name||'';var text=[x.title,relation,x.responsible,(x.tags||[]).join(' ')].join(' ').toLowerCase();if(text.includes(q))out.push({type:'deal',label:x.title,meta:'Negociação · '+relation+' · '+currency(x.value),id:x._id})});
+      return out.slice(0,12);
+    }
+
+    function renderGlobalSearch(){
+      var input=document.getElementById('globalSearch'),box=document.getElementById('globalSearchResults');
+      var items=globalSearchItems(input.value);
+      if(input.value.trim().length<2){box.classList.add('hidden');box.innerHTML='';return}
+      box.innerHTML=items.length?items.map(function(x){return '<button class="global-result" type="button" data-type="'+x.type+'" data-id="'+x.id+'"><strong><span class="global-group">'+esc(x.type)+'</span>'+esc(x.label)+'</strong><span>'+esc(x.meta)+'</span></button>'}).join(''):'<div class="empty" style="padding:18px">Nenhum resultado encontrado.</div>';
+      box.classList.remove('hidden');
+      box.querySelectorAll('.global-result').forEach(function(btn){btn.onclick=function(){
+        box.classList.add('hidden');input.value='';
+        if(btn.dataset.type==='deal')openDealDialog(btn.dataset.id);else openOverview(btn.dataset.type,btn.dataset.id);
+      }});
+    }
+    document.getElementById('globalSearch').addEventListener('input',renderGlobalSearch);
+    document.addEventListener('click',function(e){if(!e.target.closest('.global-search'))document.getElementById('globalSearchResults').classList.add('hidden')});
+
+    function csvCell(value){
+      var text=String(value==null?'':value);
+      return '"'+text.replace(/"/g,'""')+'"';
+    }
+    function exportLeadsCSV(){
+      var rows=[['Nome','Empresa','Email','Telefone','Origem','Etapa','Valor estimado','Próximo contato','Tags','Observações']];
+      filteredLeads().forEach(function(l){rows.push([l.name,l.company||'',l.email||'',l.phone||'',l.source||'outro',l.stage||'novo',l.estimatedValue||0,l.nextFollowUpAt||'',(l.tags||[]).join('|'),l.notes||''])});
+      var csv='\ufeff'+rows.map(function(row){return row.map(csvCell).join(';')}).join('\r\n');
+      var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download='leadflow-leads.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);
+      toast('CSV de leads exportado');
+    }
+    function parseCSV(text){
+      var first=(text.split(/\r?\n/)[0]||''),delimiter=(first.split(';').length>=first.split(',').length)?';':',';
+      var rows=[],row=[],cell='',quoted=false;
+      for(var i=0;i<text.length;i++){
+        var ch=text[i];
+        if(ch==='"'){
+          if(quoted&&text[i+1]==='"'){cell+='"';i++}else quoted=!quoted;
+        }else if(ch===delimiter&&!quoted){row.push(cell);cell=''}
+        else if((ch==='\n'||ch==='\r')&&!quoted){
+          if(ch==='\r'&&text[i+1]==='\n')i++;
+          row.push(cell);cell='';if(row.some(function(v){return v.trim()!==''}))rows.push(row);row=[];
+        }else cell+=ch;
+      }
+      if(cell||row.length){row.push(cell);if(row.some(function(v){return v.trim()!==''}))rows.push(row)}
+      return rows;
+    }
+    function headerKey(value){return String(value||'').replace(/^\ufeff/,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')}
+    function csvNumber(value){
+      var v=String(value||'').trim().replace(/R\$/gi,'').replace(/\s/g,'');
+      if(v.includes(',')&&v.includes('.'))v=v.replace(/\./g,'').replace(',','.');
+      else if(v.includes(','))v=v.replace(',','.');
+      var n=Number(v);return Number.isFinite(n)?n:0;
+    }
+    async function importLeadsCSV(file){
+      if(!file)return;
+      try{
+        var rows=parseCSV(await file.text());
+        if(rows.length<2)throw new Error('O CSV não possui registros para importar');
+        var headers=rows[0].map(headerKey),idx=function(name){return headers.indexOf(name)};
+        var nameIndex=idx('nome');
+        if(nameIndex<0)throw new Error('O CSV precisa ter a coluna Nome');
+        var validSources=['site','indicacao','instagram','linkedin','evento','prospeccao','outro'];
+        var validStages=['novo','contato','qualificado','proposta','negociacao','ganho','perdido'];
+        var dataRows=rows.slice(1).filter(function(r){return String(r[nameIndex]||'').trim()}).slice(0,250);
+        var imported=0,failed=0;
+        for(var i=0;i<dataRows.length;i++){
+          var r=dataRows[i],source=String(r[idx('origem')]||'outro').trim().toLowerCase(),stage=String(r[idx('etapa')]||'novo').trim().toLowerCase();
+          var payload={name:String(r[nameIndex]||'').trim(),company:String(r[idx('empresa')]||'').trim(),email:String(r[idx('email')]||'').trim(),phone:String(r[idx('telefone')]||'').trim(),source:validSources.includes(source)?source:'outro',stage:validStages.includes(stage)?stage:'novo',estimatedValue:csvNumber(r[idx('valor_estimado')]),nextFollowUpAt:String(r[idx('proximo_contato')]||'').trim()||null,tags:parseTags(r[idx('tags')]),notes:String(r[idx('observacoes')]||'').trim()};
+          try{await api('/api/leads',{method:'POST',body:JSON.stringify(payload)});imported++}catch(e){failed++}
+        }
+        await loadAll();toast(imported+' leads importados'+(failed?' · '+failed+' com erro':''));
+      }catch(err){toast(err.message,'error')}finally{document.getElementById('leadCsvInput').value=''}
+    }
+    document.getElementById('leadCsvInput').addEventListener('change',function(e){importLeadsCSV(e.target.files&&e.target.files[0])});
 
     var titles={dashboard:'Dashboard',pipeline:'Pipeline comercial',deals:'Negociações',leads:'Leads',customers:'Clientes',companies:'Empresas',contacts:'Contatos',agenda:'Agenda comercial',reports:'Relatórios',activities:'Interações'};
     document.querySelectorAll('.nav-btn[data-section]').forEach(function(btn){
