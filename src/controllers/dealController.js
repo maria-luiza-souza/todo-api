@@ -25,12 +25,24 @@ const allowedFields = [
   'expectedCloseDate',
   'responsible',
   'lossReason',
+  'tags',
   'notes',
 ];
 
+const normalizeTags = (tags) =>
+  Array.isArray(tags)
+    ? [...new Set(tags.map((tag) => String(tag).trim()).filter(Boolean))].slice(0, 10)
+    : [];
+
 const pick = (body) =>
   allowedFields.reduce((data, field) => {
-    if (body[field] !== undefined) data[field] = body[field] === '' ? null : body[field];
+    if (body[field] !== undefined) {
+      data[field] = field === 'tags'
+        ? normalizeTags(body[field])
+        : body[field] === ''
+          ? null
+          : body[field];
+    }
     return data;
   }, {});
 
