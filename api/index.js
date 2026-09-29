@@ -23,7 +23,9 @@ app.use(async (req, res, next) => {
   try {
     if (mongoose.connection.readyState !== 1) {
       if (!process.env.MONGODB_URI) throw new Error('MONGODB_URI não configurado');
-      await mongoose.connect(process.env.MONGODB_URI);
+      await mongoose.connect(process.env.MONGODB_URI, {
+        dbName: process.env.MONGODB_DB || 'todo-api',
+      });
     }
     next();
   } catch (error) {
