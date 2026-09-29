@@ -54,6 +54,10 @@
     .deal-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.deal-pill{font-size:9px;font-weight:800;padding:4px 6px;border-radius:999px;background:#eef3f4;color:#50616a}.deal-pill.alert{background:#fee2e2;color:#991b1b}.deal-pill.good{background:#dcfce7;color:#166534}
     .stage-descoberta{background:#e0f2fe;color:#075985}.stage-qualificacao{background:#fef3c7;color:#92400e}
     .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.overview-box{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel-2)}.overview-box strong{display:block;font-size:12px;margin-bottom:4px}.overview-box span{font-size:12px;color:var(--muted)}.overview-list{display:flex;flex-direction:column;gap:9px}.overview-item{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}.dialog-wide{width:min(820px,calc(100vw - 28px))}
+    .agenda-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.agenda-count{background:var(--panel);border:1px solid var(--border);border-radius:15px;padding:15px}.agenda-count strong{display:block;font-size:24px;margin-top:4px}.agenda-count span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:800}.agenda-count.alert strong{color:var(--red)}
+    .agenda-section{margin-bottom:18px}.agenda-section h3{margin:0 0 9px;font-size:14px}.agenda-item{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;border:1px solid var(--border);border-radius:13px;padding:13px;background:#fff;margin-bottom:8px}.agenda-item.overdue{border-left:4px solid var(--red)}.agenda-item.today{border-left:4px solid var(--primary)}.agenda-main strong{display:block;font-size:13px}.agenda-main span{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+    .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.report-bars{display:flex;flex-direction:column;gap:11px}.report-row{display:grid;grid-template-columns:125px 1fr 65px;gap:10px;align-items:center;font-size:12px}.report-track{height:9px;background:#edf2f4;border-radius:999px;overflow:hidden}.report-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-2));border-radius:999px}.report-value{text-align:right;font-weight:800}.mini-table{width:100%;border-collapse:collapse}.mini-table td,.mini-table th{padding:9px;border-bottom:1px solid #edf1f2;font-size:12px;text-align:left}.mini-table th{color:var(--muted);font-size:10px;text-transform:uppercase}
+    @media(max-width:900px){.agenda-grid{grid-template-columns:repeat(2,1fr)}.report-grid{grid-template-columns:1fr}}
     dialog{border:0;border-radius:20px;padding:0;width:min(620px,calc(100vw - 28px));max-height:90vh;box-shadow:0 30px 100px rgba(0,0,0,.25)}dialog::backdrop{background:rgba(4,18,24,.62);backdrop-filter:blur(3px)}.dialog-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.dialog-head h3{margin:0}.dialog-body{padding:20px 22px;overflow:auto;max-height:68vh}.dialog-actions{padding:15px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:9px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.span-2{grid-column:1/-1}.close-btn{border:0;background:#eef2f4;border-radius:10px;width:34px;height:34px}
     .empty{padding:34px;text-align:center;color:var(--muted);font-size:13px}.toast{position:fixed;right:20px;bottom:20px;z-index:100;background:#102a36;color:#fff;padding:13px 16px;border-radius:13px;box-shadow:var(--shadow);font-size:13px;max-width:360px}.toast.error{background:#991b1b}.toast.success{background:#166534}.loading{opacity:.55;pointer-events:none}
     .kpi-note{display:inline-flex;gap:6px;align-items:center;font-size:11px;color:var(--muted);background:#f3f6f7;padding:6px 8px;border-radius:999px}
@@ -109,6 +113,10 @@
         <button class="nav-btn" data-section="deals"><span class="nav-icon">◆</span><span class="nav-label">Negociações</span></button>
         <button class="nav-btn" data-section="leads"><span class="nav-icon">◎</span><span class="nav-label">Leads</span></button>
         <button class="nav-btn" data-section="customers"><span class="nav-icon">◉</span><span class="nav-label">Clientes</span></button>
+        <button class="nav-btn" data-section="companies"><span class="nav-icon">▣</span><span class="nav-label">Empresas</span></button>
+        <button class="nav-btn" data-section="contacts"><span class="nav-icon">♙</span><span class="nav-label">Contatos</span></button>
+        <button class="nav-btn" data-section="agenda"><span class="nav-icon">◷</span><span class="nav-label">Agenda</span></button>
+        <button class="nav-btn" data-section="reports"><span class="nav-icon">▤</span><span class="nav-label">Relatórios</span></button>
         <button class="nav-btn" data-section="activities"><span class="nav-icon">↻</span><span class="nav-label">Interações</span></button>
       </nav>
       <div class="sidebar-foot">
@@ -174,6 +182,43 @@
           <div class="table-wrap"><table class="data-table"><thead><tr><th>Cliente</th><th>Contato</th><th>Segmento</th><th>Origem</th><th>Ações</th></tr></thead><tbody id="customersTable"></tbody></table></div>
         </section>
 
+        <section id="section-companies" class="section">
+          <div class="page-head"><div><h1>Empresas</h1><p>Organize contas, segmentos e relacionamentos B2B.</p></div><button class="btn btn-primary" onclick="openCompanyDialog()">+ Nova empresa</button></div>
+          <div class="toolbar"><input id="companySearch" placeholder="Buscar empresa, CNPJ, segmento ou e-mail"></div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Empresa</th><th>Segmento</th><th>Documento</th><th>Contato</th><th>Ações</th></tr></thead><tbody id="companiesTable"></tbody></table></div>
+        </section>
+
+        <section id="section-contacts" class="section">
+          <div class="page-head"><div><h1>Contatos</h1><p>Pessoas de contato vinculadas às empresas e negociações.</p></div><button class="btn btn-primary" onclick="openContactDialog()">+ Novo contato</button></div>
+          <div class="toolbar">
+            <input id="contactSearch" placeholder="Buscar contato, cargo, e-mail ou telefone">
+            <select id="contactCompanyFilter"><option value="">Todas as empresas</option></select>
+          </div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Contato</th><th>Empresa</th><th>Cargo</th><th>Telefone</th><th>Ações</th></tr></thead><tbody id="contactsTable"></tbody></table></div>
+        </section>
+
+        <section id="section-agenda" class="section">
+          <div class="page-head"><div><h1>Agenda comercial</h1><p>Follow-ups, reuniões e atividades que precisam de atenção.</p></div><button class="btn btn-primary" onclick="openActivityDialog()">+ Agendar atividade</button></div>
+          <div class="agenda-grid">
+            <div class="agenda-count alert"><span>Atrasadas</span><strong id="agendaCountOverdue">0</strong></div>
+            <div class="agenda-count"><span>Hoje</span><strong id="agendaCountToday">0</strong></div>
+            <div class="agenda-count"><span>Próximos 7 dias</span><strong id="agendaCountUpcoming">0</strong></div>
+            <div class="agenda-count"><span>Mais adiante</span><strong id="agendaCountLater">0</strong></div>
+          </div>
+          <div id="agendaContent"></div>
+        </section>
+
+        <section id="section-reports" class="section">
+          <div class="page-head"><div><h1>Relatórios comerciais</h1><p>Entenda origem dos leads, desempenho do funil e motivos de perda.</p></div></div>
+          <div class="report-grid">
+            <div class="card"><h3>Leads por origem</h3><div class="card-sub">Canais que mais geram oportunidades</div><div id="reportSources" class="report-bars"></div></div>
+            <div class="card"><h3>Negociações por etapa</h3><div class="card-sub">Volume e valor do funil</div><div id="reportStages" class="report-bars"></div></div>
+            <div class="card"><h3>Vendas ganhas — 6 meses</h3><div class="card-sub">Valor fechado por mês</div><div id="reportMonthly" class="report-bars"></div></div>
+            <div class="card"><h3>Motivos de perda</h3><div class="card-sub">Principais causas registradas</div><div id="reportLosses" class="report-bars"></div></div>
+            <div class="card" style="grid-column:1/-1"><h3>Desempenho por responsável</h3><div class="card-sub">Negociações e valor ganho</div><div class="table-wrap" style="border:0"><table class="mini-table"><thead><tr><th>Responsável</th><th>Negociações</th><th>Ganhas</th><th>Valor ganho</th></tr></thead><tbody id="reportResponsible"></tbody></table></div></div>
+          </div>
+        </section>
+
         <section id="section-activities" class="section">
           <div class="page-head"><div><h1>Interações</h1><p>Registre contatos, reuniões, mensagens e follow-ups.</p></div><button class="btn btn-primary" onclick="openActivityDialog()">+ Nova interação</button></div>
           <div class="card"><div id="activitiesList" class="timeline"></div></div>
@@ -182,6 +227,45 @@
     </main>
   </div>
 
+  <dialog id="companyDialog">
+    <form id="companyForm">
+      <div class="dialog-head"><h3 id="companyDialogTitle">Nova empresa</h3><button class="close-btn" type="button" onclick="document.getElementById('companyDialog').close()">×</button></div>
+      <div class="dialog-body">
+        <input id="companyId" type="hidden">
+        <div class="form-grid">
+          <div class="field"><label>Nome *</label><input id="companyName" required maxlength="160"></div>
+          <div class="field"><label>Razão social</label><input id="companyLegalName" maxlength="180"></div>
+          <div class="field"><label>CNPJ / documento</label><input id="companyDocument" maxlength="30"></div>
+          <div class="field"><label>Segmento</label><input id="companySegment" maxlength="100"></div>
+          <div class="field"><label>E-mail</label><input id="companyEmail" type="email"></div>
+          <div class="field"><label>Telefone</label><input id="companyPhone"></div>
+          <div class="field span-2"><label>Website</label><input id="companyWebsite" placeholder="https://..."></div>
+          <div class="field span-2"><label>Observações</label><textarea id="companyNotes" maxlength="2000"></textarea></div>
+        </div>
+      </div>
+      <div class="dialog-actions"><button class="btn btn-outline" type="button" onclick="document.getElementById('companyDialog').close()">Cancelar</button><button class="btn btn-primary" type="submit">Salvar empresa</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="contactDialog">
+    <form id="contactForm">
+      <div class="dialog-head"><h3 id="contactDialogTitle">Novo contato</h3><button class="close-btn" type="button" onclick="document.getElementById('contactDialog').close()">×</button></div>
+      <div class="dialog-body">
+        <input id="contactId" type="hidden">
+        <div class="form-grid">
+          <div class="field"><label>Nome *</label><input id="contactName" required maxlength="140"></div>
+          <div class="field"><label>Empresa</label><select id="contactCompany"><option value="">Sem empresa</option></select></div>
+          <div class="field"><label>Cargo / função</label><input id="contactRole" maxlength="120"></div>
+          <div class="field"><label>E-mail</label><input id="contactEmail" type="email"></div>
+          <div class="field"><label>Telefone</label><input id="contactPhone"></div>
+          <div class="field"><label>WhatsApp</label><input id="contactWhatsapp"></div>
+          <div class="field span-2"><label>Observações</label><textarea id="contactNotes" maxlength="2000"></textarea></div>
+        </div>
+      </div>
+      <div class="dialog-actions"><button class="btn btn-outline" type="button" onclick="document.getElementById('contactDialog').close()">Cancelar</button><button class="btn btn-primary" type="submit">Salvar contato</button></div>
+    </form>
+  </dialog>
+
   <dialog id="dealDialog">
     <form id="dealForm">
       <div class="dialog-head"><h3 id="dealDialogTitle">Nova negociação</h3><button class="close-btn" type="button" onclick="document.getElementById('dealDialog').close()">×</button></div>
@@ -189,7 +273,7 @@
         <input id="dealId" type="hidden">
         <div class="form-grid">
           <div class="field span-2"><label>Título *</label><input id="dealTitle" required maxlength="160" placeholder="Ex.: Implantação do sistema"></div>
-          <div class="field"><label>Relacionar a</label><select id="dealRelationType"><option value="lead">Lead</option><option value="customer">Cliente</option></select></div>
+          <div class="field"><label>Relacionar a</label><select id="dealRelationType"><option value="lead">Lead</option><option value="customer">Cliente</option><option value="company">Empresa</option><option value="contact">Contato</option></select></div>
           <div class="field"><label id="dealRelationLabel">Lead</label><select id="dealRelation" required></select></div>
           <div class="field"><label>Etapa</label><select id="dealStage"><option value="descoberta">Descoberta</option><option value="qualificacao">Qualificação</option><option value="proposta">Proposta</option><option value="negociacao">Negociação</option><option value="ganho">Ganho</option><option value="perdido">Perdido</option></select></div>
           <div class="field"><label>Valor</label><input id="dealValue" type="number" min="0" step="0.01"></div>
@@ -250,7 +334,7 @@
       <div class="dialog-body">
         <div class="form-grid">
           <div class="field"><label>Tipo</label><select id="activityType"><option value="ligacao">Ligação</option><option value="whatsapp">WhatsApp</option><option value="email">E-mail</option><option value="reuniao">Reunião</option><option value="nota">Nota</option><option value="followup">Follow-up</option></select></div>
-          <div class="field"><label>Relacionar a</label><select id="activityRelationType"><option value="lead">Lead</option><option value="customer">Cliente</option><option value="deal">Negociação</option></select></div>
+          <div class="field"><label>Relacionar a</label><select id="activityRelationType"><option value="lead">Lead</option><option value="customer">Cliente</option><option value="deal">Negociação</option><option value="company">Empresa</option><option value="contact">Contato</option></select></div>
           <div class="field span-2"><label id="activityRelationLabel">Lead</label><select id="activityRelation"></select></div>
           <div class="field span-2"><label>Título *</label><input id="activityTitle" required maxlength="160"></div>
           <div class="field"><label>Data da interação</label><input id="activityOccurredAt" type="datetime-local"></div>
@@ -281,7 +365,7 @@
       {id:'descoberta',label:'Descoberta'},{id:'qualificacao',label:'Qualificação'},{id:'proposta',label:'Proposta'},
       {id:'negociacao',label:'Negociação'},{id:'ganho',label:'Ganho'},{id:'perdido',label:'Perdido'}
     ];
-    var state = { token: localStorage.getItem('leadflow_token') || '', user: null, leads: [], customers: [], deals: [], activities: [], dashboard: null };
+    var state = { token: localStorage.getItem('leadflow_token') || '', user: null, leads: [], customers: [], deals: [], companies: [], contacts: [], activities: [], agenda: null, reports: null, dashboard: null };
     try { state.user = JSON.parse(localStorage.getItem('leadflow_user') || 'null'); } catch(e) {}
 
     function esc(value){
@@ -350,13 +434,31 @@
     async function loadAll(){
       document.getElementById('appView').classList.add('loading');
       try{
-        var results=await Promise.all([api('/api/dashboard'),api('/api/leads'),api('/api/customers?active=true'),api('/api/deals'),api('/api/activities')]);
-        state.dashboard=results[0].data; state.leads=results[1].data||[]; state.customers=results[2].data||[]; state.deals=results[3].data||[]; state.activities=results[4].data||[];
+        var results=await Promise.all([
+          api('/api/dashboard'),
+          api('/api/leads'),
+          api('/api/customers?active=true'),
+          api('/api/deals'),
+          api('/api/companies?active=true'),
+          api('/api/contacts?active=true'),
+          api('/api/activities'),
+          api('/api/agenda'),
+          api('/api/reports')
+        ]);
+        state.dashboard=results[0].data;
+        state.leads=results[1].data||[];
+        state.customers=results[2].data||[];
+        state.deals=results[3].data||[];
+        state.companies=results[4].data||[];
+        state.contacts=results[5].data||[];
+        state.activities=results[6].data||[];
+        state.agenda=results[7].data||{};
+        state.reports=results[8].data||{};
         renderAll();
       }catch(err){toast(err.message,'error')}finally{document.getElementById('appView').classList.remove('loading')}
     }
 
-    function renderAll(){renderDashboard();renderPipeline();renderDeals();renderLeads();renderCustomers();renderActivities();refreshRelationOptions();refreshDealRelationOptions();}
+    function renderAll(){renderDashboard();renderPipeline();renderDeals();renderLeads();renderCustomers();renderCompanies();renderContacts();renderAgenda();renderReports();renderActivities();refreshRelationOptions();refreshDealRelationOptions();refreshCompanyOptions();}
 
     function renderDashboard(){
       var d=state.dashboard||{};
@@ -383,7 +485,7 @@
     }
 
     function activityHtml(a){
-      var relation=a.deal?(a.deal.title||'Negociação'):a.lead?(a.lead.name||'Lead'):a.customer?(a.customer.name||'Cliente'):'Sem vínculo';
+      var relation=a.deal?(a.deal.title||'Negociação'):a.contact?(a.contact.name||'Contato'):a.company?(a.company.name||'Empresa'):a.lead?(a.lead.name||'Lead'):a.customer?(a.customer.name||'Cliente'):'Sem vínculo';
       return '<div class="timeline-item"><div class="timeline-icon">'+activityIcon(a.type)+'</div><div><div class="timeline-title">'+esc(a.title)+'</div><div class="timeline-meta">'+esc(relation)+' · '+dateBR(a.occurredAt||a.createdAt)+(a.completed?' · concluída':' · pendente')+'</div>'+(a.description?'<div style="font-size:12px;color:var(--muted);margin-top:6px">'+esc(a.description)+'</div>':'')+'</div></div>';
     }
 
@@ -438,7 +540,7 @@
     function renderDeals(){
       var list=filteredDeals();
       document.getElementById('dealsTable').innerHTML=list.length?list.map(function(d){
-        var relation=d.customer?(d.customer.name+(d.customer.company?' · '+d.customer.company:'')):d.lead?(d.lead.name+(d.lead.company?' · '+d.lead.company:'')):'—';
+        var relation=d.contact?(d.contact.name+(d.company?.name?' · '+d.company.name:'')):d.company?(d.company.name||'Empresa'):d.customer?(d.customer.name+(d.customer.company?' · '+d.customer.company:'')):d.lead?(d.lead.name+(d.lead.company?' · '+d.lead.company:'')):'—';
         return '<tr><td><div class="person"><strong>'+esc(d.title)+'</strong><span>'+esc(d.responsible||'Eu')+'</span></div></td><td>'+esc(relation)+'</td><td><span class="badge stage-'+d.stage+'">'+esc(dealStageLabel(d.stage))+'</span></td><td><strong>'+currency(d.value)+'</strong></td><td>'+Number(d.probability||0)+'%</td><td>'+dateBR(d.expectedCloseDate)+'</td><td><button class="btn btn-outline btn-sm edit-deal" data-id="'+d._id+'">Editar</button> <button class="btn btn-danger btn-sm delete-deal" data-id="'+d._id+'">Excluir</button></td></tr>';
       }).join(''):'<tr><td colspan="7"><div class="empty">Nenhuma negociação cadastrada. Crie a primeira para alimentar o pipeline.</div></td></tr>';
       document.querySelectorAll('.edit-deal').forEach(function(b){b.onclick=function(){openDealDialog(b.dataset.id)}});
@@ -485,6 +587,83 @@
     }
     document.getElementById('customerSearch').addEventListener('input',renderCustomers);
 
+    function renderCompanies(){
+      var q=document.getElementById('companySearch').value.toLowerCase().trim();
+      var list=state.companies.filter(function(x){
+        return !q||[x.name,x.legalName,x.document,x.segment,x.email,x.phone].join(' ').toLowerCase().indexOf(q)>=0;
+      });
+      document.getElementById('companiesTable').innerHTML=list.length?list.map(function(x){
+        return '<tr><td><div class="person"><strong>'+esc(x.name)+'</strong><span>'+esc(x.legalName||x.website||'Conta empresarial')+'</span></div></td><td>'+esc(x.segment||'—')+'</td><td>'+esc(x.document||'—')+'</td><td>'+esc(x.email||x.phone||'—')+'</td><td><button class="btn btn-outline btn-sm overview-company" data-id="'+x._id+'">360º</button> <button class="btn btn-outline btn-sm contact-from-company" data-id="'+x._id+'">+ Contato</button> <button class="btn btn-outline btn-sm deal-from-company" data-id="'+x._id+'">+ Negociação</button> <button class="btn btn-outline btn-sm edit-company" data-id="'+x._id+'">Editar</button> <button class="btn btn-danger btn-sm archive-company" data-id="'+x._id+'">Arquivar</button></td></tr>';
+      }).join(''):'<tr><td colspan="5"><div class="empty">Nenhuma empresa cadastrada.</div></td></tr>';
+      document.querySelectorAll('.overview-company').forEach(function(b){b.onclick=function(){openOverview('company',b.dataset.id)}});
+      document.querySelectorAll('.contact-from-company').forEach(function(b){b.onclick=function(){openContactDialog(null,b.dataset.id)}});
+      document.querySelectorAll('.deal-from-company').forEach(function(b){b.onclick=function(){openDealDialog(null,'company',b.dataset.id)}});
+      document.querySelectorAll('.edit-company').forEach(function(b){b.onclick=function(){openCompanyDialog(b.dataset.id)}});
+      document.querySelectorAll('.archive-company').forEach(function(b){b.onclick=function(){archiveCompany(b.dataset.id)}});
+    }
+    document.getElementById('companySearch').addEventListener('input',renderCompanies);
+
+    function renderContacts(){
+      var q=document.getElementById('contactSearch').value.toLowerCase().trim();
+      var company=document.getElementById('contactCompanyFilter').value;
+      var list=state.contacts.filter(function(x){
+        var matchText=!q||[x.name,x.role,x.email,x.phone,x.whatsapp,x.company?.name].join(' ').toLowerCase().indexOf(q)>=0;
+        var matchCompany=!company||(x.company&&x.company._id===company);
+        return matchText&&matchCompany;
+      });
+      document.getElementById('contactsTable').innerHTML=list.length?list.map(function(x){
+        return '<tr><td><div class="person"><strong>'+esc(x.name)+'</strong><span>'+esc(x.email||x.whatsapp||'Contato')+'</span></div></td><td>'+esc(x.company?.name||'—')+'</td><td>'+esc(x.role||'—')+'</td><td>'+esc(x.phone||x.whatsapp||'—')+'</td><td><button class="btn btn-outline btn-sm overview-contact" data-id="'+x._id+'">360º</button> <button class="btn btn-outline btn-sm deal-from-contact" data-id="'+x._id+'">+ Negociação</button> <button class="btn btn-outline btn-sm edit-contact" data-id="'+x._id+'">Editar</button> <button class="btn btn-danger btn-sm archive-contact" data-id="'+x._id+'">Arquivar</button></td></tr>';
+      }).join(''):'<tr><td colspan="5"><div class="empty">Nenhum contato cadastrado.</div></td></tr>';
+      document.querySelectorAll('.overview-contact').forEach(function(b){b.onclick=function(){openOverview('contact',b.dataset.id)}});
+      document.querySelectorAll('.deal-from-contact').forEach(function(b){b.onclick=function(){openDealDialog(null,'contact',b.dataset.id)}});
+      document.querySelectorAll('.edit-contact').forEach(function(b){b.onclick=function(){openContactDialog(b.dataset.id)}});
+      document.querySelectorAll('.archive-contact').forEach(function(b){b.onclick=function(){archiveContact(b.dataset.id)}});
+    }
+    document.getElementById('contactSearch').addEventListener('input',renderContacts);
+    document.getElementById('contactCompanyFilter').addEventListener('change',renderContacts);
+
+    function agendaRelation(a){
+      return a.deal?.title||a.contact?.name||a.company?.name||a.lead?.name||a.customer?.name||'Sem vínculo';
+    }
+    function agendaBlock(title,items,kind){
+      if(!items||!items.length)return '';
+      return '<div class="agenda-section"><h3>'+esc(title)+'</h3>'+items.map(function(a){
+        return '<div class="agenda-item '+esc(kind||'')+'"><div class="agenda-main"><strong>'+esc(a.title)+'</strong><span>'+esc(agendaRelation(a))+' · '+dateBR(a.scheduledFor)+' · '+esc((a.type||'atividade').replace('followup','follow-up'))+'</span>'+(a.description?'<span>'+esc(a.description)+'</span>':'')+'</div><button class="btn btn-primary btn-sm complete-agenda" data-id="'+a._id+'">Concluir</button></div>';
+      }).join('')+'</div>';
+    }
+    function renderAgenda(){
+      var a=state.agenda||{},counts=a.counts||{};
+      document.getElementById('agendaCountOverdue').textContent=counts.overdue||0;
+      document.getElementById('agendaCountToday').textContent=counts.today||0;
+      document.getElementById('agendaCountUpcoming').textContent=counts.upcoming||0;
+      document.getElementById('agendaCountLater').textContent=counts.later||0;
+      var html=agendaBlock('Atrasadas',a.overdue,'overdue')+agendaBlock('Hoje',a.today,'today')+agendaBlock('Próximos 7 dias',a.upcoming,'')+agendaBlock('Mais adiante',a.later,'');
+      document.getElementById('agendaContent').innerHTML=html||'<div class="card"><div class="empty">Nenhuma atividade pendente na agenda.</div></div>';
+      document.querySelectorAll('.complete-agenda').forEach(function(b){b.onclick=function(){completeAgenda(b.dataset.id)}});
+    }
+    async function completeAgenda(id){
+      try{await api('/api/activities/'+id,{method:'PUT',body:JSON.stringify({completed:true})});toast('Atividade concluída');await loadAll()}catch(err){toast(err.message,'error')}
+    }
+
+    function reportBars(items,labelFn,valueFn,displayFn){
+      items=items||[]; if(!items.length)return '<div class="empty">Ainda não há dados suficientes.</div>';
+      var vals=items.map(valueFn),max=Math.max.apply(null,[1].concat(vals));
+      return items.map(function(x){
+        var value=valueFn(x),width=Math.max(4,Math.round(value/max*100));
+        return '<div class="report-row"><span>'+esc(labelFn(x))+'</span><div class="report-track"><div class="report-fill" style="width:'+width+'%"></div></div><span class="report-value">'+esc(displayFn(x))+'</span></div>';
+      }).join('');
+    }
+    function renderReports(){
+      var r=state.reports||{};
+      document.getElementById('reportSources').innerHTML=reportBars(r.bySource,function(x){return sourceLabel(x._id)},function(x){return x.count||0},function(x){return String(x.count||0)});
+      document.getElementById('reportStages').innerHTML=reportBars(r.byStage,function(x){return dealStageLabel(x._id)},function(x){return x.value||0},function(x){return currency(x.value||0)});
+      var months=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      document.getElementById('reportMonthly').innerHTML=reportBars(r.monthlyWon,function(x){return months[(x._id?.month||1)-1]+'/'+String(x._id?.year||'').slice(-2)},function(x){return x.value||0},function(x){return currency(x.value||0)});
+      document.getElementById('reportLosses').innerHTML=reportBars(r.lossReasons,function(x){return x._id||'Outro'},function(x){return x.count||0},function(x){return String(x.count||0)});
+      var resp=r.byResponsible||[];
+      document.getElementById('reportResponsible').innerHTML=resp.length?resp.map(function(x){return '<tr><td><strong>'+esc(x._id||'Sem responsável')+'</strong></td><td>'+Number(x.deals||0)+'</td><td>'+Number(x.won||0)+'</td><td>'+currency(x.wonValue||0)+'</td></tr>'}).join(''):'<tr><td colspan="4"><div class="empty">Ainda não há dados suficientes.</div></td></tr>';
+    }
+
     function renderActivities(){
       document.getElementById('activitiesList').innerHTML=state.activities.length?state.activities.map(function(a){
         return '<div style="position:relative">'+activityHtml(a)+'<button class="btn btn-danger btn-sm delete-activity" data-id="'+a._id+'" style="position:absolute;right:10px;top:10px">Excluir</button></div>';
@@ -492,11 +671,57 @@
       document.querySelectorAll('.delete-activity').forEach(function(b){b.onclick=function(){deleteActivity(b.dataset.id)}});
     }
 
+    function refreshCompanyOptions(){
+      var opts='<option value="">Sem empresa</option>'+state.companies.map(function(x){return '<option value="'+x._id+'">'+esc(x.name)+'</option>'}).join('');
+      document.getElementById('contactCompany').innerHTML=opts;
+      document.getElementById('contactCompanyFilter').innerHTML='<option value="">Todas as empresas</option>'+state.companies.map(function(x){return '<option value="'+x._id+'">'+esc(x.name)+'</option>'}).join('');
+    }
+
+    function openCompanyDialog(id){
+      document.getElementById('companyForm').reset();document.getElementById('companyId').value='';document.getElementById('companyDialogTitle').textContent=id?'Editar empresa':'Nova empresa';
+      if(id){
+        var x=state.companies.find(function(v){return v._id===id});if(!x)return;
+        document.getElementById('companyId').value=x._id;document.getElementById('companyName').value=x.name||'';document.getElementById('companyLegalName').value=x.legalName||'';document.getElementById('companyDocument').value=x.document||'';document.getElementById('companySegment').value=x.segment||'';document.getElementById('companyEmail').value=x.email||'';document.getElementById('companyPhone').value=x.phone||'';document.getElementById('companyWebsite').value=x.website||'';document.getElementById('companyNotes').value=x.notes||'';
+      }
+      document.getElementById('companyDialog').showModal();
+    }
+    document.getElementById('companyForm').addEventListener('submit',async function(e){
+      e.preventDefault();var id=document.getElementById('companyId').value;
+      var payload={name:document.getElementById('companyName').value.trim(),legalName:document.getElementById('companyLegalName').value.trim(),document:document.getElementById('companyDocument').value.trim(),segment:document.getElementById('companySegment').value.trim(),email:document.getElementById('companyEmail').value.trim(),phone:document.getElementById('companyPhone').value.trim(),website:document.getElementById('companyWebsite').value.trim(),notes:document.getElementById('companyNotes').value.trim()};
+      try{await api(id?'/api/companies/'+id:'/api/companies',{method:id?'PUT':'POST',body:JSON.stringify(payload)});document.getElementById('companyDialog').close();toast(id?'Empresa atualizada':'Empresa criada');await loadAll()}catch(err){toast(err.message,'error')}
+    });
+    async function archiveCompany(id){
+      if(!confirm('Arquivar esta empresa e seus contatos vinculados?'))return;
+      try{await api('/api/companies/'+id,{method:'DELETE'});toast('Empresa arquivada');await loadAll()}catch(err){toast(err.message,'error')}
+    }
+
+    function openContactDialog(id,companyId){
+      document.getElementById('contactForm').reset();document.getElementById('contactId').value='';document.getElementById('contactDialogTitle').textContent=id?'Editar contato':'Novo contato';refreshCompanyOptions();
+      if(id){
+        var x=state.contacts.find(function(v){return v._id===id});if(!x)return;
+        document.getElementById('contactId').value=x._id;document.getElementById('contactName').value=x.name||'';document.getElementById('contactCompany').value=x.company?x.company._id:'';document.getElementById('contactRole').value=x.role||'';document.getElementById('contactEmail').value=x.email||'';document.getElementById('contactPhone').value=x.phone||'';document.getElementById('contactWhatsapp').value=x.whatsapp||'';document.getElementById('contactNotes').value=x.notes||'';
+      }else if(companyId){document.getElementById('contactCompany').value=companyId}
+      document.getElementById('contactDialog').showModal();
+    }
+    document.getElementById('contactForm').addEventListener('submit',async function(e){
+      e.preventDefault();var id=document.getElementById('contactId').value;
+      var payload={name:document.getElementById('contactName').value.trim(),company:document.getElementById('contactCompany').value||null,role:document.getElementById('contactRole').value.trim(),email:document.getElementById('contactEmail').value.trim(),phone:document.getElementById('contactPhone').value.trim(),whatsapp:document.getElementById('contactWhatsapp').value.trim(),notes:document.getElementById('contactNotes').value.trim()};
+      try{await api(id?'/api/contacts/'+id:'/api/contacts',{method:id?'PUT':'POST',body:JSON.stringify(payload)});document.getElementById('contactDialog').close();toast(id?'Contato atualizado':'Contato criado');await loadAll()}catch(err){toast(err.message,'error')}
+    });
+    async function archiveContact(id){
+      if(!confirm('Arquivar este contato?'))return;
+      try{await api('/api/contacts/'+id,{method:'DELETE'});toast('Contato arquivado');await loadAll()}catch(err){toast(err.message,'error')}
+    }
+
     function refreshDealRelationOptions(selectedId){
       var type=document.getElementById('dealRelationType').value;
-      var items=type==='lead'?state.leads:state.customers;
-      document.getElementById('dealRelationLabel').textContent=type==='lead'?'Lead':'Cliente';
-      document.getElementById('dealRelation').innerHTML='<option value="">Selecione...</option>'+items.map(function(x){return '<option value="'+x._id+'">'+esc(x.name)+(x.company?' — '+esc(x.company):'')+'</option>'}).join('');
+      var items=type==='lead'?state.leads:type==='customer'?state.customers:type==='company'?state.companies:state.contacts;
+      var labels={lead:'Lead',customer:'Cliente',company:'Empresa',contact:'Contato'};
+      document.getElementById('dealRelationLabel').textContent=labels[type]||'Relacionamento';
+      document.getElementById('dealRelation').innerHTML='<option value="">Selecione...</option>'+items.map(function(x){
+        var secondary=type==='contact'?(x.company?.name||x.role||''):type==='company'?(x.segment||''):(x.company||'');
+        return '<option value="'+x._id+'">'+esc(x.name)+(secondary?' — '+esc(secondary):'')+'</option>';
+      }).join('');
       if(selectedId)document.getElementById('dealRelation').value=selectedId;
     }
     document.getElementById('dealRelationType').addEventListener('change',function(){refreshDealRelationOptions()});
@@ -520,8 +745,8 @@
         var d=state.deals.find(function(x){return x._id===id});if(!d)return;
         document.getElementById('dealId').value=d._id;
         document.getElementById('dealTitle').value=d.title||'';
-        var type=d.customer?'customer':'lead';
-        var rel=d.customer?d.customer._id:(d.lead?d.lead._id:'');
+        var type=d.contact?'contact':d.company?'company':d.customer?'customer':'lead';
+        var rel=d.contact?d.contact._id:d.company?d.company._id:d.customer?d.customer._id:(d.lead?d.lead._id:'');
         document.getElementById('dealRelationType').value=type;
         refreshDealRelationOptions(rel);
         document.getElementById('dealStage').value=d.stage||'descoberta';
@@ -557,7 +782,9 @@
         lossReason:document.getElementById('dealLossReason').value.trim(),
         notes:document.getElementById('dealNotes').value.trim(),
         lead:null,
-        customer:null
+        customer:null,
+        company:null,
+        contact:null
       };
       payload[relationType]=relationId||null;
       try{
@@ -575,24 +802,29 @@
 
     async function openOverview(type,id){
       try{
-        var endpoint=type==='lead'?'/api/leads/'+id+'/overview':'/api/customers/'+id+'/overview';
+        var endpoints={lead:'/api/leads/',customer:'/api/customers/',company:'/api/companies/',contact:'/api/contacts/'};
+        var endpoint=endpoints[type]+id+'/overview';
         var result=await api(endpoint);
         var data=result.data||{};
-        var entity=type==='lead'?data.lead:data.customer;
+        var entity=type==='lead'?data.lead:type==='customer'?data.customer:type==='company'?data.company:data.contact;
         var title=entity.name||'Registro';
         document.getElementById('overviewTitle').textContent='Visão 360º · '+title;
         document.getElementById('overviewSubtitle').textContent=entity.company||entity.email||entity.phone||'Histórico comercial consolidado';
 
-        var deals=data.deals||[],activities=data.activities||[];
+        var deals=data.deals||[],activities=data.activities||[],contacts=data.contacts||[];
         var openValue=deals.filter(function(d){return d.stage!=='ganho'&&d.stage!=='perdido'}).reduce(function(s,d){return s+(Number(d.value)||0)},0);
-        var contact=[entity.email,entity.phone].filter(Boolean).join(' · ')||'Não informado';
+        var contactInfo=[entity.email,entity.phone,entity.whatsapp].filter(Boolean).join(' · ')||'Não informado';
+        var companyName=entity.company?.name||entity.company||entity.segment||'Não informado';
 
         var html='<div class="overview-grid">'+
-          '<div class="overview-box"><strong>Contato</strong><span>'+esc(contact)+'</span></div>'+
-          '<div class="overview-box"><strong>Empresa / segmento</strong><span>'+esc(entity.company||entity.segment||'Não informado')+'</span></div>'+
+          '<div class="overview-box"><strong>Contato</strong><span>'+esc(contactInfo)+'</span></div>'+
+          '<div class="overview-box"><strong>Empresa / segmento</strong><span>'+esc(companyName)+'</span></div>'+
           '<div class="overview-box"><strong>Negociações</strong><span>'+deals.length+' registradas</span></div>'+
           '<div class="overview-box"><strong>Pipeline em aberto</strong><span>'+currency(openValue)+'</span></div>'+
           '</div>';
+        if(type==='company'){
+          html+='<h3 style="margin:22px 0 10px">Contatos da empresa</h3><div class="overview-list">'+(contacts.length?contacts.map(function(x){return '<div class="overview-item"><strong>'+esc(x.name)+'</strong><div class="timeline-meta">'+esc(x.role||'Contato')+' · '+esc(x.email||x.phone||'sem contato')+'</div></div>'}).join(''):'<div class="empty">Nenhum contato vinculado.</div>')+'</div>';
+        }
 
         html+='<h3 style="margin:22px 0 10px">Negociações</h3><div class="overview-list">';
         html+=deals.length?deals.map(function(d){return '<div class="overview-item"><strong>'+esc(d.title)+'</strong><div class="timeline-meta"><span class="badge stage-'+d.stage+'">'+esc(dealStageLabel(d.stage))+'</span> · '+currency(d.value)+' · '+(d.probability||0)+'% · fechamento '+dateBR(d.expectedCloseDate)+'</div></div>'}).join(''):'<div class="empty">Nenhuma negociação relacionada.</div>';
@@ -647,11 +879,12 @@
 
     function refreshRelationOptions(){
       var type=document.getElementById('activityRelationType').value;
-      var items=type==='lead'?state.leads:type==='customer'?state.customers:state.deals;
-      document.getElementById('activityRelationLabel').textContent=type==='lead'?'Lead':type==='customer'?'Cliente':'Negociação';
+      var items=type==='lead'?state.leads:type==='customer'?state.customers:type==='deal'?state.deals:type==='company'?state.companies:state.contacts;
+      var labels={lead:'Lead',customer:'Cliente',deal:'Negociação',company:'Empresa',contact:'Contato'};
+      document.getElementById('activityRelationLabel').textContent=labels[type]||'Relacionamento';
       document.getElementById('activityRelation').innerHTML='<option value="">Selecione...</option>'+items.map(function(x){
         var label=type==='deal'?x.title:x.name;
-        var secondary=type==='deal'?(x.customer?.name||x.lead?.name||''):(x.company||'');
+        var secondary=type==='deal'?(x.contact?.name||x.company?.name||x.customer?.name||x.lead?.name||''):type==='contact'?(x.company?.name||x.role||''):type==='company'?(x.segment||''):(x.company||'');
         return '<option value="'+x._id+'">'+esc(label)+(secondary?' — '+esc(secondary):'')+'</option>';
       }).join('');
     }
@@ -661,7 +894,7 @@
     }
     document.getElementById('activityForm').addEventListener('submit',async function(e){
       e.preventDefault();var type=document.getElementById('activityRelationType').value;var relation=document.getElementById('activityRelation').value;
-      var payload={type:document.getElementById('activityType').value,title:document.getElementById('activityTitle').value.trim(),description:document.getElementById('activityDescription').value.trim(),occurredAt:document.getElementById('activityOccurredAt').value||new Date().toISOString(),scheduledFor:document.getElementById('activityScheduledFor').value||null,completed:document.getElementById('activityCompleted').checked,lead:null,customer:null,deal:null};
+      var payload={type:document.getElementById('activityType').value,title:document.getElementById('activityTitle').value.trim(),description:document.getElementById('activityDescription').value.trim(),occurredAt:document.getElementById('activityOccurredAt').value||new Date().toISOString(),scheduledFor:document.getElementById('activityScheduledFor').value||null,completed:document.getElementById('activityCompleted').checked,lead:null,customer:null,deal:null,company:null,contact:null};
       payload[type]=relation||null;
       try{await api('/api/activities',{method:'POST',body:JSON.stringify(payload)});document.getElementById('activityDialog').close();toast('Interação registrada');await loadAll()}catch(err){toast(err.message,'error')}
     });
@@ -670,7 +903,7 @@
       try{await api('/api/activities/'+id,{method:'DELETE'});toast('Interação excluída');await loadAll()}catch(err){toast(err.message,'error')}
     }
 
-    var titles={dashboard:'Dashboard',pipeline:'Pipeline comercial',deals:'Negociações',leads:'Leads',customers:'Clientes',activities:'Interações'};
+    var titles={dashboard:'Dashboard',pipeline:'Pipeline comercial',deals:'Negociações',leads:'Leads',customers:'Clientes',companies:'Empresas',contacts:'Contatos',agenda:'Agenda comercial',reports:'Relatórios',activities:'Interações'};
     document.querySelectorAll('.nav-btn[data-section]').forEach(function(btn){
       btn.addEventListener('click',function(){
         document.querySelectorAll('.nav-btn[data-section]').forEach(function(x){x.classList.toggle('active',x===btn)});
