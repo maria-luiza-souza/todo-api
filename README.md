@@ -13,15 +13,18 @@ CRM web desenvolvido para organizar **leads, clientes, pipeline comercial e inte
 
 - Cadastro e autenticação de usuários
 - JWT e rotas protegidas
-- Dashboard comercial
+- Dashboard comercial com pipeline, forecast, taxa de ganho e vendas do mês
 - Gestão de leads
-- Pipeline Kanban com drag and drop
+- Negociações (Deals) separadas dos leads e clientes
+- Pipeline Kanban de negociações com drag and drop
 - Etapas: Novo, Contato, Qualificado, Proposta, Negociação, Ganho e Perdido
-- Origem do lead e valor estimado
-- Follow-up e próximo contato
+- Origem do lead e próximo follow-up
+- Valor, probabilidade, responsável e previsão de fechamento por negociação
+- Motivo de perda e tempo na etapa
 - Conversão de lead em cliente
 - Gestão de clientes
 - Histórico de ligações, WhatsApp, e-mails, reuniões, notas e follow-ups
+- Visão 360º de leads e clientes com negociações e interações
 - Busca e filtros
 - Isolamento de dados por usuário
 - PWA e interface responsiva
@@ -54,12 +57,14 @@ LeadFlow CRM
     ├── models/
     │   ├── Activity.js
     │   ├── Customer.js
+    │   ├── Deal.js
     │   ├── Lead.js
     │   └── User.js
     └── routes/
         ├── activityRoutes.js
         ├── customerRoutes.js
         ├── dashboardRoutes.js
+        ├── dealRoutes.js
         ├── leadRoutes.js
         └── userRoutes.js
 ```
@@ -73,6 +78,9 @@ Principais campos: nome, empresa, contato, origem, etapa, valor estimado, observ
 
 ### Customer
 Representa um cliente da carteira. Um cliente pode nascer diretamente no CRM ou a partir da conversão de um lead.
+
+### Deal
+Representa uma negociação comercial separada do cadastro do lead/cliente. Armazena valor, etapa, probabilidade, previsão de fechamento, responsável, motivo de perda e datas de mudança de etapa.
 
 ### Activity
 Registra o histórico de relacionamento com leads e clientes: ligação, WhatsApp, e-mail, reunião, nota ou follow-up.
@@ -91,6 +99,10 @@ Responsável pela autenticação e pelo isolamento dos dados do CRM.
 | GET/PUT/DELETE | `/api/leads/:id` | Consultar / editar / excluir lead |
 | POST | `/api/leads/:id/convert` | Converter lead em cliente |
 | GET/POST | `/api/customers` | Listar / criar clientes |
+| GET | `/api/leads/:id/overview` | Visão 360º do lead |
+| GET | `/api/customers/:id/overview` | Visão 360º do cliente |
+| GET/POST | `/api/deals` | Listar / criar negociações |
+| GET/PUT/DELETE | `/api/deals/:id` | Consultar / editar / excluir negociação |
 | GET/PUT/DELETE | `/api/customers/:id` | Consultar / editar / arquivar cliente |
 | GET/POST | `/api/activities` | Listar / registrar interações |
 | PUT/DELETE | `/api/activities/:id` | Editar / excluir interação |
@@ -136,13 +148,13 @@ npm start
 
 ## Evolução planejada
 
-- Equipes e responsáveis por lead
-- Motivos de perda
-- Metas comerciais
-- Importação de contatos
+- Empresas e contatos como entidades separadas
+- Equipes e permissões comerciais
+- Metas e desempenho por responsável
+- Importação de contatos por CSV
 - Exportação de relatórios
-- Histórico completo por cliente
 - Funil configurável
+- Auditoria de alterações
 
 ## Autora
 
