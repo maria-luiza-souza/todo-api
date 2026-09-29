@@ -5,6 +5,7 @@ const leadRoutes = require('../src/routes/leadRoutes');
 const customerRoutes = require('../src/routes/customerRoutes');
 const activityRoutes = require('../src/routes/activityRoutes');
 const dashboardRoutes = require('../src/routes/dashboardRoutes');
+const dealRoutes = require('../src/routes/dealRoutes');
 
 const app = express();
 
@@ -40,14 +41,15 @@ app.use(async (req, res, next) => {
 app.use('/api/auth', userRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/deals', dealRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
 app.get('/', (req, res) => {
   res.json({
     message: 'LeadFlow CRM API está funcionando!',
-    version: '2.0.0',
-    resources: ['auth', 'leads', 'customers', 'activities', 'dashboard'],
+    version: '2.1.0',
+    resources: ['auth', 'leads', 'customers', 'deals', 'activities', 'dashboard'],
   });
 });
 

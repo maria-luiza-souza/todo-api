@@ -1,5 +1,6 @@
 const Customer = require('../models/Customer');
 const Activity = require('../models/Activity');
+const Deal = require('../models/Deal');
 
 const allowedFields = ['name', 'company', 'email', 'phone', 'document', 'segment', 'notes', 'active'];
 
@@ -40,6 +41,28 @@ const getCustomer = async (req, res) => {
     return res.json({ success: true, data: customer });
   } catch (error) {
     return res.status(400).json({ success: false, message: 'Cliente inválido' });
+  }
+};
+
+const getCustomerOverview = async (req, res) => {
+  try {
+    const customer = await Customer.findOne({ _id: req.params.id, owner: req.user.id });
+    if (!customer) return res.status(404).json({ success: false, message: 'Cliente não encontrado' });
+
+    const [deals, activities] = await Promise.all([
+      Deal.find({ owner: req.user.id, customer: customer._id })
+        .populate('lead', 'name company email phone')
+        .sort({ updatedAt: -1 }),
+      Activity.find({ owner: req.user.id, customer: customer._id })
+        .populate('lead', 'name company')
+        .populate('deal', 'title stage value')
+        .sort({ occurredAt: -1, createdAt: -1 })
+        .limit(50),
+    ]);
+
+    return res.json({ success: true, data: { customer, deals, activities } });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: 'Não foi possível carregar a visão 360º do cliente' });
   }
 };
 
@@ -96,6 +119,7 @@ const deleteCustomer = async (req, res) => {
 module.exports = {
   listCustomers,
   getCustomer,
+  getCustomerOverview,
   createCustomer,
   updateCustomer,
   deleteCustomer,

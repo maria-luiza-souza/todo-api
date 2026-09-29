@@ -1,6 +1,7 @@
 const Activity = require('../models/Activity');
 const Lead = require('../models/Lead');
 const Customer = require('../models/Customer');
+const Deal = require('../models/Deal');
 
 const allowedFields = [
   'type',
@@ -11,6 +12,7 @@ const allowedFields = [
   'completed',
   'lead',
   'customer',
+  'deal',
 ];
 
 const pick = (body) =>
@@ -20,8 +22,8 @@ const pick = (body) =>
   }, {});
 
 const validateRelations = async (owner, data) => {
-  if (!data.lead && !data.customer) {
-    return { ok: false, message: 'Relacione a interação a um lead ou cliente' };
+  if (!data.lead && !data.customer && !data.deal) {
+    return { ok: false, message: 'Relacione a interação a um lead, cliente ou negociação' };
   }
 
   if (data.lead) {
@@ -34,26 +36,38 @@ const validateRelations = async (owner, data) => {
     if (!customer) return { ok: false, message: 'Cliente não encontrado' };
   }
 
+  if (data.deal) {
+    const deal = await Deal.exists({ _id: data.deal, owner });
+    if (!deal) return { ok: false, message: 'Negociação não encontrada' };
+  }
+
   return { ok: true };
 };
 
+const populateActivity = (query) =>
+  query
+    .populate('lead', 'name company stage')
+    .populate('customer', 'name company')
+    .populate('deal', 'title stage value expectedCloseDate');
+
 const listActivities = async (req, res) => {
   try {
-    const { lead, customer, pending } = req.query;
+    const { lead, customer, deal, pending } = req.query;
     const filter = { owner: req.user.id };
 
     if (lead) filter.lead = lead;
     if (customer) filter.customer = customer;
+    if (deal) filter.deal = deal;
     if (pending === 'true') {
       filter.completed = false;
       filter.scheduledFor = { $ne: null };
     }
 
-    const activities = await Activity.find(filter)
-      .populate('lead', 'name company stage')
-      .populate('customer', 'name company')
-      .sort({ occurredAt: -1, createdAt: -1 })
-      .limit(100);
+    const activities = await populateActivity(
+      Activity.find(filter)
+        .sort({ occurredAt: -1, createdAt: -1 })
+        .limit(100)
+    );
 
     return res.json({ success: true, count: activities.length, data: activities });
   } catch (error) {
@@ -80,9 +94,7 @@ const createActivity = async (req, res) => {
       );
     }
 
-    const populated = await Activity.findById(activity._id)
-      .populate('lead', 'name company stage')
-      .populate('customer', 'name company');
+    const populated = await populateActivity(Activity.findById(activity._id));
 
     return res.status(201).json({ success: true, message: 'Interação registrada', data: populated });
   } catch (error) {
@@ -100,18 +112,19 @@ const updateActivity = async (req, res) => {
     const mergedRelations = {
       lead: data.lead !== undefined ? data.lead : existing.lead,
       customer: data.customer !== undefined ? data.customer : existing.customer,
+      deal: data.deal !== undefined ? data.deal : existing.deal,
     };
 
     const relation = await validateRelations(req.user.id, mergedRelations);
     if (!relation.ok) return res.status(400).json({ success: false, message: relation.message });
 
-    const activity = await Activity.findOneAndUpdate(
-      { _id: req.params.id, owner: req.user.id },
-      data,
-      { new: true, runValidators: true }
-    )
-      .populate('lead', 'name company stage')
-      .populate('customer', 'name company');
+    const activity = await populateActivity(
+      Activity.findOneAndUpdate(
+        { _id: req.params.id, owner: req.user.id },
+        data,
+        { new: true, runValidators: true }
+      )
+    );
 
     return res.json({ success: true, message: 'Interação atualizada', data: activity });
   } catch (error) {

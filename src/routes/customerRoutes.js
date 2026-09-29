@@ -3,6 +3,7 @@ const { protect } = require('../middleware/auth');
 const {
   listCustomers,
   getCustomer,
+  getCustomerOverview,
   createCustomer,
   updateCustomer,
   deleteCustomer,
@@ -13,6 +14,7 @@ router.use(protect);
 
 router.get('/', listCustomers);
 router.post('/', createCustomer);
+router.get('/:id/overview', getCustomerOverview);
 router.get('/:id', getCustomer);
 router.put('/:id', updateCustomer);
 router.delete('/:id', deleteCustomer);

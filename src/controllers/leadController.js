@@ -1,6 +1,7 @@
 const Lead = require('../models/Lead');
 const Customer = require('../models/Customer');
 const Activity = require('../models/Activity');
+const Deal = require('../models/Deal');
 
 const allowedFields = [
   'name',
@@ -52,6 +53,28 @@ const getLead = async (req, res) => {
     return res.json({ success: true, data: lead });
   } catch (error) {
     return res.status(400).json({ success: false, message: 'Lead inválido' });
+  }
+};
+
+const getLeadOverview = async (req, res) => {
+  try {
+    const lead = await Lead.findOne({ _id: req.params.id, owner: req.user.id });
+    if (!lead) return res.status(404).json({ success: false, message: 'Lead não encontrado' });
+
+    const [deals, activities] = await Promise.all([
+      Deal.find({ owner: req.user.id, lead: lead._id })
+        .populate('customer', 'name company email phone')
+        .sort({ updatedAt: -1 }),
+      Activity.find({ owner: req.user.id, lead: lead._id })
+        .populate('customer', 'name company')
+        .populate('deal', 'title stage value')
+        .sort({ occurredAt: -1, createdAt: -1 })
+        .limit(50),
+    ]);
+
+    return res.json({ success: true, data: { lead, deals, activities } });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: 'Não foi possível carregar a visão 360º do lead' });
   }
 };
 
@@ -131,6 +154,11 @@ const convertLead = async (req, res) => {
     lead.lastContactAt = new Date();
     await lead.save();
 
+    await Deal.updateMany(
+      { owner: req.user.id, lead: lead._id, customer: null },
+      { $set: { customer: customer._id } }
+    );
+
     await Activity.create({
       owner: req.user.id,
       lead: lead._id,
@@ -155,6 +183,7 @@ const convertLead = async (req, res) => {
 module.exports = {
   listLeads,
   getLead,
+  getLeadOverview,
   createLead,
   updateLead,
   deleteLead,
