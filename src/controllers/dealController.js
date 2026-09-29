@@ -1,6 +1,8 @@
 const Deal = require('../models/Deal');
 const Lead = require('../models/Lead');
 const Customer = require('../models/Customer');
+const Company = require('../models/Company');
+const Contact = require('../models/Contact');
 
 const probabilityByStage = {
   descoberta: 10,
@@ -15,6 +17,8 @@ const allowedFields = [
   'title',
   'lead',
   'customer',
+  'company',
+  'contact',
   'stage',
   'value',
   'probability',
@@ -31,18 +35,26 @@ const pick = (body) =>
   }, {});
 
 const validateRelations = async (owner, data) => {
-  if (!data.lead && !data.customer) {
-    return { ok: false, message: 'Relacione a negociação a um lead ou cliente' };
+  if (!data.lead && !data.customer && !data.company && !data.contact) {
+    return { ok: false, message: 'Relacione a negociação a um lead, cliente, empresa ou contato' };
   }
 
-  if (data.lead) {
-    const lead = await Lead.exists({ _id: data.lead, owner });
-    if (!lead) return { ok: false, message: 'Lead não encontrado' };
+  if (data.lead && !(await Lead.exists({ _id: data.lead, owner }))) {
+    return { ok: false, message: 'Lead não encontrado' };
   }
 
-  if (data.customer) {
-    const customer = await Customer.exists({ _id: data.customer, owner, active: true });
-    if (!customer) return { ok: false, message: 'Cliente não encontrado' };
+  if (data.customer && !(await Customer.exists({ _id: data.customer, owner, active: true }))) {
+    return { ok: false, message: 'Cliente não encontrado' };
+  }
+
+  if (data.company && !(await Company.exists({ _id: data.company, owner, active: true }))) {
+    return { ok: false, message: 'Empresa não encontrada' };
+  }
+
+  if (data.contact) {
+    const contact = await Contact.findOne({ _id: data.contact, owner, active: true });
+    if (!contact) return { ok: false, message: 'Contato não encontrado' };
+    if (!data.company && contact.company) data.company = contact.company;
   }
 
   return { ok: true };
@@ -70,7 +82,7 @@ const prepareStageData = (data, existing = null) => {
     } else {
       next.wonAt = null;
       next.lostAt = null;
-      if (nextStage !== 'perdido') next.lossReason = '';
+      next.lossReason = '';
     }
   } else if (!existing && data.probability === undefined) {
     next.probability = probabilityByStage[nextStage];
@@ -82,22 +94,23 @@ const prepareStageData = (data, existing = null) => {
 const populateDeal = (query) =>
   query
     .populate('lead', 'name company email phone source nextFollowUpAt')
-    .populate('customer', 'name company email phone segment active');
+    .populate('customer', 'name company email phone segment active')
+    .populate('company', 'name segment email phone active')
+    .populate('contact', 'name role email phone whatsapp active');
 
 const listDeals = async (req, res) => {
   try {
-    const { stage, search, lead, customer } = req.query;
+    const { stage, search, lead, customer, company, contact } = req.query;
     const filter = { owner: req.user.id };
 
     if (stage) filter.stage = stage;
     if (lead) filter.lead = lead;
     if (customer) filter.customer = customer;
+    if (company) filter.company = company;
+    if (contact) filter.contact = contact;
     if (search) filter.title = { $regex: search, $options: 'i' };
 
-    const deals = await populateDeal(
-      Deal.find(filter).sort({ updatedAt: -1 })
-    );
-
+    const deals = await populateDeal(Deal.find(filter).sort({ updatedAt: -1 }));
     return res.json({ success: true, count: deals.length, data: deals });
   } catch (error) {
     console.error('Erro ao listar negociações:', error.message);
@@ -110,7 +123,6 @@ const getDeal = async (req, res) => {
     const deal = await populateDeal(
       Deal.findOne({ _id: req.params.id, owner: req.user.id })
     );
-
     if (!deal) return res.status(404).json({ success: false, message: 'Negociação não encontrada' });
     return res.json({ success: true, data: deal });
   } catch (error) {
@@ -159,11 +171,14 @@ const updateDeal = async (req, res) => {
     const relations = {
       lead: data.lead !== undefined ? data.lead : existing.lead,
       customer: data.customer !== undefined ? data.customer : existing.customer,
+      company: data.company !== undefined ? data.company : existing.company,
+      contact: data.contact !== undefined ? data.contact : existing.contact,
     };
 
     const relation = await validateRelations(req.user.id, relations);
     if (!relation.ok) return res.status(400).json({ success: false, message: relation.message });
 
+    Object.assign(data, relations);
     const prepared = prepareStageData(data, existing);
     const nextStage = prepared.stage || existing.stage;
     const nextLossReason =
