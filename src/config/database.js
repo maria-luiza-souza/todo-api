@@ -10,7 +10,9 @@ const connectDB = async () => {
       throw new Error('MONGODB_URI não configurado');
     }
 
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+        dbName: process.env.MONGODB_DB || 'todo-api',
+      });
   } catch (error) {
     console.error('Erro ao conectar ao MongoDB:', error.message);
     throw error;
