@@ -36,7 +36,7 @@
     .btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:#0b625b;transform:translateY(-1px)}.btn-secondary{background:#edf2f4;color:#28414c}.btn-danger{background:#fee2e2;color:#991b1b}.btn-outline{background:#fff;border:1px solid var(--border);color:#34464f}.btn-sm{padding:8px 10px;font-size:12px}.btn-block{width:100%}
     .app{min-height:100vh;display:grid;grid-template-columns:248px 1fr}.sidebar{background:var(--navy);color:#dce8ec;padding:20px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
     .sidebar-logo{display:flex;align-items:center;gap:12px;padding:10px 10px 24px}.sidebar-logo .brand-mark{width:42px;height:42px;border-radius:13px;font-size:17px}.sidebar-logo strong{display:block;color:#fff}.sidebar-logo span{font-size:11px;color:#91a9b2}
-    .nav{display:flex;flex-direction:column;gap:6px}.nav-btn{border:0;background:transparent;color:#a9bec6;padding:11px 12px;border-radius:12px;text-align:left;font-weight:600;display:flex;gap:11px;align-items:center}.nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,.09);color:#fff}.nav-icon{width:22px;text-align:center}
+    .nav{display:flex;flex-direction:column;gap:6px;overflow-y:auto}.nav-btn{border:0;background:transparent;color:#a9bec6;padding:11px 12px;border-radius:12px;text-align:left;font-weight:600;display:flex;gap:11px;align-items:center}.nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,.09);color:#fff}.nav-icon{width:22px;text-align:center}
     .sidebar-foot{margin-top:auto;padding:14px 10px;border-top:1px solid rgba(255,255,255,.09)}.sidebar-user{font-size:13px;color:#e3edf0;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sidebar-email{font-size:11px;color:#8ca4ad;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .main{min-width:0}.topbar{height:72px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}
     .topbar h2{margin:0;font-size:20px}.topbar .subtitle{font-size:12px;color:var(--muted);margin-top:3px}.top-actions{display:flex;gap:8px;align-items:center}.mobile-menu{display:none}
@@ -49,7 +49,7 @@
     .toolbar{display:flex;gap:10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:14px}.toolbar input,.toolbar select{border:1px solid var(--border);border-radius:11px;padding:9px 10px;background:#fff;min-width:150px}.toolbar input{flex:1;min-width:220px}
     .table-wrap{overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:16px}.data-table{width:100%;border-collapse:collapse;min-width:850px}.data-table th,.data-table td{padding:13px 14px;border-bottom:1px solid #edf1f2;text-align:left;font-size:13px}.data-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#fbfcfc}.data-table tr:hover td{background:#fbfdfd}.person strong{display:block}.person span{font-size:11px;color:var(--muted)}
     .badge{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}.stage-novo{background:#e0f2fe;color:#075985}.stage-contato{background:#ede9fe;color:#5b21b6}.stage-qualificado{background:#fef3c7;color:#92400e}.stage-proposta{background:#ffedd5;color:#9a3412}.stage-negociacao{background:#f3e8ff;color:#7e22ce}.stage-ganho{background:#dcfce7;color:#166534}.stage-perdido{background:#fee2e2;color:#991b1b}
-    .pipeline{display:grid;grid-template-columns:repeat(7,minmax(260px,1fr));gap:12px;overflow-x:auto;padding-bottom:12px}.pipeline-col{background:#edf2f4;border:1px solid #dce5e8;border-radius:16px;min-height:420px;padding:10px}.pipeline-col.dragover{outline:2px dashed var(--primary);background:var(--primary-soft)}.pipeline-head{display:flex;align-items:center;justify-content:space-between;padding:5px 4px 11px}.pipeline-head strong{font-size:12px;text-transform:uppercase;letter-spacing:.05em}.count{font-size:11px;background:#fff;border:1px solid var(--border);padding:3px 7px;border-radius:999px}
+    .pipeline{display:grid;grid-template-columns:repeat(6,minmax(260px,1fr));gap:12px;overflow-x:auto;padding-bottom:12px}.pipeline-col{background:#edf2f4;border:1px solid #dce5e8;border-radius:16px;min-height:420px;padding:10px}.pipeline-col.dragover{outline:2px dashed var(--primary);background:var(--primary-soft)}.pipeline-head{display:flex;align-items:center;justify-content:space-between;padding:5px 4px 11px}.pipeline-head strong{font-size:12px;text-transform:uppercase;letter-spacing:.05em}.count{font-size:11px;background:#fff;border:1px solid var(--border);padding:3px 7px;border-radius:999px}
     .lead-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:9px;box-shadow:0 2px 6px rgba(15,42,54,.04);cursor:grab}.lead-card:active{cursor:grabbing}.lead-card h4{margin:0 0 3px;font-size:13px}.lead-card .company{font-size:11px;color:var(--muted)}.lead-card .value{font-size:13px;font-weight:800;color:var(--primary);margin-top:10px}.lead-card .next{font-size:10px;color:var(--muted);margin-top:5px}
     .deal-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.deal-pill{font-size:9px;font-weight:800;padding:4px 6px;border-radius:999px;background:#eef3f4;color:#50616a}.deal-pill.alert{background:#fee2e2;color:#991b1b}.deal-pill.good{background:#dcfce7;color:#166534}
     .stage-descoberta{background:#e0f2fe;color:#075985}.stage-qualificacao{background:#fef3c7;color:#92400e}
@@ -198,7 +198,7 @@
         </section>
 
         <section id="section-agenda" class="section">
-          <div class="page-head"><div><h1>Agenda comercial</h1><p>Follow-ups, reuniões e atividades que precisam de atenção.</p></div><button class="btn btn-primary" onclick="openActivityDialog()">+ Agendar atividade</button></div>
+          <div class="page-head"><div><h1>Agenda comercial</h1><p>Follow-ups, reuniões e atividades que precisam de atenção.</p></div><button class="btn btn-primary" onclick="openActivityDialog(true)">+ Agendar atividade</button></div>
           <div class="agenda-grid">
             <div class="agenda-count alert"><span>Atrasadas</span><strong id="agendaCountOverdue">0</strong></div>
             <div class="agenda-count"><span>Hoje</span><strong id="agendaCountToday">0</strong></div>
@@ -495,7 +495,7 @@
         var total=list.reduce(function(sum,d){return sum+(Number(d.value)||0)},0);
         return '<div class="pipeline-col" data-stage="'+stage.id+'"><div class="pipeline-head"><strong>'+stage.label+'</strong><span class="count">'+list.length+' · '+currency(total)+'</span></div>'+
           list.map(function(d){
-            var relation=d.customer?(d.customer.name||d.customer.company):d.lead?(d.lead.name||d.lead.company):'Sem vínculo';
+            var relation=d.contact?(d.contact.name+(d.company?.name?' · '+d.company.name:'')):d.company?(d.company.name||'Empresa'):d.customer?(d.customer.name||d.customer.company):d.lead?(d.lead.name||d.lead.company):'Sem vínculo';
             var days=daysInStage(d.stageChangedAt);
             var overdue=d.expectedCloseDate&&new Date(d.expectedCloseDate)<new Date()&&d.stage!=='ganho'&&d.stage!=='perdido';
             return '<div class="lead-card" draggable="true" data-id="'+d._id+'"><h4>'+esc(d.title)+'</h4><div class="company">'+esc(relation||'Sem relacionamento')+'</div><div class="value">'+currency(d.value)+'</div><div class="deal-meta"><span class="deal-pill">'+(d.probability||0)+'%</span><span class="deal-pill">'+days+'d na etapa</span>'+(overdue?'<span class="deal-pill alert">Fechamento atrasado</span>':'')+'</div><div class="next">'+(d.expectedCloseDate?'Fechamento: '+dateBR(d.expectedCloseDate):'Sem previsão de fechamento')+'</div></div>';
@@ -532,7 +532,7 @@
       var q=document.getElementById('dealSearch').value.toLowerCase().trim();
       var stage=document.getElementById('dealStageFilter').value;
       return state.deals.filter(function(d){
-        var rel=d.customer?(d.customer.name+' '+(d.customer.company||'')):d.lead?(d.lead.name+' '+(d.lead.company||'')):'';
+        var rel=d.contact?(d.contact.name+' '+(d.company?.name||'')):d.company?(d.company.name+' '+(d.company.segment||'')):d.customer?(d.customer.name+' '+(d.customer.company||'')):d.lead?(d.lead.name+' '+(d.lead.company||'')):'';
         return (!q||(d.title+' '+rel).toLowerCase().indexOf(q)>=0)&&(!stage||d.stage===stage);
       });
     }
@@ -809,7 +809,8 @@
         var entity=type==='lead'?data.lead:type==='customer'?data.customer:type==='company'?data.company:data.contact;
         var title=entity.name||'Registro';
         document.getElementById('overviewTitle').textContent='Visão 360º · '+title;
-        document.getElementById('overviewSubtitle').textContent=entity.company||entity.email||entity.phone||'Histórico comercial consolidado';
+        var subtitle=entity.company?.name||entity.company||entity.segment||entity.email||entity.phone||'Histórico comercial consolidado';
+        document.getElementById('overviewSubtitle').textContent=subtitle;
 
         var deals=data.deals||[],activities=data.activities||[],contacts=data.contacts||[];
         var openValue=deals.filter(function(d){return d.stage!=='ganho'&&d.stage!=='perdido'}).reduce(function(s,d){return s+(Number(d.value)||0)},0);
@@ -889,8 +890,13 @@
       }).join('');
     }
     document.getElementById('activityRelationType').addEventListener('change',refreshRelationOptions);
-    function openActivityDialog(){
-      document.getElementById('activityForm').reset();document.getElementById('activityCompleted').checked=true;document.getElementById('activityOccurredAt').value=dateTimeLocal(new Date());refreshRelationOptions();document.getElementById('activityDialog').showModal();
+    function openActivityDialog(scheduled){
+      document.getElementById('activityForm').reset();
+      document.getElementById('activityCompleted').checked=!scheduled;
+      document.getElementById('activityOccurredAt').value=dateTimeLocal(new Date());
+      if(scheduled) document.getElementById('activityType').value='followup';
+      refreshRelationOptions();
+      document.getElementById('activityDialog').showModal();
     }
     document.getElementById('activityForm').addEventListener('submit',async function(e){
       e.preventDefault();var type=document.getElementById('activityRelationType').value;var relation=document.getElementById('activityRelation').value;
