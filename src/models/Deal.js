@@ -73,6 +73,11 @@ const dealSchema = new mongoose.Schema(
       maxlength: 240,
       default: '',
     },
+    tags: [{
+      type: String,
+      trim: true,
+      maxlength: 30,
+    }],
     notes: {
       type: String,
       trim: true,
