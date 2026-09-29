@@ -49,7 +49,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.get('/', (req, res) => {
   res.json({
     message: 'LeadFlow CRM API está funcionando!',
-    version: '2.2.0',
+    version: '2.3.0',
   });
 });
 
