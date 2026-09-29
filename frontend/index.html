@@ -51,6 +51,9 @@
     .badge{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}.stage-novo{background:#e0f2fe;color:#075985}.stage-contato{background:#ede9fe;color:#5b21b6}.stage-qualificado{background:#fef3c7;color:#92400e}.stage-proposta{background:#ffedd5;color:#9a3412}.stage-negociacao{background:#f3e8ff;color:#7e22ce}.stage-ganho{background:#dcfce7;color:#166534}.stage-perdido{background:#fee2e2;color:#991b1b}
     .pipeline{display:grid;grid-template-columns:repeat(7,minmax(260px,1fr));gap:12px;overflow-x:auto;padding-bottom:12px}.pipeline-col{background:#edf2f4;border:1px solid #dce5e8;border-radius:16px;min-height:420px;padding:10px}.pipeline-col.dragover{outline:2px dashed var(--primary);background:var(--primary-soft)}.pipeline-head{display:flex;align-items:center;justify-content:space-between;padding:5px 4px 11px}.pipeline-head strong{font-size:12px;text-transform:uppercase;letter-spacing:.05em}.count{font-size:11px;background:#fff;border:1px solid var(--border);padding:3px 7px;border-radius:999px}
     .lead-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:9px;box-shadow:0 2px 6px rgba(15,42,54,.04);cursor:grab}.lead-card:active{cursor:grabbing}.lead-card h4{margin:0 0 3px;font-size:13px}.lead-card .company{font-size:11px;color:var(--muted)}.lead-card .value{font-size:13px;font-weight:800;color:var(--primary);margin-top:10px}.lead-card .next{font-size:10px;color:var(--muted);margin-top:5px}
+    .deal-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.deal-pill{font-size:9px;font-weight:800;padding:4px 6px;border-radius:999px;background:#eef3f4;color:#50616a}.deal-pill.alert{background:#fee2e2;color:#991b1b}.deal-pill.good{background:#dcfce7;color:#166534}
+    .stage-descoberta{background:#e0f2fe;color:#075985}.stage-qualificacao{background:#fef3c7;color:#92400e}
+    .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.overview-box{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel-2)}.overview-box strong{display:block;font-size:12px;margin-bottom:4px}.overview-box span{font-size:12px;color:var(--muted)}.overview-list{display:flex;flex-direction:column;gap:9px}.overview-item{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}.dialog-wide{width:min(820px,calc(100vw - 28px))}
     dialog{border:0;border-radius:20px;padding:0;width:min(620px,calc(100vw - 28px));max-height:90vh;box-shadow:0 30px 100px rgba(0,0,0,.25)}dialog::backdrop{background:rgba(4,18,24,.62);backdrop-filter:blur(3px)}.dialog-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.dialog-head h3{margin:0}.dialog-body{padding:20px 22px;overflow:auto;max-height:68vh}.dialog-actions{padding:15px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:9px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.span-2{grid-column:1/-1}.close-btn{border:0;background:#eef2f4;border-radius:10px;width:34px;height:34px}
     .empty{padding:34px;text-align:center;color:var(--muted);font-size:13px}.toast{position:fixed;right:20px;bottom:20px;z-index:100;background:#102a36;color:#fff;padding:13px 16px;border-radius:13px;box-shadow:var(--shadow);font-size:13px;max-width:360px}.toast.error{background:#991b1b}.toast.success{background:#166534}.loading{opacity:.55;pointer-events:none}
     .kpi-note{display:inline-flex;gap:6px;align-items:center;font-size:11px;color:var(--muted);background:#f3f6f7;padding:6px 8px;border-radius:999px}
@@ -103,6 +106,7 @@
       <nav class="nav">
         <button class="nav-btn active" data-section="dashboard"><span class="nav-icon">⌂</span><span class="nav-label">Dashboard</span></button>
         <button class="nav-btn" data-section="pipeline"><span class="nav-icon">▦</span><span class="nav-label">Pipeline</span></button>
+        <button class="nav-btn" data-section="deals"><span class="nav-icon">◆</span><span class="nav-label">Negociações</span></button>
         <button class="nav-btn" data-section="leads"><span class="nav-icon">◎</span><span class="nav-label">Leads</span></button>
         <button class="nav-btn" data-section="customers"><span class="nav-icon">◉</span><span class="nav-label">Clientes</span></button>
         <button class="nav-btn" data-section="activities"><span class="nav-icon">↻</span><span class="nav-label">Interações</span></button>
@@ -120,27 +124,38 @@
           <button id="mobileMenuBtn" class="btn btn-outline btn-sm mobile-menu">☰</button>
           <div><h2 id="topTitle">Dashboard</h2><div class="subtitle">Visão geral do relacionamento comercial</div></div>
         </div>
-        <div class="top-actions"><span class="kpi-note">● CRM online</span><button class="btn btn-primary btn-sm" onclick="openLeadDialog()">+ Novo lead</button></div>
+        <div class="top-actions"><span class="kpi-note">● CRM online</span><button class="btn btn-primary btn-sm" onclick="openDealDialog()">+ Negociação</button></div>
       </header>
 
       <div class="content">
         <section id="section-dashboard" class="section active">
-          <div class="page-head"><div><h1>Visão comercial</h1><p>Acompanhe oportunidades, clientes e atividades em um só lugar.</p></div></div>
+          <div class="page-head"><div><h1>Visão comercial</h1><p>Acompanhe funil, forecast, vendas e relacionamento em um só lugar.</p></div><button class="btn btn-primary" onclick="openDealDialog()">+ Nova negociação</button></div>
           <div class="metrics">
             <div class="metric"><div class="metric-top"><span class="metric-label">Leads ativos</span><span class="metric-icon">L</span></div><div id="metricActiveLeads" class="metric-value">0</div><div id="metricTotalLeads" class="metric-foot">0 leads cadastrados</div></div>
-            <div class="metric"><div class="metric-top"><span class="metric-label">Clientes</span><span class="metric-icon">C</span></div><div id="metricCustomers" class="metric-value">0</div><div class="metric-foot">carteira ativa</div></div>
-            <div class="metric"><div class="metric-top"><span class="metric-label">Valor no pipeline</span><span class="metric-icon">R$</span></div><div id="metricPipeline" class="metric-value">R$ 0</div><div class="metric-foot">oportunidades abertas</div></div>
-            <div class="metric"><div class="metric-top"><span class="metric-label">Conversão</span><span class="metric-icon">%</span></div><div id="metricConversion" class="metric-value">0%</div><div id="metricFollowups" class="metric-foot">0 follow-ups pendentes</div></div>
+            <div class="metric"><div class="metric-top"><span class="metric-label">Negociações abertas</span><span class="metric-icon">N</span></div><div id="metricOpenDeals" class="metric-value">0</div><div id="metricCustomers" class="metric-foot">0 clientes ativos</div></div>
+            <div class="metric"><div class="metric-top"><span class="metric-label">Valor no pipeline</span><span class="metric-icon">R$</span></div><div id="metricPipeline" class="metric-value">R$ 0</div><div class="metric-foot">valor total em aberto</div></div>
+            <div class="metric"><div class="metric-top"><span class="metric-label">Forecast ponderado</span><span class="metric-icon">↗</span></div><div id="metricForecast" class="metric-value">R$ 0</div><div class="metric-foot">valor × probabilidade</div></div>
+            <div class="metric"><div class="metric-top"><span class="metric-label">Ganhos no mês</span><span class="metric-icon">✓</span></div><div id="metricWonMonth" class="metric-value">R$ 0</div><div id="metricWonCount" class="metric-foot">0 negociações ganhas</div></div>
+            <div class="metric"><div class="metric-top"><span class="metric-label">Taxa de ganho</span><span class="metric-icon">%</span></div><div id="metricConversion" class="metric-value">0%</div><div id="metricFollowups" class="metric-foot">0 atividades pendentes</div></div>
           </div>
           <div class="grid-2">
-            <div class="card"><h3>Funil de vendas</h3><div class="card-sub">Distribuição dos leads por etapa</div><div id="funnelChart"></div></div>
+            <div class="card"><h3>Funil de negociações</h3><div class="card-sub">Quantidade de negócios por etapa comercial</div><div id="funnelChart"></div></div>
             <div class="card"><h3>Interações recentes</h3><div class="card-sub">Últimos registros de relacionamento</div><div id="recentActivities" class="timeline"></div></div>
           </div>
         </section>
 
         <section id="section-pipeline" class="section">
-          <div class="page-head"><div><h1>Pipeline comercial</h1><p>Arraste os cards entre as etapas para atualizar a oportunidade.</p></div><button class="btn btn-primary" onclick="openLeadDialog()">+ Novo lead</button></div>
+          <div class="page-head"><div><h1>Pipeline de negociações</h1><p>Arraste negócios entre as etapas. Duplo clique abre a negociação.</p></div><button class="btn btn-primary" onclick="openDealDialog()">+ Nova negociação</button></div>
           <div id="pipelineBoard" class="pipeline"></div>
+        </section>
+
+        <section id="section-deals" class="section">
+          <div class="page-head"><div><h1>Negociações</h1><p>Controle valor, probabilidade, responsável e previsão de fechamento.</p></div><button class="btn btn-primary" onclick="openDealDialog()">+ Nova negociação</button></div>
+          <div class="toolbar">
+            <input id="dealSearch" placeholder="Buscar negociação">
+            <select id="dealStageFilter"><option value="">Todas as etapas</option><option value="descoberta">Descoberta</option><option value="qualificacao">Qualificação</option><option value="proposta">Proposta</option><option value="negociacao">Negociação</option><option value="ganho">Ganho</option><option value="perdido">Perdido</option></select>
+          </div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Negociação</th><th>Relacionamento</th><th>Etapa</th><th>Valor</th><th>Prob.</th><th>Fechamento</th><th>Ações</th></tr></thead><tbody id="dealsTable"></tbody></table></div>
         </section>
 
         <section id="section-leads" class="section">
@@ -150,7 +165,7 @@
             <select id="leadStageFilter"><option value="">Todas as etapas</option><option value="novo">Novo</option><option value="contato">Contato</option><option value="qualificado">Qualificado</option><option value="proposta">Proposta</option><option value="negociacao">Negociação</option><option value="ganho">Ganho</option><option value="perdido">Perdido</option></select>
             <select id="leadSourceFilter"><option value="">Todas as origens</option><option value="site">Site</option><option value="indicacao">Indicação</option><option value="instagram">Instagram</option><option value="linkedin">LinkedIn</option><option value="evento">Evento</option><option value="prospeccao">Prospecção</option><option value="outro">Outro</option></select>
           </div>
-          <div class="table-wrap"><table class="data-table"><thead><tr><th>Lead</th><th>Etapa</th><th>Origem</th><th>Valor</th><th>Próximo contato</th><th>Ações</th></tr></thead><tbody id="leadsTable"></tbody></table></div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Lead</th><th>Status</th><th>Origem</th><th>Próximo contato</th><th>Ações</th></tr></thead><tbody id="leadsTable"></tbody></table></div>
         </section>
 
         <section id="section-customers" class="section">
@@ -166,6 +181,28 @@
       </div>
     </main>
   </div>
+
+  <dialog id="dealDialog">
+    <form id="dealForm">
+      <div class="dialog-head"><h3 id="dealDialogTitle">Nova negociação</h3><button class="close-btn" type="button" onclick="document.getElementById('dealDialog').close()">×</button></div>
+      <div class="dialog-body">
+        <input id="dealId" type="hidden">
+        <div class="form-grid">
+          <div class="field span-2"><label>Título *</label><input id="dealTitle" required maxlength="160" placeholder="Ex.: Implantação do sistema"></div>
+          <div class="field"><label>Relacionar a</label><select id="dealRelationType"><option value="lead">Lead</option><option value="customer">Cliente</option></select></div>
+          <div class="field"><label id="dealRelationLabel">Lead</label><select id="dealRelation" required></select></div>
+          <div class="field"><label>Etapa</label><select id="dealStage"><option value="descoberta">Descoberta</option><option value="qualificacao">Qualificação</option><option value="proposta">Proposta</option><option value="negociacao">Negociação</option><option value="ganho">Ganho</option><option value="perdido">Perdido</option></select></div>
+          <div class="field"><label>Valor</label><input id="dealValue" type="number" min="0" step="0.01"></div>
+          <div class="field"><label>Probabilidade (%)</label><input id="dealProbability" type="number" min="0" max="100" step="1" value="10"></div>
+          <div class="field"><label>Previsão de fechamento</label><input id="dealCloseDate" type="date"></div>
+          <div class="field span-2"><label>Responsável</label><input id="dealResponsible" maxlength="100" placeholder="Ex.: Maria Luiza"></div>
+          <div id="dealLossReasonField" class="field span-2 hidden"><label>Motivo da perda *</label><input id="dealLossReason" maxlength="240" placeholder="Ex.: preço, concorrente, sem orçamento"></div>
+          <div class="field span-2"><label>Observações</label><textarea id="dealNotes" maxlength="2000"></textarea></div>
+        </div>
+      </div>
+      <div class="dialog-actions"><button class="btn btn-outline" type="button" onclick="document.getElementById('dealDialog').close()">Cancelar</button><button class="btn btn-primary" type="submit">Salvar negociação</button></div>
+    </form>
+  </dialog>
 
   <dialog id="leadDialog">
     <form id="leadForm">
@@ -213,7 +250,7 @@
       <div class="dialog-body">
         <div class="form-grid">
           <div class="field"><label>Tipo</label><select id="activityType"><option value="ligacao">Ligação</option><option value="whatsapp">WhatsApp</option><option value="email">E-mail</option><option value="reuniao">Reunião</option><option value="nota">Nota</option><option value="followup">Follow-up</option></select></div>
-          <div class="field"><label>Relacionar a</label><select id="activityRelationType"><option value="lead">Lead</option><option value="customer">Cliente</option></select></div>
+          <div class="field"><label>Relacionar a</label><select id="activityRelationType"><option value="lead">Lead</option><option value="customer">Cliente</option><option value="deal">Negociação</option></select></div>
           <div class="field span-2"><label id="activityRelationLabel">Lead</label><select id="activityRelation"></select></div>
           <div class="field span-2"><label>Título *</label><input id="activityTitle" required maxlength="160"></div>
           <div class="field"><label>Data da interação</label><input id="activityOccurredAt" type="datetime-local"></div>
@@ -226,6 +263,12 @@
     </form>
   </dialog>
 
+  <dialog id="overviewDialog" class="dialog-wide">
+    <div class="dialog-head"><div><h3 id="overviewTitle">Visão 360º</h3><div id="overviewSubtitle" class="card-sub" style="margin:4px 0 0"></div></div><button class="close-btn" type="button" onclick="document.getElementById('overviewDialog').close()">×</button></div>
+    <div id="overviewBody" class="dialog-body"></div>
+    <div class="dialog-actions"><button class="btn btn-outline" type="button" onclick="document.getElementById('overviewDialog').close()">Fechar</button></div>
+  </dialog>
+
   <div id="toast" class="toast hidden"></div>
 
   <script>
@@ -234,7 +277,11 @@
       {id:'novo',label:'Novo'},{id:'contato',label:'Contato'},{id:'qualificado',label:'Qualificado'},
       {id:'proposta',label:'Proposta'},{id:'negociacao',label:'Negociação'},{id:'ganho',label:'Ganho'},{id:'perdido',label:'Perdido'}
     ];
-    var state = { token: localStorage.getItem('leadflow_token') || '', user: null, leads: [], customers: [], activities: [], dashboard: null };
+    var dealStages = [
+      {id:'descoberta',label:'Descoberta'},{id:'qualificacao',label:'Qualificação'},{id:'proposta',label:'Proposta'},
+      {id:'negociacao',label:'Negociação'},{id:'ganho',label:'Ganho'},{id:'perdido',label:'Perdido'}
+    ];
+    var state = { token: localStorage.getItem('leadflow_token') || '', user: null, leads: [], customers: [], deals: [], activities: [], dashboard: null };
     try { state.user = JSON.parse(localStorage.getItem('leadflow_user') || 'null'); } catch(e) {}
 
     function esc(value){
@@ -244,6 +291,8 @@
     function dateBR(value){ if(!value)return '—'; var d=new Date(value); return isNaN(d)?'—':d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}); }
     function dateTimeLocal(value){ if(!value)return ''; var d=new Date(value); var z=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())+'T'+z(d.getHours())+':'+z(d.getMinutes()); }
     function stageLabel(id){ var s=stages.find(function(x){return x.id===id}); return s?s.label:id; }
+    function dealStageLabel(id){ var s=dealStages.find(function(x){return x.id===id}); return s?s.label:id; }
+    function daysInStage(value){ if(!value)return 0; return Math.max(0,Math.floor((Date.now()-new Date(value).getTime())/86400000)); }
     function sourceLabel(id){ return ({site:'Site',indicacao:'Indicação',instagram:'Instagram',linkedin:'LinkedIn',evento:'Evento',prospeccao:'Prospecção',outro:'Outro'})[id] || id || 'Outro'; }
     function activityIcon(type){ return ({ligacao:'☎',whatsapp:'◈',email:'✉',reuniao:'◆',nota:'✎',followup:'⏱'})[type] || '•'; }
 
@@ -301,26 +350,31 @@
     async function loadAll(){
       document.getElementById('appView').classList.add('loading');
       try{
-        var results=await Promise.all([api('/api/dashboard'),api('/api/leads'),api('/api/customers?active=true'),api('/api/activities')]);
-        state.dashboard=results[0].data; state.leads=results[1].data||[]; state.customers=results[2].data||[]; state.activities=results[3].data||[];
+        var results=await Promise.all([api('/api/dashboard'),api('/api/leads'),api('/api/customers?active=true'),api('/api/deals'),api('/api/activities')]);
+        state.dashboard=results[0].data; state.leads=results[1].data||[]; state.customers=results[2].data||[]; state.deals=results[3].data||[]; state.activities=results[4].data||[];
         renderAll();
       }catch(err){toast(err.message,'error')}finally{document.getElementById('appView').classList.remove('loading')}
     }
 
-    function renderAll(){renderDashboard();renderPipeline();renderLeads();renderCustomers();renderActivities();refreshRelationOptions();}
+    function renderAll(){renderDashboard();renderPipeline();renderDeals();renderLeads();renderCustomers();renderActivities();refreshRelationOptions();refreshDealRelationOptions();}
 
     function renderDashboard(){
       var d=state.dashboard||{};
       document.getElementById('metricActiveLeads').textContent=d.activeLeads||0;
       document.getElementById('metricTotalLeads').textContent=(d.totalLeads||0)+' leads cadastrados';
-      document.getElementById('metricCustomers').textContent=d.customers||0;
+      document.getElementById('metricOpenDeals').textContent=d.openDeals||0;
+      document.getElementById('metricCustomers').textContent=(d.customers||0)+' clientes ativos';
       document.getElementById('metricPipeline').textContent=currency(d.pipelineValue||0);
+      document.getElementById('metricForecast').textContent=currency(d.forecastValue||0);
+      document.getElementById('metricWonMonth').textContent=currency(d.wonThisMonthValue||0);
+      document.getElementById('metricWonCount').textContent=(d.wonThisMonthCount||0)+' negociações ganhas';
       document.getElementById('metricConversion').textContent=(d.conversionRate||0)+'%';
-      document.getElementById('metricFollowups').textContent=(d.pendingFollowUps||0)+' follow-ups pendentes';
-      var by={};(d.byStage||[]).forEach(function(x){by[x._id]=x.count});
-      var counts=stages.map(function(s){return by[s.id]||0});
+      document.getElementById('metricFollowups').textContent=(d.pendingFollowUps||0)+' pendentes · '+(d.overdueFollowUps||0)+' atrasadas';
+
+      var by={};(d.byDealStage||[]).forEach(function(x){by[x._id]=x.count});
+      var counts=dealStages.map(function(s){return by[s.id]||0});
       var max=Math.max.apply(null,[1].concat(counts));
-      document.getElementById('funnelChart').innerHTML=stages.map(function(s){
+      document.getElementById('funnelChart').innerHTML=dealStages.map(function(s){
         var count=by[s.id]||0;var width=Math.max(3,Math.round((count/max)*100));
         return '<div class="funnel-row"><span>'+esc(s.label)+'</span><div class="funnel-bar"><div class="funnel-fill" style="width:'+width+'%"></div></div><strong>'+count+'</strong></div>';
       }).join('');
@@ -329,31 +383,69 @@
     }
 
     function activityHtml(a){
-      var relation=a.lead?(a.lead.name||'Lead'):a.customer?(a.customer.name||'Cliente'):'Sem vínculo';
+      var relation=a.deal?(a.deal.title||'Negociação'):a.lead?(a.lead.name||'Lead'):a.customer?(a.customer.name||'Cliente'):'Sem vínculo';
       return '<div class="timeline-item"><div class="timeline-icon">'+activityIcon(a.type)+'</div><div><div class="timeline-title">'+esc(a.title)+'</div><div class="timeline-meta">'+esc(relation)+' · '+dateBR(a.occurredAt||a.createdAt)+(a.completed?' · concluída':' · pendente')+'</div>'+(a.description?'<div style="font-size:12px;color:var(--muted);margin-top:6px">'+esc(a.description)+'</div>':'')+'</div></div>';
     }
 
     function renderPipeline(){
-      document.getElementById('pipelineBoard').innerHTML=stages.map(function(stage){
-        var list=state.leads.filter(function(l){return l.stage===stage.id});
-        return '<div class="pipeline-col" data-stage="'+stage.id+'"><div class="pipeline-head"><strong>'+stage.label+'</strong><span class="count">'+list.length+'</span></div>'+
-          list.map(function(l){return '<div class="lead-card" draggable="true" data-id="'+l._id+'"><h4>'+esc(l.name)+'</h4><div class="company">'+esc(l.company||l.email||'Sem empresa')+'</div><div class="value">'+currency(l.estimatedValue)+'</div><div class="next">'+(l.nextFollowUpAt?'Próximo contato: '+dateBR(l.nextFollowUpAt):'Sem follow-up agendado')+'</div></div>';}).join('')+
+      document.getElementById('pipelineBoard').innerHTML=dealStages.map(function(stage){
+        var list=state.deals.filter(function(d){return d.stage===stage.id});
+        var total=list.reduce(function(sum,d){return sum+(Number(d.value)||0)},0);
+        return '<div class="pipeline-col" data-stage="'+stage.id+'"><div class="pipeline-head"><strong>'+stage.label+'</strong><span class="count">'+list.length+' · '+currency(total)+'</span></div>'+
+          list.map(function(d){
+            var relation=d.customer?(d.customer.name||d.customer.company):d.lead?(d.lead.name||d.lead.company):'Sem vínculo';
+            var days=daysInStage(d.stageChangedAt);
+            var overdue=d.expectedCloseDate&&new Date(d.expectedCloseDate)<new Date()&&d.stage!=='ganho'&&d.stage!=='perdido';
+            return '<div class="lead-card" draggable="true" data-id="'+d._id+'"><h4>'+esc(d.title)+'</h4><div class="company">'+esc(relation||'Sem relacionamento')+'</div><div class="value">'+currency(d.value)+'</div><div class="deal-meta"><span class="deal-pill">'+(d.probability||0)+'%</span><span class="deal-pill">'+days+'d na etapa</span>'+(overdue?'<span class="deal-pill alert">Fechamento atrasado</span>':'')+'</div><div class="next">'+(d.expectedCloseDate?'Fechamento: '+dateBR(d.expectedCloseDate):'Sem previsão de fechamento')+'</div></div>';
+          }).join('')+
           '</div>';
       }).join('');
+
       document.querySelectorAll('.lead-card').forEach(function(card){
         card.addEventListener('dragstart',function(e){e.dataTransfer.setData('text/plain',card.dataset.id)});
-        card.addEventListener('dblclick',function(){openLeadDialog(card.dataset.id)});
+        card.addEventListener('dblclick',function(){openDealDialog(card.dataset.id)});
       });
+
       document.querySelectorAll('.pipeline-col').forEach(function(col){
         col.addEventListener('dragover',function(e){e.preventDefault();col.classList.add('dragover')});
         col.addEventListener('dragleave',function(){col.classList.remove('dragover')});
         col.addEventListener('drop',async function(e){
-          e.preventDefault();col.classList.remove('dragover');var id=e.dataTransfer.getData('text/plain');var lead=state.leads.find(function(x){return x._id===id});
-          if(!lead||lead.stage===col.dataset.stage)return;
-          try{await api('/api/leads/'+id,{method:'PUT',body:JSON.stringify({stage:col.dataset.stage})});toast('Etapa atualizada');await loadAll()}catch(err){toast(err.message,'error')}
+          e.preventDefault();col.classList.remove('dragover');
+          var id=e.dataTransfer.getData('text/plain');
+          var deal=state.deals.find(function(x){return x._id===id});
+          if(!deal||deal.stage===col.dataset.stage)return;
+          var payload={stage:col.dataset.stage};
+          if(col.dataset.stage==='perdido'){
+            var reason=prompt('Qual foi o motivo da perda?');
+            if(!reason)return;
+            payload.lossReason=reason.trim();
+            if(!payload.lossReason)return;
+          }
+          try{await api('/api/deals/'+id,{method:'PUT',body:JSON.stringify(payload)});toast('Etapa da negociação atualizada');await loadAll()}catch(err){toast(err.message,'error')}
         });
       });
     }
+
+    function filteredDeals(){
+      var q=document.getElementById('dealSearch').value.toLowerCase().trim();
+      var stage=document.getElementById('dealStageFilter').value;
+      return state.deals.filter(function(d){
+        var rel=d.customer?(d.customer.name+' '+(d.customer.company||'')):d.lead?(d.lead.name+' '+(d.lead.company||'')):'';
+        return (!q||(d.title+' '+rel).toLowerCase().indexOf(q)>=0)&&(!stage||d.stage===stage);
+      });
+    }
+
+    function renderDeals(){
+      var list=filteredDeals();
+      document.getElementById('dealsTable').innerHTML=list.length?list.map(function(d){
+        var relation=d.customer?(d.customer.name+(d.customer.company?' · '+d.customer.company:'')):d.lead?(d.lead.name+(d.lead.company?' · '+d.lead.company:'')):'—';
+        return '<tr><td><div class="person"><strong>'+esc(d.title)+'</strong><span>'+esc(d.responsible||'Eu')+'</span></div></td><td>'+esc(relation)+'</td><td><span class="badge stage-'+d.stage+'">'+esc(dealStageLabel(d.stage))+'</span></td><td><strong>'+currency(d.value)+'</strong></td><td>'+Number(d.probability||0)+'%</td><td>'+dateBR(d.expectedCloseDate)+'</td><td><button class="btn btn-outline btn-sm edit-deal" data-id="'+d._id+'">Editar</button> <button class="btn btn-danger btn-sm delete-deal" data-id="'+d._id+'">Excluir</button></td></tr>';
+      }).join(''):'<tr><td colspan="7"><div class="empty">Nenhuma negociação cadastrada. Crie a primeira para alimentar o pipeline.</div></td></tr>';
+      document.querySelectorAll('.edit-deal').forEach(function(b){b.onclick=function(){openDealDialog(b.dataset.id)}});
+      document.querySelectorAll('.delete-deal').forEach(function(b){b.onclick=function(){deleteDeal(b.dataset.id)}});
+    }
+    document.getElementById('dealSearch').addEventListener('input',renderDeals);
+    document.getElementById('dealStageFilter').addEventListener('change',renderDeals);
 
     function filteredLeads(){
       var q=document.getElementById('leadSearch').value.toLowerCase().trim(),stage=document.getElementById('leadStageFilter').value,source=document.getElementById('leadSourceFilter').value;
@@ -365,11 +457,15 @@
     function renderLeads(){
       var list=filteredLeads();
       document.getElementById('leadsTable').innerHTML=list.length?list.map(function(l){
-        var actions='<button class="btn btn-outline btn-sm edit-lead" data-id="'+l._id+'">Editar</button> ';
+        var actions='<button class="btn btn-outline btn-sm overview-lead" data-id="'+l._id+'">360º</button> ';
+        actions+='<button class="btn btn-outline btn-sm deal-from-lead" data-id="'+l._id+'">+ Negociação</button> ';
+        actions+='<button class="btn btn-outline btn-sm edit-lead" data-id="'+l._id+'">Editar</button> ';
         if(l.stage!=='ganho'&&l.stage!=='perdido') actions+='<button class="btn btn-primary btn-sm convert-lead" data-id="'+l._id+'">Converter</button> ';
         actions+='<button class="btn btn-danger btn-sm delete-lead" data-id="'+l._id+'">Excluir</button>';
-        return '<tr><td><div class="person"><strong>'+esc(l.name)+'</strong><span>'+esc(l.company||l.email||l.phone||'Sem detalhes')+'</span></div></td><td><span class="badge stage-'+l.stage+'">'+esc(stageLabel(l.stage))+'</span></td><td>'+esc(sourceLabel(l.source))+'</td><td><strong>'+currency(l.estimatedValue)+'</strong></td><td>'+dateBR(l.nextFollowUpAt)+'</td><td>'+actions+'</td></tr>';
-      }).join(''):'<tr><td colspan="6"><div class="empty">Nenhum lead encontrado.</div></td></tr>';
+        return '<tr><td><div class="person"><strong>'+esc(l.name)+'</strong><span>'+esc(l.company||l.email||l.phone||'Sem detalhes')+'</span></div></td><td><span class="badge stage-'+l.stage+'">'+esc(stageLabel(l.stage))+'</span></td><td>'+esc(sourceLabel(l.source))+'</td><td>'+dateBR(l.nextFollowUpAt)+'</td><td>'+actions+'</td></tr>';
+      }).join(''):'<tr><td colspan="5"><div class="empty">Nenhum lead encontrado.</div></td></tr>';
+      document.querySelectorAll('.overview-lead').forEach(function(b){b.onclick=function(){openOverview('lead',b.dataset.id)}});
+      document.querySelectorAll('.deal-from-lead').forEach(function(b){b.onclick=function(){openDealDialog(null,'lead',b.dataset.id)}});
       document.querySelectorAll('.edit-lead').forEach(function(b){b.onclick=function(){openLeadDialog(b.dataset.id)}});
       document.querySelectorAll('.convert-lead').forEach(function(b){b.onclick=function(){convertLead(b.dataset.id)}});
       document.querySelectorAll('.delete-lead').forEach(function(b){b.onclick=function(){deleteLead(b.dataset.id)}});
@@ -380,8 +476,10 @@
       var q=document.getElementById('customerSearch').value.toLowerCase().trim();
       var list=state.customers.filter(function(c){return !q||[c.name,c.company,c.email,c.phone].join(' ').toLowerCase().indexOf(q)>=0});
       document.getElementById('customersTable').innerHTML=list.length?list.map(function(c){
-        return '<tr><td><div class="person"><strong>'+esc(c.name)+'</strong><span>'+esc(c.company||'Cliente individual')+'</span></div></td><td>'+esc(c.email||c.phone||'—')+'</td><td>'+esc(c.segment||'—')+'</td><td>'+(c.sourceLead?'Lead convertido':'Cadastro direto')+'</td><td><button class="btn btn-outline btn-sm edit-customer" data-id="'+c._id+'">Editar</button> <button class="btn btn-danger btn-sm archive-customer" data-id="'+c._id+'">Arquivar</button></td></tr>';
+        return '<tr><td><div class="person"><strong>'+esc(c.name)+'</strong><span>'+esc(c.company||'Cliente individual')+'</span></div></td><td>'+esc(c.email||c.phone||'—')+'</td><td>'+esc(c.segment||'—')+'</td><td>'+(c.sourceLead?'Lead convertido':'Cadastro direto')+'</td><td><button class="btn btn-outline btn-sm overview-customer" data-id="'+c._id+'">360º</button> <button class="btn btn-outline btn-sm deal-from-customer" data-id="'+c._id+'">+ Negociação</button> <button class="btn btn-outline btn-sm edit-customer" data-id="'+c._id+'">Editar</button> <button class="btn btn-danger btn-sm archive-customer" data-id="'+c._id+'">Arquivar</button></td></tr>';
       }).join(''):'<tr><td colspan="5"><div class="empty">Nenhum cliente cadastrado.</div></td></tr>';
+      document.querySelectorAll('.overview-customer').forEach(function(b){b.onclick=function(){openOverview('customer',b.dataset.id)}});
+      document.querySelectorAll('.deal-from-customer').forEach(function(b){b.onclick=function(){openDealDialog(null,'customer',b.dataset.id)}});
       document.querySelectorAll('.edit-customer').forEach(function(b){b.onclick=function(){openCustomerDialog(b.dataset.id)}});
       document.querySelectorAll('.archive-customer').forEach(function(b){b.onclick=function(){archiveCustomer(b.dataset.id)}});
     }
@@ -392,6 +490,118 @@
         return '<div style="position:relative">'+activityHtml(a)+'<button class="btn btn-danger btn-sm delete-activity" data-id="'+a._id+'" style="position:absolute;right:10px;top:10px">Excluir</button></div>';
       }).join(''):'<div class="empty">Nenhuma interação registrada.</div>';
       document.querySelectorAll('.delete-activity').forEach(function(b){b.onclick=function(){deleteActivity(b.dataset.id)}});
+    }
+
+    function refreshDealRelationOptions(selectedId){
+      var type=document.getElementById('dealRelationType').value;
+      var items=type==='lead'?state.leads:state.customers;
+      document.getElementById('dealRelationLabel').textContent=type==='lead'?'Lead':'Cliente';
+      document.getElementById('dealRelation').innerHTML='<option value="">Selecione...</option>'+items.map(function(x){return '<option value="'+x._id+'">'+esc(x.name)+(x.company?' — '+esc(x.company):'')+'</option>'}).join('');
+      if(selectedId)document.getElementById('dealRelation').value=selectedId;
+    }
+    document.getElementById('dealRelationType').addEventListener('change',function(){refreshDealRelationOptions()});
+    document.getElementById('dealStage').addEventListener('change',function(){
+      var lost=this.value==='perdido';
+      document.getElementById('dealLossReasonField').classList.toggle('hidden',!lost);
+      document.getElementById('dealLossReason').required=lost;
+      var defaults={descoberta:10,qualificacao:25,proposta:50,negociacao:75,ganho:100,perdido:0};
+      document.getElementById('dealProbability').value=defaults[this.value];
+    });
+
+    function openDealDialog(id,relationType,relationId){
+      document.getElementById('dealForm').reset();
+      document.getElementById('dealId').value='';
+      document.getElementById('dealDialogTitle').textContent=id?'Editar negociação':'Nova negociação';
+      document.getElementById('dealResponsible').value=(state.user&&state.user.name)||'Eu';
+      document.getElementById('dealLossReasonField').classList.add('hidden');
+      document.getElementById('dealLossReason').required=false;
+
+      if(id){
+        var d=state.deals.find(function(x){return x._id===id});if(!d)return;
+        document.getElementById('dealId').value=d._id;
+        document.getElementById('dealTitle').value=d.title||'';
+        var type=d.customer?'customer':'lead';
+        var rel=d.customer?d.customer._id:(d.lead?d.lead._id:'');
+        document.getElementById('dealRelationType').value=type;
+        refreshDealRelationOptions(rel);
+        document.getElementById('dealStage').value=d.stage||'descoberta';
+        document.getElementById('dealValue').value=d.value||0;
+        document.getElementById('dealProbability').value=d.probability==null?10:d.probability;
+        document.getElementById('dealCloseDate').value=d.expectedCloseDate?new Date(d.expectedCloseDate).toISOString().slice(0,10):'';
+        document.getElementById('dealResponsible').value=d.responsible||'Eu';
+        document.getElementById('dealLossReason').value=d.lossReason||'';
+        document.getElementById('dealNotes').value=d.notes||'';
+        var lost=d.stage==='perdido';
+        document.getElementById('dealLossReasonField').classList.toggle('hidden',!lost);
+        document.getElementById('dealLossReason').required=lost;
+      }else{
+        document.getElementById('dealRelationType').value=relationType||'lead';
+        refreshDealRelationOptions(relationId||'');
+        document.getElementById('dealProbability').value=10;
+      }
+      document.getElementById('dealDialog').showModal();
+    }
+
+    document.getElementById('dealForm').addEventListener('submit',async function(e){
+      e.preventDefault();
+      var id=document.getElementById('dealId').value;
+      var relationType=document.getElementById('dealRelationType').value;
+      var relationId=document.getElementById('dealRelation').value;
+      var payload={
+        title:document.getElementById('dealTitle').value.trim(),
+        stage:document.getElementById('dealStage').value,
+        value:Number(document.getElementById('dealValue').value||0),
+        probability:Number(document.getElementById('dealProbability').value||0),
+        expectedCloseDate:document.getElementById('dealCloseDate').value||null,
+        responsible:document.getElementById('dealResponsible').value.trim()||'Eu',
+        lossReason:document.getElementById('dealLossReason').value.trim(),
+        notes:document.getElementById('dealNotes').value.trim(),
+        lead:null,
+        customer:null
+      };
+      payload[relationType]=relationId||null;
+      try{
+        await api(id?'/api/deals/'+id:'/api/deals',{method:id?'PUT':'POST',body:JSON.stringify(payload)});
+        document.getElementById('dealDialog').close();
+        toast(id?'Negociação atualizada':'Negociação criada');
+        await loadAll();
+      }catch(err){toast(err.message,'error')}
+    });
+
+    async function deleteDeal(id){
+      if(!confirm('Excluir esta negociação?'))return;
+      try{await api('/api/deals/'+id,{method:'DELETE'});toast('Negociação excluída');await loadAll()}catch(err){toast(err.message,'error')}
+    }
+
+    async function openOverview(type,id){
+      try{
+        var endpoint=type==='lead'?'/api/leads/'+id+'/overview':'/api/customers/'+id+'/overview';
+        var result=await api(endpoint);
+        var data=result.data||{};
+        var entity=type==='lead'?data.lead:data.customer;
+        var title=entity.name||'Registro';
+        document.getElementById('overviewTitle').textContent='Visão 360º · '+title;
+        document.getElementById('overviewSubtitle').textContent=entity.company||entity.email||entity.phone||'Histórico comercial consolidado';
+
+        var deals=data.deals||[],activities=data.activities||[];
+        var openValue=deals.filter(function(d){return d.stage!=='ganho'&&d.stage!=='perdido'}).reduce(function(s,d){return s+(Number(d.value)||0)},0);
+        var contact=[entity.email,entity.phone].filter(Boolean).join(' · ')||'Não informado';
+
+        var html='<div class="overview-grid">'+
+          '<div class="overview-box"><strong>Contato</strong><span>'+esc(contact)+'</span></div>'+
+          '<div class="overview-box"><strong>Empresa / segmento</strong><span>'+esc(entity.company||entity.segment||'Não informado')+'</span></div>'+
+          '<div class="overview-box"><strong>Negociações</strong><span>'+deals.length+' registradas</span></div>'+
+          '<div class="overview-box"><strong>Pipeline em aberto</strong><span>'+currency(openValue)+'</span></div>'+
+          '</div>';
+
+        html+='<h3 style="margin:22px 0 10px">Negociações</h3><div class="overview-list">';
+        html+=deals.length?deals.map(function(d){return '<div class="overview-item"><strong>'+esc(d.title)+'</strong><div class="timeline-meta"><span class="badge stage-'+d.stage+'">'+esc(dealStageLabel(d.stage))+'</span> · '+currency(d.value)+' · '+(d.probability||0)+'% · fechamento '+dateBR(d.expectedCloseDate)+'</div></div>'}).join(''):'<div class="empty">Nenhuma negociação relacionada.</div>';
+        html+='</div><h3 style="margin:22px 0 10px">Histórico de interações</h3><div class="timeline">';
+        html+=activities.length?activities.map(activityHtml).join(''):'<div class="empty">Nenhuma interação registrada.</div>';
+        html+='</div>';
+        document.getElementById('overviewBody').innerHTML=html;
+        document.getElementById('overviewDialog').showModal();
+      }catch(err){toast(err.message,'error')}
     }
 
     function openLeadDialog(id){
@@ -436,9 +646,14 @@
     }
 
     function refreshRelationOptions(){
-      var type=document.getElementById('activityRelationType').value;var items=type==='lead'?state.leads:state.customers;
-      document.getElementById('activityRelationLabel').textContent=type==='lead'?'Lead':'Cliente';
-      document.getElementById('activityRelation').innerHTML='<option value="">Selecione...</option>'+items.map(function(x){return '<option value="'+x._id+'">'+esc(x.name)+(x.company?' — '+esc(x.company):'')+'</option>'}).join('');
+      var type=document.getElementById('activityRelationType').value;
+      var items=type==='lead'?state.leads:type==='customer'?state.customers:state.deals;
+      document.getElementById('activityRelationLabel').textContent=type==='lead'?'Lead':type==='customer'?'Cliente':'Negociação';
+      document.getElementById('activityRelation').innerHTML='<option value="">Selecione...</option>'+items.map(function(x){
+        var label=type==='deal'?x.title:x.name;
+        var secondary=type==='deal'?(x.customer?.name||x.lead?.name||''):(x.company||'');
+        return '<option value="'+x._id+'">'+esc(label)+(secondary?' — '+esc(secondary):'')+'</option>';
+      }).join('');
     }
     document.getElementById('activityRelationType').addEventListener('change',refreshRelationOptions);
     function openActivityDialog(){
@@ -446,7 +661,7 @@
     }
     document.getElementById('activityForm').addEventListener('submit',async function(e){
       e.preventDefault();var type=document.getElementById('activityRelationType').value;var relation=document.getElementById('activityRelation').value;
-      var payload={type:document.getElementById('activityType').value,title:document.getElementById('activityTitle').value.trim(),description:document.getElementById('activityDescription').value.trim(),occurredAt:document.getElementById('activityOccurredAt').value||new Date().toISOString(),scheduledFor:document.getElementById('activityScheduledFor').value||null,completed:document.getElementById('activityCompleted').checked};
+      var payload={type:document.getElementById('activityType').value,title:document.getElementById('activityTitle').value.trim(),description:document.getElementById('activityDescription').value.trim(),occurredAt:document.getElementById('activityOccurredAt').value||new Date().toISOString(),scheduledFor:document.getElementById('activityScheduledFor').value||null,completed:document.getElementById('activityCompleted').checked,lead:null,customer:null,deal:null};
       payload[type]=relation||null;
       try{await api('/api/activities',{method:'POST',body:JSON.stringify(payload)});document.getElementById('activityDialog').close();toast('Interação registrada');await loadAll()}catch(err){toast(err.message,'error')}
     });
@@ -455,7 +670,7 @@
       try{await api('/api/activities/'+id,{method:'DELETE'});toast('Interação excluída');await loadAll()}catch(err){toast(err.message,'error')}
     }
 
-    var titles={dashboard:'Dashboard',pipeline:'Pipeline comercial',leads:'Leads',customers:'Clientes',activities:'Interações'};
+    var titles={dashboard:'Dashboard',pipeline:'Pipeline comercial',deals:'Negociações',leads:'Leads',customers:'Clientes',activities:'Interações'};
     document.querySelectorAll('.nav-btn[data-section]').forEach(function(btn){
       btn.addEventListener('click',function(){
         document.querySelectorAll('.nav-btn[data-section]').forEach(function(x){x.classList.toggle('active',x===btn)});
