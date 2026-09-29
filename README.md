@@ -1,6 +1,6 @@
 # LeadFlow CRM
 
-CRM web desenvolvido para organizar **leads, clientes, pipeline comercial e interações**. O projeto nasceu a partir de uma API de tarefas e foi reestruturado para representar um sistema de negócio completo, com regras de domínio e relacionamento entre entidades.
+CRM web desenvolvido para organizar **leads, clientes, empresas, contatos, negociações, agenda comercial, relatórios e interações**. O projeto nasceu a partir de uma API de tarefas e foi reestruturado para representar um sistema de negócio completo, com regras de domínio e relacionamento entre entidades.
 
 ## Demonstração
 
@@ -24,7 +24,10 @@ CRM web desenvolvido para organizar **leads, clientes, pipeline comercial e inte
 - Conversão de lead em cliente
 - Gestão de clientes
 - Histórico de ligações, WhatsApp, e-mails, reuniões, notas e follow-ups
-- Visão 360º de leads e clientes com negociações e interações
+- Visão 360º de leads, clientes, empresas e contatos
+- Gestão de empresas e contatos B2B
+- Agenda comercial com atividades atrasadas, de hoje e próximas
+- Relatórios por origem, etapa, vendas, perdas e responsável
 - Busca e filtros
 - Isolamento de dados por usuário
 - PWA e interface responsiva
@@ -56,15 +59,21 @@ LeadFlow CRM
     │   └── auth.js
     ├── models/
     │   ├── Activity.js
+    │   ├── Company.js
+    │   ├── Contact.js
     │   ├── Customer.js
     │   ├── Deal.js
     │   ├── Lead.js
     │   └── User.js
     └── routes/
         ├── activityRoutes.js
+        ├── companyRoutes.js
+        ├── contactRoutes.js
         ├── customerRoutes.js
         ├── dashboardRoutes.js
         ├── dealRoutes.js
+        ├── agendaRoutes.js
+        ├── reportRoutes.js
         ├── leadRoutes.js
         └── userRoutes.js
 ```
@@ -79,8 +88,14 @@ Principais campos: nome, empresa, contato, origem, etapa, valor estimado, observ
 ### Customer
 Representa um cliente da carteira. Um cliente pode nascer diretamente no CRM ou a partir da conversão de um lead.
 
+### Company
+Representa uma empresa/conta B2B, com segmento, documento, canais de contato e histórico relacionado.
+
+### Contact
+Representa uma pessoa de contato, opcionalmente vinculada a uma empresa.
+
 ### Deal
-Representa uma negociação comercial separada do cadastro do lead/cliente. Armazena valor, etapa, probabilidade, previsão de fechamento, responsável, motivo de perda e datas de mudança de etapa.
+Representa uma negociação comercial separada do cadastro do lead/cliente/empresa/contato. Armazena valor, etapa, probabilidade, previsão de fechamento, responsável, motivo de perda e datas de mudança de etapa.
 
 ### Activity
 Registra o histórico de relacionamento com leads e clientes: ligação, WhatsApp, e-mail, reunião, nota ou follow-up.
@@ -102,6 +117,10 @@ Responsável pela autenticação e pelo isolamento dos dados do CRM.
 | GET | `/api/leads/:id/overview` | Visão 360º do lead |
 | GET | `/api/customers/:id/overview` | Visão 360º do cliente |
 | GET/POST | `/api/deals` | Listar / criar negociações |
+| GET/POST | `/api/companies` | Listar / criar empresas |
+| GET/POST | `/api/contacts` | Listar / criar contatos |
+| GET | `/api/agenda` | Agenda comercial agrupada |
+| GET | `/api/reports` | Relatórios comerciais |
 | GET/PUT/DELETE | `/api/deals/:id` | Consultar / editar / excluir negociação |
 | GET/PUT/DELETE | `/api/customers/:id` | Consultar / editar / arquivar cliente |
 | GET/POST | `/api/activities` | Listar / registrar interações |
@@ -148,7 +167,6 @@ npm start
 
 ## Evolução planejada
 
-- Empresas e contatos como entidades separadas
 - Equipes e permissões comerciais
 - Metas e desempenho por responsável
 - Importação de contatos por CSV
