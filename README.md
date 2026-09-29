@@ -28,6 +28,9 @@ CRM web desenvolvido para organizar **leads, clientes, empresas, contatos, negoc
 - Gestão de empresas e contatos B2B
 - Agenda comercial com atividades atrasadas, de hoje e próximas
 - Relatórios por origem, etapa, vendas, perdas e responsável
+- Busca global entre leads, clientes, empresas, contatos e negociações
+- Tags comerciais em leads e negociações
+- Importação e exportação CSV de leads
 - Busca e filtros
 - Isolamento de dados por usuário
 - PWA e interface responsiva
@@ -164,6 +167,10 @@ npm start
 - Campos de atualização permitidos por whitelist
 - Credenciais fora do código-fonte
 - Respostas de erro sem detalhes internos do servidor
+
+## Versão atual
+
+**LeadFlow CRM 2.3** — inclui empresas, contatos, Deals, visão 360º, agenda, relatórios, busca global, tags e CSV.
 
 ## Evolução planejada
 
