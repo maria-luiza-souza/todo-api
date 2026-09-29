@@ -1,7 +1,7 @@
 {
   "name": "LeadFlow CRM",
   "short_name": "LeadFlow",
-  "description": "CRM para gestão de leads, clientes, pipeline e interações comerciais",
+  "description": "CRM comercial com leads, empresas, contatos, negociações, agenda e relatórios",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f5f7f8",
